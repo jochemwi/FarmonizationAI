@@ -4,21 +4,21 @@ from typing_extensions import TypedDict, Annotated
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from langchain.messages import AnyMessage, SystemMessage, HumanMessage, ToolMessage
-from langchain.tools import tool
+from langchain.messages import AnyMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
 from langfuse.langchain import CallbackHandler
 
 from tools.tools import get_column_names
 
+# load API keys from .env
 load_dotenv()
 
 # Setup
-langfuse_handler = CallbackHandler()
-configurable_model = init_chat_model("anthropic:claude-haiku-4-5-20251001", temperature=0)
+langfuse_handler = CallbackHandler() #initiate langfuse for logging
+configurable_model = init_chat_model("anthropic:claude-haiku-4-5-20251001", temperature=0) # default (cheapest) model, changable with the config
 
 # Tools
-tools = [get_column_names]
+tools = [get_column_names] #append when more tools get made
 tools_by_name = {t.name: t for t in tools}
 model_with_tools = configurable_model.bind_tools(tools)
 
@@ -34,7 +34,7 @@ def llm_call(state: MessagesState):
     return {
         "messages": [
             model_with_tools.invoke(
-                [SystemMessage(content="You are a helpful data assistant.")]
+                [SystemMessage(content="You are a helpful data assistant.")] # change text based on role (expend when we use multiple agents)
                 + state["messages"]
             )
         ],
