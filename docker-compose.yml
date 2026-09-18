@@ -1,0 +1,8 @@
+services:
+  harness:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
