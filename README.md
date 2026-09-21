@@ -3,10 +3,16 @@
 ## Proposed folder structure
 ```text
 harmonizationAI/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── .devcontainer/
+│   └── devcontainer.json
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 ├── .env
+├── .gitignore
 │
 ├── data/
 │   ├── ontology/
@@ -22,7 +28,12 @@ harmonizationAI/
 ├── pre_testing/
 │   └── LangGraph.py
 │
+├── tests/
+│   ├── __init__.py
+│   └── test_agent.py
+│
 └── src/
+    ├── __init__.py
     ├── main.py
     │
     ├── agent/
