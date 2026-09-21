@@ -1,8 +1,6 @@
 name: Run tests
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -16,7 +14,6 @@ jobs:
         with:
           python-version: "3.14"
       - run: pip install -r requirements.txt
-      - run: pytest tests/
       - run: pytest tests/
         env:
             LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
