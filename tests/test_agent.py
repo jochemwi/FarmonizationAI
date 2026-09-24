@@ -23,7 +23,7 @@ def test_bash_truncates_large_output():
     assert "truncated" in result
     assert len(result) < 10000
 
-
+@pytest.mark.slow
 def test_bash_timeout():
     from src.tools.tools import bash
 
