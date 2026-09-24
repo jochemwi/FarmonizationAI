@@ -8,7 +8,7 @@ from langchain.messages import AnyMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
 from langfuse.langchain import CallbackHandler
 
-from tools.tools import get_column_names
+from src.tools.tools import *
 
 # load API keys from .env
 load_dotenv()
@@ -19,7 +19,7 @@ configurable_model = init_chat_model("openai:gpt-5.6-luna", temperature=0)
 # configurable_model = init_chat_model("anthropic:claude-haiku-4-5-20251001", temperature=0) # default (cheapest) model, changable with the config
 
 # Tools
-tools = [get_column_names] #append when more tools get made
+tools = [get_column_names, bash] #append when more tools get made
 tools_by_name = {t.name: t for t in tools}
 model_with_tools = configurable_model.bind_tools(tools)
 
