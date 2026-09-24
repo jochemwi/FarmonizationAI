@@ -1,3 +1,5 @@
+import pytest
+
 def test_bash_runs_command_and_returns_output():
     from src.tools.tools import bash
 
