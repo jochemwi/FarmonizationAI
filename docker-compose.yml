@@ -1,8 +1,10 @@
 services:
   harness:
     build: .
+    command: tail -f /dev/null
     env_file:
       - .env
     volumes:
+      - .:/app                    # source code
       - ./data:/app/data:ro       # raw data — read only
       - ./output:/app/output      # scripts + cleaned output — read/write

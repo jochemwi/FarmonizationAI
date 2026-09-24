@@ -8,7 +8,7 @@ load_dotenv()
 
 langfuse_handler = CallbackHandler()
 
-messages = [HumanMessage(content="Run `ls data/` and tell me what files are there.")]
+messages = [HumanMessage(content="do we have an ontology present, if so, how many?")]
 result = agent.invoke({"messages": messages}, config={"callbacks": [langfuse_handler]})
 
 for m in result["messages"]:
