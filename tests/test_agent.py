@@ -1,17 +1,32 @@
-import pytest
-import pandas as pd
-import os
+def test_bash_runs_command_and_returns_output():
+    from src.tools.tools import bash
 
-def test_get_column_names_returns_correct_columns(tmp_path):
-    # create a temp CSV
-    df = pd.DataFrame({"name": [], "age": [], "city": []})
-    csv_path = tmp_path / "test.csv"
-    df.to_csv(csv_path, index=False)
-    
-    # import and call the tool directly
-    from src.tools.tools import get_column_names
-    result = get_column_names.invoke({"filepath": str(csv_path)})
-    
-    assert "name" in result
-    assert "age" in result
-    assert "city" in result
+    result = bash.invoke({"command": "echo hello", "description": "print hello"})
+
+    assert "hello" in result
+
+
+def test_bash_returns_error_on_bad_command():
+    from src.tools.tools import bash
+
+    result = bash.invoke({"command": "cat nonexistent_file.txt", "description": "read missing file"})
+
+    assert "exit code" in result
+
+
+def test_bash_truncates_large_output():
+    from src.tools.tools import bash
+
+    # generate output larger than MAX_OUTPUT (4000 chars)
+    result = bash.invoke({"command": "python3 -c \"print('a' * 10000)\"", "description": "generate large output"})
+
+    assert "truncated" in result
+    assert len(result) < 10000
+
+
+def test_bash_timeout():
+    from src.tools.tools import bash
+
+    result = bash.invoke({"command": "sleep 120", "description": "sleep forever"})
+
+    assert "timed out" in result
