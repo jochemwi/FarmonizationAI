@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .vscode/
 data/chroma/
+data/ontology/*.owl
