@@ -8,7 +8,7 @@ load_dotenv()
 
 langfuse_handler = CallbackHandler()
 
-messages = [HumanMessage(content="Did this message arrive? Confirm with message: All set!")]
+messages = [HumanMessage(content="Run `ls data/` and tell me what files are there.")]
 result = agent.invoke({"messages": messages}, config={"callbacks": [langfuse_handler]})
 
 for m in result["messages"]:
