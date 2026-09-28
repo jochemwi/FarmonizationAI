@@ -8,3 +8,5 @@ data/chroma/
 data/ontology/*.owl
 notebooks/
 output/
+literature/
+literature/README.md
