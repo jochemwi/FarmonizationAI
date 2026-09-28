@@ -8,7 +8,10 @@ load_dotenv()
 
 langfuse_handler = CallbackHandler()
 
-messages = [HumanMessage(content="do we have an ontology present, if so, how many?")]
+messages = [HumanMessage(content="make a file called test.py in the " \
+"output folder. write a script where test.csv is loaded and the average age is printed" \
+"tell me your reasoning per step" \
+"and add comments next to each step")]
 result = agent.invoke({"messages": messages}, config={"callbacks": [langfuse_handler]})
 
 for m in result["messages"]:
