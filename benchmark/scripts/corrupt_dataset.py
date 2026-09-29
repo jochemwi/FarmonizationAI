@@ -8,8 +8,8 @@ from pathlib import Path
 
 random.seed(99)
 
-SRC = Path("data/ground_truth.xlsx")
-OUT = Path("data/synthetic_messy.xlsx")
+SRC = Path("benchmark/data/ground_truth.xlsx")
+OUT = Path("benchmark/data/synthetic_messy.xlsx")
 
 gt = pd.read_excel(SRC, sheet_name=None)  # all tabs
 

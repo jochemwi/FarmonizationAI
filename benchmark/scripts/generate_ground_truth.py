@@ -5,7 +5,7 @@ Saved to data/ground_truth.xlsx — keep this hidden from the agent.
 import pandas as pd
 from pathlib import Path
 
-OUT = Path("data/ground_truth.xlsx")
+OUT = Path("benchmark/data/ground_truth.xlsx")
 OUT.parent.mkdir(exist_ok=True)
 
 # --- FIELDS ---

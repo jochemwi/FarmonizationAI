@@ -5,6 +5,6 @@ services:
       service: harness
     command: python src/main.py
     volumes:
-      - ./benchmark/data:/app/data:ro
+      - ./benchmark/data/synthetic_messy.xlsx:/app/input/synthetic_messy.xlsx:ro
       - ./benchmark/output:/app/output
       

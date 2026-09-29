@@ -7,10 +7,10 @@ import numpy as np
 from pathlib import Path
 
 GT  = Path("/home/jochemwiddershoven/thesis_eval_secrets/eval_reference_blind.xlsx")
-OUT = Path("output/harmonized.xlsx")
+OUT = Path("benchmark/output/harmonized.xlsx")
 
 if not OUT.exists():
-    print("No agent output found at output/harmonized.xlsx — run the harness first.")
+    print("No agent output found at benchmark/output/harmonized.xlsx — run the harness first.")
     exit(1)
 
 gt  = pd.read_excel(GT,  sheet_name=None)
