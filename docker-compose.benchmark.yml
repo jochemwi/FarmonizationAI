@@ -1,8 +1,8 @@
 services:
-  agent:
+  harness:
     extends:
       file: docker-compose.yml
-      service: agent
+      service: harness
     volumes:
       - ./benchmark/data:/app/data:ro
       - ./benchmark/output:/app/output
