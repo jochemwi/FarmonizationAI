@@ -34,16 +34,21 @@ docker compose up -d --build
 
 Only need to re-run `--build` again if `requirements.txt` or `Dockerfile` changes. Otherwise:
 
-## Every time
-
-**Start the container**
-```bash
-docker compose up -d
-```
+### Every time
 
 **Run the agent**
 ```bash
-docker compose exec harness python -m src.main
+make run
+```
+
+**Run tests**
+```bash
+make test
+```
+
+**Fast tests**
+```bash
+make test-fast
 ```
 
 **Stop the container**
@@ -51,108 +56,34 @@ docker compose exec harness python -m src.main
 docker compose down
 ```
 
----
-
 ## Project structure
 
 ```
-harmonizationAI/
-├── data/               # raw input data — read only inside Docker
-├── output/             # generated scripts and cleaned output
+FarmonizationAI/
+├── .devcontainer/          # Dev container config
+├── .github/                # GitHub Actions / CI
+├── .vscode/                # Editor settings
+├── data/                   # Input field trial CSVs (read-only in container)
+├── literature/             # Papers and reference material
+├── notebooks/              # Exploratory Jupyter notebooks
+├── output/                 # Agent output (repairs, logs)
 ├── src/
-│   ├── main.py         # entry point
-│   ├── harness_phase_1.py  # LangGraph agent graph
-│   ├── tools/
-│   │   └── tools.py    # bash, get_column_names, ...
-│   └── rag/
-│       └── vector_store.py  # Chroma stub
-├── tests/              # pytest tests
-├── Dockerfile
-└── docker-compose.yml
-```
-
----
-
-## Running tests
-
-```bash
-pytest tests/
-```
-
-Slow tests (e.g. timeout test) are marked `@pytest.mark.slow` and can be skipped:
-
-```bash
-pytest tests/ -m "not slow"
-```
-
-## Proposed folder structure
-```text
-harmonizationAI/
-├── .github/
-│   └── workflows/
-│       └── tests.yml
-├── .devcontainer/
-│   └── devcontainer.json
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── .env
+│   ├── agent/              # LangGraph ReAct agent loop
+│   ├── downstream/         # Post-processing / export
+│   ├── eval/               # Evaluation pipeline (4-level)
+│   ├── memory/             # Memory / checkpointing
+│   ├── rag/                # OG-RAG vector store + retriever
+│   ├── tools/              # Tool definitions (bash, file I/O, etc.)
+│   ├── harness_phase_1.py  # Phase 1 harness entry point
+│   ├── main.py             # Main entry point (called by Makefile)
+│   └── __init__.py
+├── tests/                  # Pytest test suite
+├── .env                    # API keys (not committed)
 ├── .gitignore
-│
-├── data/
-│   ├── ontology/
-│   │   └── icasa_variables.json
-│   ├── chroma/
-│   └── test.csv
-│
-├── output/
-│
-├── Notebooks/
-│   └── playground.ipynb
-│
-├── pre_testing/
-│   └── LangGraph.py
-│
-├── tests/
-│   ├── __init__.py
-│   └── test_agent.py
-│
-└── src/
-    ├── __init__.py
-    ├── main.py
-    │
-    ├── agent/
-    │   ├── state.py
-    │   ├── provider.py
-    │   ├── react_loop.py
-    │   ├── agent_loop.py
-    │   ├── hitl.py
-    │   ├── tui.py
-    │   └── reflexion.py
-    │
-    ├── rag/
-    │   ├── vector_store.py
-    │   ├── og_rag.py
-    │   └── custom_messages.py
-    │
-    ├── tools/
-    │   ├── __init__.py
-    │   ├── tools.py
-    │   ├── bash_tool.py
-    │   ├── code_write.py
-    │   └── og_rag_tool.py
-    │
-    ├── eval/
-    │   ├── sanity_check.py
-    │   ├── og_eval.py
-    │   ├── llm_eval.py
-    │   └── human_eval.py
-    │
-    ├── memory/
-    │   ├── storage.py
-    │   ├── session_state.py
-    │   └── compaction.py
-    │
-    └── downstream/
-        └── nq_prediction.py
+├── docker-compose.yml
+├── Dockerfile
+├── Makefile                # `make run`, `make test`, `make test-fast`
+├── README.md
+└── requirements.txt
 ```
+
