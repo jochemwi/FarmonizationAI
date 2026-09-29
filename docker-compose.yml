@@ -4,7 +4,15 @@ services:
     command: tail -f /dev/null
     env_file:
       - .env
+    networks:
+      - internal
     volumes:
-      - .:/app                    # source code
-      - ./data:/app/data:ro       # raw data — read only
-      - ./output:/app/output      # scripts + cleaned output — read/write
+      - ./src:/app/src:ro
+      - ./data:/app/data:ro
+      - ./workspace:/app/workspace
+      - ./output:/app/output
+
+networks:
+  internal:
+    driver: bridge
+    internal: true

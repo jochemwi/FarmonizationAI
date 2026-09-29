@@ -1,0 +1,52 @@
+{
+  "source_file": "/app/data/ANMG9901_messy.xlsx",
+  "tables": {
+    "Field_obs": {
+      "primary_key": "plot_id",
+      "foreign_keys": []
+    },
+    "Soil_initial": {
+      "primary_key": "sample_id",
+      "foreign_keys": []
+    },
+    "Biomass_timeseries": {
+      "primary_key": "record_key",
+      "foreign_keys": [
+        "trt -> Field_obs.plot_id (assumed; confirm)"
+      ]
+    }
+  },
+  "column_classification": {
+    "crop_type": "context",
+    "dead_material_kg_ha": "measurement",
+    "harvest_date": "context",
+    "lai_m2_m2": "measurement",
+    "leaf_area_index_m2_m2": "measurement",
+    "leaf_dw_unresolved_unit": "measurement",
+    "location": "context",
+    "n_applied_kg_ha": "measurement",
+    "note": "context",
+    "notes": "context",
+    "obs_date": "context",
+    "planting_date": "context",
+    "plot_id": "structural",
+    "record_key": "structural",
+    "root_dw_kg_ha": "measurement",
+    "source_row": "structural",
+    "source_table": "structural",
+    "stem_dw_kg_ha": "measurement",
+    "tops_roots_dw_kg_ha": "measurement",
+    "trt": "structural",
+    "trt_name": "structural",
+    "tuber_dw_kg_ha": "measurement",
+    "tuber_fw_mg_ha": "measurement",
+    "variety": "context",
+    "yield_fresh_t_ha": "measurement"
+  },
+  "missing_value": "-99",
+  "uncertainties": [
+    "ICASA schema file is absent at /app/src/rag/icasa_schema.json.",
+    "Biomass leaf DW unit is unspecified and remains unresolved.",
+    "TRT-to-plot relationship is inferred from matching numeric IDs and should be confirmed."
+  ]
+}

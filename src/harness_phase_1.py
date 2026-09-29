@@ -4,7 +4,7 @@ from typing_extensions import TypedDict, Annotated
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from langchain.messages import AnyMessage, SystemMessage, ToolMessage
+from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
 from langfuse.langchain import CallbackHandler
 
@@ -32,13 +32,15 @@ class MessagesState(TypedDict):
 
 # Nodes
 def llm_call(state: MessagesState):
+    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
+    
+    # inject tree discovery as first turn if not already done
+    messages = state["messages"]
+    if state.get("llm_calls", 0) == 0:
+        messages = [HumanMessage(content="Run: find /app -maxdepth 3 | sort")] + messages
+    
     return {
-        "messages": [
-            model_with_tools.invoke(
-                [SystemMessage(content="You are a helpful data assistant.")] # change text based on role (expend when we use multiple agents)
-                + state["messages"]
-            )
-        ],
+        "messages": [model_with_tools.invoke([system] + messages)],
         "llm_calls": state.get("llm_calls", 0) + 1,
     }
 
