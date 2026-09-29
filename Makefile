@@ -16,7 +16,12 @@ test-fast:
 messy:
 	docker compose -f docker-compose.yml -f docker-compose.benchmark.yml up --abort-on-container-exit --exit-code-from harness
 	
-messy-test:
+clean-bench:
+	rm -f benchmark/output/*.xlsx
+	rm -f benchmark/data/*.xlsx
+	rm -rf workspace/*
+
+messy-test:	clean-bench
 	python benchmark/scripts/generate_ground_truth.py
 	python benchmark/scripts/corrupt_dataset.py
 	$(MAKE) messy
