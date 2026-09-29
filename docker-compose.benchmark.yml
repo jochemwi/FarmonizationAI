@@ -3,6 +3,8 @@ services:
     extends:
       file: docker-compose.yml
       service: harness
+    command: python src/main.py
     volumes:
       - ./benchmark/data:/app/data:ro
       - ./benchmark/output:/app/output
+      
