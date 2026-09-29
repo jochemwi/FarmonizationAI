@@ -12,3 +12,6 @@ test:
 test-fast:
 	docker compose up -d
 	docker compose exec harness python -m pytest tests/ -m "not slow"
+
+messy:
+	docker compose -f docker-compose.yml -f docker-compose.benchmark.yml up

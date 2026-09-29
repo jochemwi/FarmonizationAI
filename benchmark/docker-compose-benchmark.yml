@@ -1,0 +1,8 @@
+services:
+  agent:
+    extends:
+      file: docker-compose.yml
+      service: agent
+    volumes:
+      - ./benchmark/data:/app/data:ro
+      - ./benchmark/output:/app/output
