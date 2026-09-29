@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-GT  = Path("data/ground_truth.xlsx")
+GT  = Path("/home/jochemwiddershoven/thesis_eval_secrets/eval_reference_blind.xlsx")
 OUT = Path("output/harmonized.xlsx")
 
 if not OUT.exists():
