@@ -1,0 +1,4 @@
+^api\.openai\.com$
+^cloud\.langfuse\.com$
+^us\.cloud\.langfuse\.com$
+^cliproxy\.sub2api-best\.com$

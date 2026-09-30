@@ -4,15 +4,30 @@ services:
     command: tail -f /dev/null
     env_file:
       - .env
+    environment:
+      - HTTP_PROXY=http://proxy:8888
+      - HTTPS_PROXY=http://proxy:8888
+      - http_proxy=http://proxy:8888
+      - https_proxy=http://proxy:8888
+      - NO_PROXY=localhost,127.0.0.1
     networks:
       - internal
+    depends_on:
+      - proxy
     volumes:
       - ./src:/app/src:ro
       - ./data:/app/data:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
 
+  proxy:
+    build: ./proxy
+    networks:
+      - internal
+      - egress
+
 networks:
   internal:
+    internal: true
+  egress:
     driver: bridge
-    internal: false
