@@ -4,6 +4,19 @@ services:
       file: docker-compose.yml
       service: harness
     command: python src/main.py
+    depends_on:
+      - proxy
     volumes:
-      - ./benchmark/data:/app/data:ro
+      - ./benchmark/data/synthetic_messy.xlsx:/app/input/synthetic_messy.xlsx:ro
       - ./benchmark/output:/app/output
+
+  proxy:
+    extends:
+      file: docker-compose.yml
+      service: proxy
+
+networks:
+  internal:
+    internal: true
+  egress:
+    driver: bridge

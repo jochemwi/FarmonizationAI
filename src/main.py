@@ -9,7 +9,7 @@ load_dotenv()
 langfuse_handler = CallbackHandler()
 
 messages = [HumanMessage(content="""
-You are given a messy agricultural field trial dataset at /app/data/synthetic_messy.xlsx.
+You are given a messy agricultural field trial dataset at /app/input/synthetic_messy.xlsx.
 
 Your task:
 1. Read all tabs in the file and understand the structure.
