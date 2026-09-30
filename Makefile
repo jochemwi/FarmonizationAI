@@ -1,4 +1,7 @@
-run:
+clean:
+	sudo rm -rf output/* workspace/*
+
+run: clean
 	docker compose up -d
 	docker compose exec harness python -m src.main
 
