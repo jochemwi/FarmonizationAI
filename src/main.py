@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from langchain.messages import HumanMessage
+from langchain_core.messages import HumanMessage
 from langfuse.langchain import CallbackHandler
 
 from src.harness_phase_1 import agent
