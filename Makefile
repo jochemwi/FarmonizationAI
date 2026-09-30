@@ -17,9 +17,10 @@ messy:
 	docker compose -f docker-compose.yml -f docker-compose.benchmark.yml up --abort-on-container-exit --exit-code-from harness
 	
 clean-bench:
+	rm -f benchmark/ground_truth.xlsx
 	rm -f benchmark/output/*.xlsx
-	rm -f benchmark/data/*.xlsx
-	rm -rf workspace/*
+	rm -f benchmark/data/synthetic_messy.xlsx
+	sudo rm -rf workspace/*
 
 messy-test:	clean-bench
 	python benchmark/scripts/generate_ground_truth.py
