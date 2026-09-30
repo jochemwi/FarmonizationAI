@@ -3,5 +3,7 @@
 .venv
 __pycache__
 .pytest_cache
-notebooks
-benchmark/data/
+notebooks/
+benchmark/
+workspace/
+output/
