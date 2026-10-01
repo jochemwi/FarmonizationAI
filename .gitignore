@@ -10,6 +10,10 @@ notebooks/
 output/
 literature/
 literature/README.md
-data/
+data/*
+!data/ontology/
+data/ontology/*
+!data/ontology/icasa/
+data/ontology/icasa/icasa.json
 workspace/
 output/
