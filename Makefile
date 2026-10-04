@@ -1,5 +1,5 @@
 clean:
-	rm -rf output/* data/* __pycache__ .pytest_cache
+	sudo rm -rf output/* workspace/*
 
 run: clean
 	docker compose up -d
