@@ -1,5 +1,5 @@
 clean:
-	rm -rf output/* data/* __pycache__ .pytest_cache
+	sudo rm -rf output/* workspace/*
 
 run: clean
 	docker compose up -d
@@ -12,3 +12,18 @@ test:
 test-fast:
 	docker compose up -d
 	docker compose exec harness python -m pytest tests/ -m "not slow"
+
+messy:
+	docker compose -f docker-compose.yml -f docker-compose.benchmark.yml up --abort-on-container-exit --exit-code-from harness
+	
+clean-bench:
+	rm -f benchmark/ground_truth.xlsx
+	rm -f benchmark/output/*.xlsx
+	rm -f benchmark/data/synthetic_messy.xlsx
+	sudo rm -rf workspace/*
+
+messy-test:	clean-bench
+	python benchmark/scripts/generate_ground_truth.py
+	python benchmark/scripts/corrupt_dataset.py
+	$(MAKE) messy
+	python benchmark/scripts/evaluate.py
