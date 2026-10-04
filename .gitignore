@@ -12,4 +12,5 @@ literature/
 literature/README.md
 data/
 workspace/
-output/
+output/data/ground_truth.xlsx
+data/synthetic_messy.xlsx
