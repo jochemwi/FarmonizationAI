@@ -1,3 +1,4 @@
+# slim python version (more eficient than full python)
 FROM python:3.14-slim
 
 WORKDIR /app
@@ -5,6 +6,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 
+# copy into WORKDIR
 COPY . .
 
 ENV PYTHONPATH=/app
