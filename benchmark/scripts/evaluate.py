@@ -9,7 +9,7 @@ import numpy as np
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION
+from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION, DATA_VERSION
 
 GT = Path("benchmark/ground_truth.xlsx")
 OUT = Path("benchmark/output/harmonized.xlsx")
@@ -90,6 +90,7 @@ row = {
     "config": CONFIG_NAME,
     "model": MODEL_NAME,
     "prompt_version": PROMPT_VERSION,
+    "data_version": DATA_VERSION,
     "overall": round(np.mean(total_scores), 1) if total_scores else None,
 }
 for r in results:
