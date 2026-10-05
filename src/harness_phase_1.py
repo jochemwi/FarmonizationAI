@@ -31,11 +31,20 @@ class MessagesState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
 
+# custom syste, prompt
+def build_system_prompt() -> str:
+    data_part = " data: /app/data/," if COMPONENTS["icasa"] else ""
+    return (
+        "You are a helpful data assistant. Working directory is /app. "
+        f"Source files: /app/src/,{data_part} "
+        "write intermediates to /app/workspace/, final output to /app/output/. "
+        "Use absolute paths."
+    )
 
 # Nodes
 def llm_call(state: MessagesState):
-    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
-    
+    system = SystemMessage(content=build_system_prompt())
+
     # inject tree discovery as first turn if not already done
     messages = state["messages"]
     if state.get("llm_calls", 0) == 0:
