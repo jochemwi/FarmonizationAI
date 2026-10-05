@@ -2,12 +2,18 @@
 Compare agent output against ground truth.
 Run AFTER the agent has produced output/harmonized.xlsx.
 """
+import sys
+from datetime import datetime
 import pandas as pd
 import numpy as np
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION
+
 GT = Path("benchmark/ground_truth.xlsx")
 OUT = Path("benchmark/output/harmonized.xlsx")
+RESULTS = Path("benchmark/results/runs.csv")
 
 if not OUT.exists():
     print("No agent output found at benchmark/output/harmonized.xlsx — run the harness first.")
@@ -18,13 +24,13 @@ out = pd.read_excel(OUT, sheet_name=None)
 
 TABLES = ["FIELDS", "TRTMENTS", "FERTILIZERS", "IRRIGATION", "SOIL_INITIAL", "SUMMARY", "BIOMASS_OBS"]
 KEY_COLS = {
-    "FIELDS":       ["EXNAME", "TRNO"],
-    "TRTMENTS":     ["EXNAME", "TRNO"],
-    "FERTILIZERS":  ["EXNAME", "TRNO"],
-    "IRRIGATION":   ["EXNAME", "TRNO"],
-    "SOIL_INITIAL": ["EXNAME", "TRNO", "ICBL"],
-    "SUMMARY":      ["EXNAME", "TRNO", "REP"],
-    "BIOMASS_OBS":  ["EXNAME", "TRNO", "REP"],
+    "FIELDS":       ["EXNAME", "TRTNO"],
+    "TRTMENTS":     ["EXNAME", "TRTNO"],
+    "FERTILIZERS":  ["EXNAME", "TRTNO"],
+    "IRRIGATION":   ["EXNAME", "TRTNO"],
+    "SOIL_INITIAL": ["EXNAME", "TRTNO", "ICBL"],
+    "SUMMARY":      ["EXNAME", "TRTNO", "RP"],
+    "BIOMASS_OBS":  ["EXNAME", "TRTNO", "RP"],
 }
 
 results = []
@@ -78,3 +84,19 @@ for r in results:
 
 if total_scores:
     print(f"\n  OVERALL SCORE: {round(np.mean(total_scores), 1)}%")
+
+row = {
+    "timestamp": datetime.now().isoformat(timespec="seconds"),
+    "config": CONFIG_NAME,
+    "model": MODEL_NAME,
+    "prompt_version": PROMPT_VERSION,
+    "overall": round(np.mean(total_scores), 1) if total_scores else None,
+}
+for r in results:
+    row[f"score_{r['table']}"] = r.get("score")
+    row[f"rows_out_{r['table']}"] = r.get("rows_out")
+row["rows_gt"] = {r["table"]: r.get("rows_gt") for r in results}.get("SUMMARY")
+
+RESULTS.parent.mkdir(parents=True, exist_ok=True)
+pd.DataFrame([row]).to_csv(RESULTS, mode="a", header=not RESULTS.exists(), index=False)
+print(f"\n  Logged to {RESULTS}")

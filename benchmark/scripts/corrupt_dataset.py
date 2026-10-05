@@ -52,7 +52,7 @@ for df, cols in [
 # ── 3. WRONG UNITS ─────────────────────────────────────────────────────────────
 # ── 3. WRONG UNITS ─────────────────────────────────────────────────────────────
 def corrupt_yield(row):
-    if row["TRNO"] % 2 == 0:
+    if row["TRTNO"] % 2 == 0:
         return round(row["HWAH"] / 1000, 3), "ton/ha"
     return row["HWAH"], "kg/ha"
 
@@ -79,9 +79,15 @@ summary.rename(columns={"HWAH": "grain_yield", "CWAH": "total_biomass"}, inplace
 
 # ── 6. SPLIT INTO MESSY TABS WITH NON-STANDARD NAMES ─────────────────────────
 # Merge some tables together, give tabs confusing names
-field_soil = pd.merge(fields, soil, on=["TRNO", "Experiment", "Crop_code", "Year"], how="outer")
+field_soil = pd.merge(fields, soil, on=["TRTNO", "Experiment", "Crop_code", "Year"], how="outer")
 treat_fert = pd.merge(treatments, fertilizers,
-                      on=["TRNO", "Experiment", "Crop_code", "Year"], how="outer")
+                      on=["TRTNO", "Experiment", "Crop_code", "Year"], how="outer")
+
+# ── 7. RENAME KEY COLUMNS (after merges, which need TRTNO) ────────────────────
+for df in [field_soil, treat_fert, irrigation, summary, biomass]:
+    df.rename(columns={"TRTNO": "Trt_No"}, inplace=True)
+for df in [summary, biomass]:
+    df.rename(columns={"RP": "Rep"}, inplace=True)
 
 with pd.ExcelWriter(OUT, engine="openpyxl") as w:
     field_soil.to_excel(w,  sheet_name="Site & Soil Data",    index=False)
@@ -99,3 +105,4 @@ print("  ✓ COUNTRY dropped from field location")
 print("  ✓ Column names renamed away from ICASA standard")
 print("  ✓ FIELDS+SOIL merged into one tab, TRTMENTS+FERTILIZERS merged")
 print("  ✓ Tab names non-standard")
+print("  ✓ Key columns renamed (TRTNO -> Trt_No, RP -> Rep)")
