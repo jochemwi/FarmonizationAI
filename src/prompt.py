@@ -1,7 +1,7 @@
 from src.config import COMPONENTS
 
 SCHEMA_PATH = "/app/data/ontology/icasa/icasa.json"
-
+PROMPT_VERSION = "v1"
 
 def build_prompt() -> str:
     if COMPONENTS["icasa"]:
