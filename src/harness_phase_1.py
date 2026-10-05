@@ -10,14 +10,15 @@ from langfuse.langchain import CallbackHandler
 
 from src.tools.tools import *
 
+from src.config import MODEL_NAME, COMPONENTS
+
 # load API keys from .env
 load_dotenv()
 
 # Setup
 langfuse_handler = CallbackHandler() #initiate langfuse for logging
-# configurable_model = init_chat_model("openai:gpt-5.6-luna", temperature=0)
-configurable_model = init_chat_model("openai:gpt-5.6-sol", temperature=0)
-# configurable_model = init_chat_model("anthropic:claude-haiku-4-5-20251001", temperature=0) # default (cheapest) model, changable with the config
+
+configurable_model = init_chat_model(MODEL_NAME, temperature=0)
 
 # Tools
 tools = [bash] #append when more tools get made
