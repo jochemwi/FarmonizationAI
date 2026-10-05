@@ -1,0 +1,4 @@
+services:
+  harness:
+    volumes:
+      - ./data/ontology/icasa/icasa.json:/app/data/ontology/icasa/icasa.json:ro
