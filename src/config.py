@@ -14,3 +14,4 @@ if CONFIG_NAME not in CONFIGS:
     raise ValueError(f"Unknown FARMONIZER_CONFIG '{CONFIG_NAME}', choose from {list(CONFIGS)}")
 
 COMPONENTS = CONFIGS[CONFIG_NAME]
+PROMPT_VERSION = "v1"
