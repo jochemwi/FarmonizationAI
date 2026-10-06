@@ -12,6 +12,8 @@ services:
     volumes:
       - ./benchmark/data/synthetic_messy.xlsx:/app/input/synthetic_messy.xlsx:ro
       - ./benchmark/output:/app/output
+    tmpfs:
+      - /app/src/rag
 
   proxy:
     extends:

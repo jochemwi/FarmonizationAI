@@ -41,7 +41,7 @@ bench-prep:
 # One run of one config with one model, then score and log it
 bench-run:
 	rm -f benchmark/output/*.xlsx
-	sudo rm -rf workspace/*
+	docker compose $(COMPOSE_FILES) run --rm --no-deps --entrypoint "" harness sh -c 'rm -rf /app/workspace/*'
 	docker compose $(COMPOSE_FILES) up --abort-on-container-exit --exit-code-from harness
 	python benchmark/scripts/evaluate.py
 
