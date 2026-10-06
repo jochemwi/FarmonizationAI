@@ -10,7 +10,12 @@ notebooks/
 output/
 literature/
 literature/README.md
-data/
+data/*
+!data/ontology/
+data/ontology/*
+!data/ontology/icasa/
+data/ontology/icasa/*
+!data/ontology/icasa/icasa.json
 workspace/
 output/data/ground_truth.xlsx
 data/synthetic_messy.xlsx
