@@ -79,7 +79,7 @@ summary.rename(columns={"HWAH": "grain_yield", "CWAH": "total_biomass"}, inplace
 
 # ── 6. SPLIT INTO MESSY TABS WITH NON-STANDARD NAMES ─────────────────────────
 # Merge some tables together, give tabs confusing names
-field_soil = pd.merge(fields, soil, on=["TRTNO", "Experiment", "Crop_code", "Year"], how="outer")
+field_soil = pd.merge(fields, soil, on=["Experiment", "Crop_code", "Year"], how="outer")
 treat_fert = pd.merge(treatments, fertilizers,
                       on=["TRTNO", "Experiment", "Crop_code", "Year"], how="outer")
 

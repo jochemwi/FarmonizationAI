@@ -10,7 +10,7 @@ OUT.parent.mkdir(exist_ok=True)
 
 # --- FIELDS ---
 fields = pd.DataFrame([
-    {"EXNAME": "MZ_NL_2022", "TRTNO": 1, "FL_LAT": 52.0116, "FL_LONG": 5.6642,
+    {"EXNAME": "MZ_NL_2022", "FL_LAT": 52.0116, "FL_LONG": 5.6642,
      "COUNTRY": "Netherlands", "FL_SILT": 35.0, "FL_CLAY": 18.0, "FL_SAND": 47.0,
      "SLDP": 120, "FLHST": "IB001", "SLTX": "Sandy loam"},
 ])
