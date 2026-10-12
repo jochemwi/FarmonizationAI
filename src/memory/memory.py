@@ -25,6 +25,7 @@ def save(kind, entries):
     path = FILES[kind]
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
+    os.chmod(tmp, 0o644) #  mkstemp creates 0600; make readable for the host user and git
     with os.fdopen(fd, "w") as f:
         json.dump(entries, f, indent=2)
     os.replace(tmp, path)
