@@ -1,0 +1,22 @@
+[
+  {
+    "id": "h001",
+    "created": "2026-10-06",
+    "provenance": "HITL",
+    "schema_bindings": [],
+    "kind": "other",
+    "title": "Default flowering stage",
+    "when_to_use": "Generic flowering wording without qualifier",
+    "keywords": [
+      "flowering",
+      "anthesis",
+      "BBCH 65"
+    ],
+    "correction": "Map unqualified flowering to BBCH 65",
+    "rationale": "Resolve generic wording",
+    "limits": "Explicit qualifiers override",
+    "user_answer": "test",
+    "priority": "must",
+    "status": "active"
+  }
+]
