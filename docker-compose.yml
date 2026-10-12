@@ -18,6 +18,8 @@ services:
     volumes: 
       # manages acces
       - ./src:/app/src:ro
+      - ./src/memory/data:/app/src/memory/data 
+      - ./data:/app/data:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
 
