@@ -1,7 +1,7 @@
 SCHEMA_PATH = "/app/data/ontology/icasa/icasa.json"
 
 
-def build_prompt() -> str:
+def build_prompt(run_id: str) -> str:
     return f"""
 You are given a messy agricultural field trial dataset at /app/input/synthetic_messy.xlsx.
 
@@ -19,4 +19,13 @@ Your task:
    - print the number of missing values per column
    - check that dates are all YYYY-MM-DD and numeric values are in plausible ranges
    Fix any problems you find and re-run the checks.
+
+Memory:
+Lessons and corrections from earlier runs are stored in memory. Use memory.py for all memory access, and never edit the JSON files in /app/src/memory/data directly.
+- Before step 2, search memory for keywords from the data (column names, units, crops, treatments):
+  python /app/src/memory/memory.py search "<keyword>"
+  Search one keyword at a time.
+- After step 8, record a reflection only if one of your checks caught a problem and you fixed it. Describe the problem, the check that revealed it, and the fix. If nothing went wrong, skip it:
+  python /app/src/memory/memory.py add --run-id {run_id} --title "..." --situation "..." --what-happened "..." --lesson "..." --outcome success --keywords kw1 kw2 kw3
 """
+## TODO: add refelction based on traces later
