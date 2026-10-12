@@ -9,6 +9,7 @@ from src.prompt import build_prompt
 from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION
 
 
+
 load_dotenv()
 
 langfuse = get_client()
@@ -19,12 +20,16 @@ langfuse_handler = CallbackHandler()
 
 messages = [HumanMessage(content=build_prompt(run_id))]
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 with langfuse.start_as_current_observation(
     as_type="span",
     name="harmonization-run",
     trace_context={"trace_id": run_id},
 ):
+<<<<<<< HEAD
     result = agent.invoke(
         {"messages": messages},
         config={
@@ -32,6 +37,9 @@ with langfuse.start_as_current_observation(
             "metadata": {"langfuse_tags": [f"config:{CONFIG_NAME}", f"model:{MODEL_NAME}", f"prompt:{PROMPT_VERSION}"]},
         },
     )
+=======
+    result = agent.invoke({"messages": messages}, config={"callbacks": [langfuse_handler]})
+>>>>>>> origin/main
 
 for m in result["messages"]:
     print(f"[{m.type}]: {m.content}")
