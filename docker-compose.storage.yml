@@ -1,0 +1,6 @@
+services:
+  harness:
+    environment:
+      - FARMONIZER_CONFIG=storage
+    volumes:
+      - ./src/memory/data:/app/src/memory/data

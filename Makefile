@@ -12,8 +12,10 @@ ifeq ($(CONFIG),base)
 COMPOSE_FILES = $(COMPOSE_BENCH)
 else ifeq ($(CONFIG),icasa)
 COMPOSE_FILES = $(COMPOSE_BENCH) -f docker-compose.icasa.yml
+else ifeq ($(CONFIG),storage)
+COMPOSE_FILES = $(COMPOSE_BENCH) -f docker-compose.icasa.yml -f docker-compose.storage.yml
 else
-$(error CONFIG '$(CONFIG)' is not runnable yet, use base or icasa)
+$(error CONFIG '$(CONFIG)' is not runnable yet, use base, icasa or storage)
 endif
 
 # Normal development
