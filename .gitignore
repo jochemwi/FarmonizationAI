@@ -11,6 +11,7 @@ output/
 literature/
 literature/README.md
 data/*
+!data/target/
 !data/ontology/
 data/ontology/*
 !data/ontology/icasa/
