@@ -35,3 +35,5 @@ with langfuse.start_as_current_observation(
 
 for m in result["messages"]:
     print(f"[{m.type}]: {m.content}")
+
+print("validation:", result["validation"])
