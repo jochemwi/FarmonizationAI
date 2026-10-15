@@ -20,6 +20,7 @@ services:
       - ./src:/app/src:ro
       - ./src/memory/data:/app/src/memory/data 
       - ./data:/app/data:ro
+      - ./input:/app/input:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
 

@@ -1,31 +1,14 @@
-SCHEMA_PATH = "/app/data/ontology/icasa/icasa.json"
-
-
 def build_prompt(run_id: str) -> str:
-    return f"""
-You are given a messy agricultural field trial dataset at /app/input/synthetic_messy.xlsx.
+    return """Your task is described in /app/input/README.md. Read it first and follow it.
 
-Your task:
-1. Read all tabs in the file and understand the structure.
-2. Harmonize the data to ICASA standard format using the schema at {SCHEMA_PATH}.
-3. Reconstruct the EXNAME field by combining Experiment_Crop_code_Year columns.
-4. Standardize all dates to YYYY-MM-DD format.
-5. Convert all yield values to kg/ha (check the HWAH_unit column).
-6. Map non-standard column names back to ICASA field names.
-7. Output the result as /app/output/harmonized.xlsx with one tab per ICASA table:
-   FIELDS, TRTMENTS, FERTILIZERS, IRRIGATION, SOIL_INITIAL, SUMMARY, BIOMASS_OBS.
-8. Before finishing, verify the full output, not just the first rows. For every tab:
-   - print the row count and the unique values per column
-   - print the number of missing values per column
-   - check that dates are all YYYY-MM-DD and numeric values are in plausible ranges
-   Fix any problems you find and re-run the checks.
+Before finishing, verify your output yourself and fix any problems you find.
 
 Memory:
 Lessons and corrections from earlier runs are stored in memory. Use memory.py for all memory access, and never edit the JSON files in /app/src/memory/data directly.
-- Before step 2, search memory for keywords from the data (column names, units, crops, treatments):
+- Before you start processing the data, search memory for keywords from the data (column names, units, crops, treatments):
   python /app/src/memory/memory.py search "<keyword>"
   Search one keyword at a time.
-- After step 8, record a reflection only if one of your checks caught a problem and you fixed it. Describe the problem, the check that revealed it, and the fix. If nothing went wrong, skip it:
+- After you have verified your output, record a reflection only if one of your checks caught a problem and you fixed it. Describe the problem, the check that revealed it, and the fix. If nothing went wrong, skip it:
   python /app/src/memory/memory.py add --run-id {run_id} --title "..." --situation "..." --what-happened "..." --lesson "..." --outcome success --keywords kw1 kw2 kw3
 """
 ## TODO: add refelction based on traces later
