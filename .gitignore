@@ -11,6 +11,7 @@ output/
 literature/
 literature/README.md
 data/*
+!data/target/
 !data/ontology/
 data/ontology/*
 !data/ontology/icasa/
@@ -19,3 +20,4 @@ data/ontology/icasa/*
 workspace/
 output/data/ground_truth.xlsx
 data/synthetic_messy.xlsx
+.DS_Store

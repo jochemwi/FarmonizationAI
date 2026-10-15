@@ -2,6 +2,10 @@ import operator
 from typing import Literal
 from typing_extensions import TypedDict, Annotated
 
+import subprocess
+import sys
+from pathlib import Path
+
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
@@ -28,6 +32,7 @@ model_with_tools = configurable_model.bind_tools(tools)
 class MessagesState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
+    validation: dict
 
 
 # Nodes
@@ -54,17 +59,39 @@ def tool_node(state: MessagesState):
     return {"messages": result}
 
 
-def should_continue(state: MessagesState) -> Literal["tool_node", END]:
+SUBMISSION_DIR = "/app/output/submission"
+FILL_API = "/app/data/target/v8/fill_api.py"
+
+
+def validate_node(state: MessagesState):
+    directory = Path(SUBMISSION_DIR)
+    present = len(list(directory.glob("*.csv"))) if directory.is_dir() else 0
+    proc = subprocess.run(
+        [sys.executable, FILL_API, "--validate-package", SUBMISSION_DIR, "--complete"],
+        capture_output=True, text=True,
+    )
+    stderr_lines = proc.stderr.strip().splitlines()
+    return {"validation": {
+        "status": "valid" if proc.returncode == 0 else "invalid",
+        "exit_code": proc.returncode,
+        "tables_present": f"{present}/35",
+        "stdout": proc.stdout.strip(),
+        "error": stderr_lines[-1] if stderr_lines else "",
+        "message": proc.stderr[-2000:],
+    }}
+
+def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node"]:
     if state["messages"][-1].tool_calls:
         return "tool_node"
-    return END
-
+    return "validate_node"
 
 # Build graph
 agent_builder = StateGraph(MessagesState)
 agent_builder.add_node("llm_call", llm_call)
 agent_builder.add_node("tool_node", tool_node)
 agent_builder.add_edge(START, "llm_call")
-agent_builder.add_conditional_edges("llm_call", should_continue, ["tool_node", END])
 agent_builder.add_edge("tool_node", "llm_call")
+agent_builder.add_node("validate_node", validate_node)
+agent_builder.add_conditional_edges("llm_call", should_continue, ["tool_node", "validate_node"])
+agent_builder.add_edge("validate_node", END)
 agent = agent_builder.compile()
