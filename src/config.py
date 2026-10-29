@@ -1,10 +1,9 @@
 import os
 
 CONFIGS = {
-    "base":     {"icasa": False, "ontology": False, "storage": False},
-    "icasa":    {"icasa": True,  "ontology": False, "storage": False},
-    "ontology": {"icasa": True,  "ontology": True,  "storage": False},
-    "storage":  {"icasa": True,  "ontology": True,  "storage": True},
+    "base":     {"ontology": False, "storage": False},
+    "ontology": {"ontology": True,  "storage": False},
+    "storage":  {"ontology": False, "storage": True},
 }
 
 CONFIG_NAME = os.getenv("FARMONIZER_CONFIG", "icasa")
