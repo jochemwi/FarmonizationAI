@@ -35,7 +35,11 @@ test-fast:
 # One run of one config with one model (scoring happens in the bundle, outside the repo)
 bench-run:
 	docker compose $(COMPOSE_FILES) run --rm --no-deps --entrypoint "" harness sh -c 'rm -rf /app/workspace/* /app/output/*'
-	docker compose $(COMPOSE_FILES) up --abort-on-container-exit --exit-code-from harness
+	$(eval RUN_DIR := runs/$(CONFIG)_$(shell date +%Y%m%d_%H%M%S))
+	mkdir -p $(RUN_DIR)
+	docker compose $(COMPOSE_FILES) up --abort-on-container-exit --exit-code-from harness 2>&1 | tee $(RUN_DIR)/log.txt || true
+	cp -r output/submission $(RUN_DIR)/ || true
+	grep -m1 -o 'run_id: [a-f0-9]*' $(RUN_DIR)/log.txt > $(RUN_DIR)/run_id.txt || true
 
 # 5 repeats x 2 models x 2 configs = 20 runs, repeats in the outer loop
 bench-all:
