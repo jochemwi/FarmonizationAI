@@ -38,10 +38,9 @@ class MessagesState(TypedDict):
 
 # custom syste, prompt
 def build_system_prompt() -> str:
-    data_part = " data: /app/data/," if COMPONENTS["icasa"] else ""
     return (
         "You are a helpful data assistant. Working directory is /app. "
-        f"Source files: /app/src/,{data_part} "
+        "Source files: /app/src/, data: /app/data/, "
         "write intermediates to /app/workspace/, final output to /app/output/. "
         "Use absolute paths."
     )
