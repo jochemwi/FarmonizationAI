@@ -6,6 +6,8 @@ from langfuse import Langfuse, get_client
 
 from src.harness_phase_1 import agent
 from src.prompt import build_prompt
+from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION
+
 
 
 load_dotenv()
@@ -23,7 +25,13 @@ with langfuse.start_as_current_observation(
     name="harmonization-run",
     trace_context={"trace_id": run_id},
 ):
-    result = agent.invoke({"messages": messages}, config={"callbacks": [langfuse_handler]})
+    result = agent.invoke(
+        {"messages": messages},
+        config={
+            "callbacks": [langfuse_handler],
+            "metadata": {"langfuse_tags": [f"config:{CONFIG_NAME}", f"model:{MODEL_NAME}", f"prompt:{PROMPT_VERSION}"]},
+        },
+    )
 
 for m in result["messages"]:
     print(f"[{m.type}]: {m.content}")

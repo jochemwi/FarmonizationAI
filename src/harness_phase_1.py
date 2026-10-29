@@ -14,13 +14,15 @@ from langfuse.langchain import CallbackHandler
 
 from src.tools.tools import *
 
+from src.config import MODEL_NAME, TOKEN_LIMIT
+
 # load API keys from .env
 load_dotenv()
 
 # Setup
 langfuse_handler = CallbackHandler() #initiate langfuse for logging
-configurable_model = init_chat_model("openai:gpt-5.6-luna", temperature=0)
-# configurable_model = init_chat_model("anthropic:claude-haiku-4-5-20251001", temperature=0) # default (cheapest) model, changable with the config
+
+configurable_model = init_chat_model(MODEL_NAME, temperature=0)
 
 # Tools
 tools = [bash] #append when more tools get made
@@ -33,21 +35,33 @@ class MessagesState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
     validation: dict
+    tokens_used: int
 
+# custom syste, prompt
+def build_system_prompt() -> str:
+    return (
+        "You are a helpful data assistant. Working directory is /app. "
+        "Source files: /app/src/, data: /app/data/, "
+        "write intermediates to /app/workspace/, final output to /app/output/. "
+        "Use absolute paths."
+    )
 
 # Nodes
 def llm_call(state: MessagesState):
-    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
-    
+    system = SystemMessage(content=build_system_prompt())
+
     # inject tree discovery as first turn if not already done
     messages = state["messages"]
     if state.get("llm_calls", 0) == 0:
         messages = [HumanMessage(content="Run: find /app -maxdepth 3 | sort")] + messages
     
+    response = model_with_tools.invoke([system] + messages)
+    usage = response.usage_metadata or {}
     return {
-        "messages": [model_with_tools.invoke([system] + messages)],
+        "messages": [response],
         "llm_calls": state.get("llm_calls", 0) + 1,
-    }
+        "tokens_used": state.get("tokens_used", 0) + usage.get("total_tokens", 0),
+    }   
 
 
 def tool_node(state: MessagesState):
@@ -78,9 +92,13 @@ def validate_node(state: MessagesState):
         "stdout": proc.stdout.strip(),
         "error": stderr_lines[-1] if stderr_lines else "",
         "message": proc.stderr[-2000:],
+        "tokens_used": state.get("tokens_used", 0),
+        "token_limit_hit": state.get("tokens_used", 0) >= TOKEN_LIMIT,
     }}
 
 def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node"]:
+    if state.get("tokens_used", 0) >= TOKEN_LIMIT:
+        return "validate_node"
     if state["messages"][-1].tool_calls:
         return "tool_node"
     return "validate_node"
