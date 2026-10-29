@@ -14,7 +14,7 @@ from langfuse.langchain import CallbackHandler
 
 from src.tools.tools import *
 
-from src.config import MODEL_NAME, COMPONENTS
+from src.config import MODEL_NAME
 
 # load API keys from .env
 load_dotenv()

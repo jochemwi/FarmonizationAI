@@ -6,7 +6,7 @@ CONFIGS = {
     "storage":  {"ontology": False, "storage": True},
 }
 
-CONFIG_NAME = os.getenv("FARMONIZER_CONFIG", "icasa")
+CONFIG_NAME = os.getenv("FARMONIZER_CONFIG", "base")
 MODEL_NAME = os.getenv("FARMONIZER_MODEL", "openai:gpt-5.6-sol")
 
 if CONFIG_NAME not in CONFIGS:

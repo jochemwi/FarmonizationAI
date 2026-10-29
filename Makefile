@@ -1,5 +1,5 @@
 # Benchmark settings (override on the command line)
-CONFIG ?= icasa
+CONFIG ?= base
 MODEL  ?= openai:gpt-5.6-sol
 
 # exported so docker compose sees the same values
@@ -10,12 +10,10 @@ COMPOSE_BENCH = -f docker-compose.yml -f docker-compose.benchmark.yml
 
 ifeq ($(CONFIG),base)
 COMPOSE_FILES = $(COMPOSE_BENCH)
-else ifeq ($(CONFIG),icasa)
-COMPOSE_FILES = $(COMPOSE_BENCH) -f docker-compose.icasa.yml
 else ifeq ($(CONFIG),storage)
-COMPOSE_FILES = $(COMPOSE_BENCH) -f docker-compose.icasa.yml -f docker-compose.storage.yml
+COMPOSE_FILES = $(COMPOSE_BENCH) -f docker-compose.storage.yml
 else
-$(error CONFIG '$(CONFIG)' is not runnable yet, use base, icasa or storage)
+$(error CONFIG '$(CONFIG)' is not runnable yet, use base or storage)
 endif
 
 # Normal development
@@ -43,9 +41,8 @@ bench-run:
 bench-all:
 	for i in 1 2 3 4 5; do \
 	  for model in openai:gpt-5.6-luna openai:gpt-5.6-sol; do \
-	    for cfg in base icasa; do \
+	    for cfg in base storage; do \
 	      $(MAKE) bench-run CONFIG=$$cfg MODEL=$$model || true; \
 	    done; \
 	  done; \
 	done
-	

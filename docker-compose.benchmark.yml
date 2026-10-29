@@ -1,7 +1,7 @@
 services:
   harness:
     environment:
-      - FARMONIZER_CONFIG=${FARMONIZER_CONFIG:-icasa}
+      - FARMONIZER_CONFIG=${FARMONIZER_CONFIG:-base}
       - FARMONIZER_MODEL=${FARMONIZER_MODEL:-openai:gpt-5.6-sol}
     extends:
       file: docker-compose.yml
