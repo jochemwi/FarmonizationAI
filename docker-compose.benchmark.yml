@@ -3,6 +3,7 @@ services:
     environment:
       - FARMONIZER_CONFIG=${FARMONIZER_CONFIG:-base}
       - FARMONIZER_MODEL=${FARMONIZER_MODEL:-openai:gpt-5.6-sol}
+      - FARMONIZER_TOKEN_LIMIT=${FARMONIZER_TOKEN_LIMIT:-4000000}      
     extends:
       file: docker-compose.yml
       service: harness
