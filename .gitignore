@@ -21,3 +21,5 @@ workspace/
 output/data/ground_truth.xlsx
 data/synthetic_messy.xlsx
 .DS_Store
+runs/
+scripts/
