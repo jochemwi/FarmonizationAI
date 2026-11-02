@@ -1,14 +1,9 @@
-from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langfuse.langchain import CallbackHandler
 from langfuse import Langfuse, get_client
 
-
 from src.harness_phase_1 import agent
 from src.prompt import build_prompt
-
-
-load_dotenv()
 
 langfuse = get_client()
 run_id = Langfuse.create_trace_id()
