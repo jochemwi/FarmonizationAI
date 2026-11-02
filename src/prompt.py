@@ -1,5 +1,8 @@
 def build_prompt(run_id: str) -> str:
-    return f"""Your task is described in /app/input/README.md. Read it first and follow it.
+    return 
+f"""
+    
+Your task is described in /app/input/README.md. Read it first and follow it.
 
 Before finishing, verify your output yourself and fix any problems you find.
 
