@@ -10,30 +10,32 @@ from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
-from langfuse.langchain import CallbackHandler
 
-from src.tools.tools import *
+from src.tools.tools import bash
 
 from src.config import MODEL_NAME, TOKEN_LIMIT
 
 # load API keys from .env
 load_dotenv()
 
-# Setup
-langfuse_handler = CallbackHandler() #initiate langfuse for logging
+# the model the agent uses
+configurable_model = init_chat_model("openai:gpt-5.6-luna", temperature=0) # temperature = 0 for most stable output
 
-configurable_model = init_chat_model(MODEL_NAME, temperature=0)
-
-# Tools
-tools = [bash] #append when more tools get made
+# all tools the agent can call
+tools = [bash]
+# lookup table, so tool_node can find a tool by the name the model gives
 tools_by_name = {t.name: t for t in tools}
+# tell the model which tools exist
 model_with_tools = configurable_model.bind_tools(tools)
 
 
-# State
+# state (the data that is passed between the nodes of the graph)
 class MessagesState(TypedDict):
+    # the whole conversation. New messages are added to the list, not replaced
     messages: Annotated[list[AnyMessage], operator.add]
+    # how many times the model has been called
     llm_calls: int
+    # result of the validation_node
     validation: dict
     tokens_used: int
 
@@ -46,37 +48,39 @@ def build_system_prompt() -> str:
         "Use absolute paths."
     )
 
-# Nodes
+# Node 1 (continue, or finished?)
 def llm_call(state: MessagesState):
-    system = SystemMessage(content=build_system_prompt())
-
-    # inject tree discovery as first turn if not already done
+    system = SystemMessage(content="You are a helpful data harmanization agent. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
+    
+    # for the first call, add list of all files, so the model sees the folder layout
     messages = state["messages"]
     if state.get("llm_calls", 0) == 0:
         messages = [HumanMessage(content="Run: find /app -maxdepth 3 | sort")] + messages
-    
-    response = model_with_tools.invoke([system] + messages)
-    usage = response.usage_metadata or {}
+
+    # call the model and count this call for llm_calls
     return {
         "messages": [response],
         "llm_calls": state.get("llm_calls", 0) + 1,
         "tokens_used": state.get("tokens_used", 0) + usage.get("total_tokens", 0),
     }   
 
-
+# Node 2 (run the tool the model asks for)
 def tool_node(state: MessagesState):
     result = []
+    # the last message contains a list of the models tool calls to be executed (if any)
     for tool_call in state["messages"][-1].tool_calls:
+        # find the tool by name and run it with the arguments from the model
         t = tools_by_name[tool_call["name"]]
         observation = t.invoke(tool_call["args"])
+        # send the output to the model, linked to the tool call (by its id)
         result.append(ToolMessage(content=observation, tool_call_id=tool_call["id"]))
     return {"messages": result}
 
-
+# location agent writes final output and the validation nodes checks it
 SUBMISSION_DIR = "/app/output/submission"
 FILL_API = "/app/data/target/v8/fill_api.py"
 
-
+# Node 3 (check final output with fill_api.py) -> #TODO: remove from future version since we will not use a synthetic data set, possibly replace with de set of 50.
 def validate_node(state: MessagesState):
     directory = Path(SUBMISSION_DIR)
     present = len(list(directory.glob("*.csv"))) if directory.is_dir() else 0
@@ -96,6 +100,7 @@ def validate_node(state: MessagesState):
         "token_limit_hit": state.get("tokens_used", 0) >= TOKEN_LIMIT,
     }}
 
+# decide check weather model has tool calls left, if not run the validation node and end run
 def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node"]:
     if state.get("tokens_used", 0) >= TOKEN_LIMIT:
         return "validate_node"
@@ -103,13 +108,19 @@ def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node
         return "tool_node"
     return "validate_node"
 
-# Build graph
+# create the graph with the state defined above
 agent_builder = StateGraph(MessagesState)
+# add nodes with the names used in the edges
 agent_builder.add_node("llm_call", llm_call)
 agent_builder.add_node("tool_node", tool_node)
+# start with the model
 agent_builder.add_edge(START, "llm_call")
+# after the tools have run, return back to the model
 agent_builder.add_edge("tool_node", "llm_call")
 agent_builder.add_node("validate_node", validate_node)
-agent_builder.add_conditional_edges("llm_call", should_continue, ["tool_node", "validate_node"])
+# after the model: should_continue decideds wether to: run a tool or validate_node
+agent_builder.add_conditional_edges("llm_call", should_continue)
+# the check is the last step
 agent_builder.add_edge("validate_node", END)
+# turn the graph into something you can run with agent.invoke() for main
 agent = agent_builder.compile()
