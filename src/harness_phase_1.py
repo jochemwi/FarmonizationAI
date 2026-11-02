@@ -13,6 +13,8 @@ from langgraph.graph import StateGraph, START, END
 
 from src.tools.tools import bash
 
+from src.config import MODEL_NAME, TOKEN_LIMIT
+
 # load API keys from .env
 load_dotenv()
 
@@ -35,7 +37,16 @@ class MessagesState(TypedDict):
     llm_calls: int
     # result of the validation_node
     validation: dict
+    tokens_used: int
 
+# custom syste, prompt
+def build_system_prompt() -> str:
+    return (
+        "You are a helpful data assistant. Working directory is /app. "
+        "Source files: /app/src/, data: /app/data/, "
+        "write intermediates to /app/workspace/, final output to /app/output/. "
+        "Use absolute paths."
+    )
 
 # Node 1 (continue, or finished?)
 def llm_call(state: MessagesState):
@@ -48,9 +59,10 @@ def llm_call(state: MessagesState):
 
     # call the model and count this call for llm_calls
     return {
-        "messages": [model_with_tools.invoke([system] + messages)],
+        "messages": [response],
         "llm_calls": state.get("llm_calls", 0) + 1,
-    }
+        "tokens_used": state.get("tokens_used", 0) + usage.get("total_tokens", 0),
+    }   
 
 # Node 2 (run the tool the model asks for)
 def tool_node(state: MessagesState):
@@ -84,10 +96,14 @@ def validate_node(state: MessagesState):
         "stdout": proc.stdout.strip(),
         "error": stderr_lines[-1] if stderr_lines else "",
         "message": proc.stderr[-2000:],
+        "tokens_used": state.get("tokens_used", 0),
+        "token_limit_hit": state.get("tokens_used", 0) >= TOKEN_LIMIT,
     }}
 
 # decide check weather model has tool calls left, if not run the validation node and end run
 def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node"]:
+    if state.get("tokens_used", 0) >= TOKEN_LIMIT:
+        return "validate_node"
     if state["messages"][-1].tool_calls:
         return "tool_node"
     return "validate_node"

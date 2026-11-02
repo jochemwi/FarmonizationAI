@@ -4,6 +4,8 @@ from langfuse import Langfuse, get_client
 
 from src.harness_phase_1 import agent
 from src.prompt import build_prompt
+from src.config import CONFIG_NAME, MODEL_NAME, PROMPT_VERSION
+
 
 # Langfuse client, reads keys from .env
 langfuse = get_client()

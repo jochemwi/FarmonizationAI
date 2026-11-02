@@ -7,3 +7,14 @@ notebooks/
 benchmark/
 workspace/
 output/
+data/
+docker-compose*.yml
+Makefile
+tests/
+literature/
+.gitignore
+.github/
+.devcontainer/
+.vscode/
+README.md
+proxy/

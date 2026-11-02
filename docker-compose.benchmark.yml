@@ -1,0 +1,25 @@
+services:
+  harness:
+    environment:
+      - FARMONIZER_CONFIG=${FARMONIZER_CONFIG:-base}
+      - FARMONIZER_MODEL=${FARMONIZER_MODEL:-openai:gpt-5.6-sol}
+      - FARMONIZER_TOKEN_LIMIT=${FARMONIZER_TOKEN_LIMIT:-4000000}      
+    extends:
+      file: docker-compose.yml
+      service: harness
+    command: python src/main.py
+    depends_on:
+      - proxy
+    tmpfs:
+      - /app/src/rag
+
+  proxy:
+    extends:
+      file: docker-compose.yml
+      service: proxy
+
+networks:
+  internal:
+    internal: true
+  egress:
+    driver: bridge

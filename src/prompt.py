@@ -4,8 +4,12 @@ f"""
     
 Your task is described in /app/input/README.md. Read it first and follow it.
 
-Before finishing, verify your output yourself and fix any problems you find.
+PROMPT_VERSION = "v1"
 
+
+def build_prompt(run_id: str) -> str:
+    if COMPONENTS["storage"]:
+        memory = f"""
 Memory:
 Lessons and corrections from earlier runs are stored in memory. Use memory.py for all memory access, and never edit the JSON files in /app/src/memory/data directly.
 - Before you start processing the data, search memory for keywords from the data (column names, units, crops, treatments):
