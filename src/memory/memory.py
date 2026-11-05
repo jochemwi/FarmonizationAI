@@ -44,13 +44,14 @@ REQUIRED = {
                 "lesson", "outcome", "keywords"},
 }
 OPTIONAL = {
-    "hitl": {"schema_bindings"},
+    "hitl": {"schema_bindings", "trigger", "source_context", "agent_proposal"},
     "reflection": set(),
 }
 ENUMS = {
     "hitl": {
         "kind": {"column_mapping", "unit", "value_recode", "other"},
         "priority": {"must", "should"},
+        "trigger": {"low_similarity", "small_margin", "out_of_range", "other"},
     },
     "reflection": {"outcome": {"success", "failure"}},
 }
@@ -65,6 +66,8 @@ def validate(kind, fields):
     if unknown:
         raise ValueError(f"unknown fields: {sorted(unknown)}")
     for name, allowed in ENUMS[kind].items():
+        if name not in fields:
+            continue
         if fields[name] not in allowed:
             raise ValueError(f"{name} must be one of {sorted(allowed)}, got {fields[name]!r}")
 
@@ -126,6 +129,9 @@ def main():
     p_hitl.add_argument("--user-answer", required=True)
     p_hitl.add_argument("--priority", required=True, choices=sorted(ENUMS["hitl"]["priority"]))
     p_hitl.add_argument("--schema-bindings", nargs="*")
+    p_hitl.add_argument("--trigger", choices=sorted(ENUMS["hitl"]["trigger"]))
+    p_hitl.add_argument("--source-context")
+    p_hitl.add_argument("--agent-proposal")
 
     p_list = sub.add_parser("list", help="list active entries")
     p_list.add_argument("kind", choices=["hitl", "reflection"])
@@ -160,6 +166,12 @@ def main():
         )
         if args.schema_bindings:
             fields["schema_bindings"] = args.schema_bindings
+        if args.trigger:
+            fields["trigger"] = args.trigger
+        if args.source_context:
+            fields["source_context"] = args.source_context
+        if args.agent_proposal:
+            fields["agent_proposal"] = args.agent_proposal
         entry = add("hitl", **fields)
         print(f"added {entry['id']}")
     elif args.command == "list":
