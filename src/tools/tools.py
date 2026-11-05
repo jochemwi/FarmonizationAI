@@ -1,4 +1,5 @@
 import subprocess
+from typing import Literal
 
 from langchain_core.tools import tool
 
@@ -36,3 +37,21 @@ def bash(command: str, description: str) -> str:
         return "error: command timed out after 60 seconds"
     except Exception as e:
         return f"error: {e}"
+
+@tool
+def ask_human(
+        question: str,
+        trigger: Literal["low_similarity", "small_margin", "out_of_range", "other"],
+        source_context: str,
+        agent_proposal: str,
+) -> str:
+    """Ask the human to decide when you are unsure. Use it when a value is outside
+    the min/max of its ICASA variable, or (to be added later) when the best mapping has a low
+    similarity or a small margin over the runner-up.
+
+    question: what you need decided, in one or two sentences.
+    trigger: why you are asking.
+    source_context: file, column and value that caused the question.
+    agent_proposal: your candidate answers with scores or limits, and your preferred one.
+    """
+    return "ask_human is handled by the ask node, not executed here."
