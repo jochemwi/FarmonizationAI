@@ -18,5 +18,28 @@
     "user_answer": "test",
     "priority": "must",
     "status": "active"
+  },
+  {
+    "id": "h002",
+    "created": "2026-11-06",
+    "provenance": "HITL",
+    "schema_bindings": [],
+    "kind": "value_recode",
+    "title": "Interpret SYNF05 canopy height 23 as 0.23 m",
+    "when_to_use": "When SYNF05 Sheet1 row 45 column chtd contains canopy height 23 outside the ICASA range.",
+    "keywords": [
+      "SYNF05",
+      "chtd",
+      "canopy_height"
+    ],
+    "correction": "i think it will possibly be 0.23m",
+    "rationale": "i think it will possibly be 0.23m",
+    "limits": "",
+    "user_answer": "i think it will possibly be 0.23m",
+    "priority": "must",
+    "trigger": "out_of_range",
+    "source_context": "SYNF05.xlsx, Sheet1, row 45, column chtd, value 23",
+    "agent_proposal": "Allowed range: 0\u20135 m. Preferred option: omit 23 from  as unresolved; retain the raw value and out-of-range note in source_comments.",
+    "status": "active"
   }
 ]
