@@ -105,6 +105,35 @@ def search(query):
                 results.append({"type": kind, **e})
     return results
 
+KIND_BY_PREFIX = {v: k for k, v in PREFIX.items()}
+
+def kind_of(entry_id):
+    """'h002' -> 'hitl', 'r067' -> 'reflection'."""
+    kind = KIND_BY_PREFIX.get(entry_id[:1])
+    if kind is None:
+        raise ValueError(f"unknown id {entry_id!r}, expected h### or r###")
+    return kind
+
+def set_status(entry_id, status):
+    """Change the status of one entry and return it."""
+    kind = kind_of(entry_id)
+    entries = load(kind)
+    for e in entries:
+        if e["id"] == entry_id:
+            e["status"] = status
+            save(kind, entries)
+            return e
+    raise ValueError(f"no entry with id {entry_id}")
+
+def delete(entry_id):
+    """Remove one entry from its file."""
+    kind = kind_of(entry_id)
+    entries = load(kind)
+    kept = [e for e in entries if e["id"] != entry_id]
+    if len(kept) == len(entries):
+        raise ValueError(f"no entry with id {entry_id}")
+    save(kind, kept)
+
 def main():
     parser = argparse.ArgumentParser(description="Persistent memory: HITL corrections and reflections")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -138,6 +167,12 @@ def main():
 
     p_search = sub.add_parser("search", help="keyword search over active entries")
     p_search.add_argument("query")
+
+    p_deact = sub.add_parser("deactivate", help="set an entry to inactive (kept in the file, skipped by list and search)")
+    p_deact.add_argument("id")
+
+    p_del = sub.add_parser("delete", help="permanently remove an entry")
+    p_del.add_argument("id")
 
     args = parser.parse_args()
     if args.command == "add":
@@ -178,6 +213,12 @@ def main():
         print(json.dumps(list_entries(args.kind), indent=2))
     elif args.command == "search":
         print(json.dumps(search(args.query), indent=2))
+    elif args.command == "deactivate":
+        entry = set_status(args.id, "inactive")
+        print(f"deactivated {entry['id']}")
+    elif args.command == "delete":
+        delete(args.id)
+        print(f"deleted {args.id}")
 
 
 if __name__ == "__main__":
