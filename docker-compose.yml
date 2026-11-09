@@ -23,6 +23,8 @@ services:
       - ./input:/app/input:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
+    tmpfs:
+      - /app/runs # hide archived runs
 
   proxy:
     build: ./proxy
