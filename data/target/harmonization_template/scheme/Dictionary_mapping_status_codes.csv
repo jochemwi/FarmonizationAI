@@ -1,0 +1,9 @@
+Code,Description
+confirmed,Evidence and a recorded decision or authority support the mapping.
+excluded,Not collected because of an explicit exclusion decision or no observed source values; retain source metadata and the reason with no target or ontology association.
+proposed,"A needed variable or category code is proposed to fill a Dictionary coverage gap. Eligible source values are written when the source meaning, target definition, type, unit, table scope and data grain meet template requirements; registration remains pending."
+review,General review is pending; no specific mapping issue has been identified.
+mapping_review,A specific correspondence or transformation issue has been identified and needs review.
+unresolved,Source meaning or correspondence remains uncertain; retain the complete target candidate.
+aggregation_review,The aggregation rule or its context needs review.
+conditional,The mapping applies only under conditions recorded in mapping_scheme.

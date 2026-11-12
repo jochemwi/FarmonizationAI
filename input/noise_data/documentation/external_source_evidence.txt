@@ -1,0 +1,125 @@
+TRIAL REFERENCE EXTRACTS
+
+PULU-PROTOCOL, linked by the PULU0801.xlsx source filename.
+Cultivar register: Kufri. Article cultivar: Kufri Badshah.
+IW/Ep: irrigation water / pan evaporation; levels0.8,1.4,2.0.
+The nitrogen factor has four levels, expressed as kg elemental N per hectare: 0, 135, 180 and 225. In the positive-N regimes, one half is scheduled at planting and one half approximately four weeks later.
+Harvest: last week of January. Fresh tubers, t/ha. Growth samples:0.5m row length; final harvest area:11m2.
+2008-2009
+N kg/ha | IW/Ep 0.8 | IW/Ep 1.4 | IW/Ep 2.0 | Mean
+0 | 15 | 17.3 | 14.8 | 15.7
+135 | 22.9 | 27.3 | 29.3 | 26.5
+180 | 23.7 | 30 | 32.1 | 28.6
+225 | 24.9 | 32.4 | 34.4 | 30.6
+2010-2011
+N kg/ha | IW/Ep 0.8 | IW/Ep 1.4 | IW/Ep 2.0 | Mean
+0 | 11 | 12.9 | 10 | 11.3
+135 | 19.9 | 24 | 21.4 | 21.8
+180 | 21.9 | 28.1 | 26.7 | 25.6
+225 | 24.6 | 27.9 | 30.6 | 27.7
+Arora,Nath,Singh2013; Table3; https://doi.org/10.1016/j.agwat.2013.03.021
+
+DITY-ANNUAL / DITY8101.xlsx
+Cultivars each year: Bintje, Sava, Posmo, Kaptah, Dianella. Cultivar-code variant: Dianellla.
+Metadata register:1-5=1981;6-10=1982;11-15=1983. Management register: annual blocks1,2,3.
+Annual protocol | family=DITY | year=1981 | fertilizer_register=DITY_FERT_1981 | irrigation_register=DITY_IRR_1981
+Annual protocol | family=DITY | year=1982 | fertilizer_register=DITY_FERT_1982 | irrigation_register=DITY_IRR_1982 | organic_register=DITY_ORG_1982
+Annual protocol | family=DITY | year=1983 | fertilizer_register=DITY_FERT_1983 | irrigation_register=DITY_IRR_1983
+Season | cultivar roles | elemental N kg/ha | positive N applications
+1981 | all five | 140 | 1
+1982 | all five | 180 | 1
+1983 | all five | 160 | 2
+Manuscript irrigation register:
+1981 | August5 | 25mm | one application
+1982 | six applications | 30mm each
+1983 | six applications | 30mm each
+Later compilation irrigation totals:1981=25mm;1982=185mm;1983=135mm.
+Field-log irrigation1981:April8;25mm. Totals:1982=188mm;1983=165mm.
+Manuscript fertilizer register:
+1981/1982 | spring | 300kg/ha | compound21-4-10
+1983 | spring | 1000kg/ha | compound14-4-17
+1983 | June10 | 200kg/ha | compound25-3-6
+Field fertilizer register:1983 April19 N40/P11/K49; June19 N120/P23/K57; kg elemental nutrient/ha.
+Manure manuscript: autumn;40t fresh/ha. Organic log:1982 April19;5000kg dry/ha;5%N;RE003;AP004;10cm; annotation40t fresh.
+Bintje emergence1983: manuscriptMay28; field logJune3. Harvest1982: summarySeptember27; managementOctober25.
+Bach,Nielsen1985,p217: https://dcapub.au.dk/pub/planteavl_89_215.pdf
+Annual compilation: https://odjar.org/article/download/15813/15604/16636
+
+CALENDAR REGISTER / DOY=day of year
+Counterpart | year | planting DOY | emergence DOY | harvest DOY | N kg/ha | positive N applications | description
+SFUF1001 | 2012 | 50 | 69 | 141 | 248 | 4 | field=Pivot18;cultivar=RED LASODA;site=Suwannee
+NYCU8001 | 1980 | 143 | 157 | 257 | 275 | 2 | cultivar=Kathadin;irrigation209mm
+UFSF0101 | 2003 | - | - | 138 | - | - | Suwannee
+All_2003 field log: final sampleMay6,2003;RED LASODA;Suwannee.
+Pivot18 initial-condition register:2011-11-15.
+Cundinamarca/Capiro1999 | planting119 | emergence143 | harvestDOY262 | N100 once | irrigation- | rainfall392mm | Rainfed
+Capiro field log: planting1999-04-29;emergence1999-05-23;harvest1999-10-15(DOY288). Alternate compilation plantingDOY143.
+Calendar reference: https://odjar.org/article/download/15813/15604/16636
+Phenology comparison | trial_family=SYN07 | planting=2004-10-20 | emergence=2004-11-01
+Phenology comparison | trial_family=SYN07 | planting=2005-10-20 | emergence=2005-11-05
+Phenology comparison | trial_family=SYN07 | planting=2006-10-20 | emergence=2006-11-07
+CIMO/Modipuran yield-reporting convention: harvest fresh tubers;t/ha.
+
+EXPOSURE REGISTER
+Sebago screens | incident solar-radiation fractions1.00,0.79,0.66 | entire experimental growing season | shared meteorological station
+Field water rule | estimated2.0cm soil-water deficit | replenish to field capacity
+Simulation example | IMDEP30 | ITHRL80 | ITHRU100
+Ambient air |20plants/m2 | row spacing30cm
+Enriched air |5.7plants/m2 | row spacing60cm | absolute550ppm CO2 target | emergence to harvest
+Watering protocol | avoid drought stress | maintain above75percent of field capacity
+Jokioinen climate table |1998/1999 | ambient/chamber | irrigation quantity-
+Wet/Dry water protocol | natural winter precipitation in both | dry covered after planting whenever rain forecast | N175kg/ha
+Sale1973: https://doi.org/10.1071/AR9730733
+FACE study: https://flore.unifi.it/handle/2158/310993
+CHIP: https://www.researchgate.net/publication/40192329_Final_Report
+Scottish field protocol,section2.4: https://edepot.wur.nl/136090
+
+WATER-SUMMARY / SYN07 first report-season2007/08;second2008/09
+Report season | exposure | ambient rain mm | irrigation mm
+first | ambient air | 186 | 132
+first | open-top chamber | * | 132
+second | ambient air | 182 | 169
+second | open-top chamber | * | 169
+Event-log register | first |15entries |1973.4mm
+Event-log register | second |13entries |169.047619mm
+CHIP Table2 historical seasons1998/1999: https://www.researchgate.net/publication/40192329_Final_Report
+
+COUNTRY CONTAINMENT REGISTER
+Country | boundary year | latitude | longitude | covered
+IND | 2014 | -1.2 | 29.8 | False
+IND | 2014 | 29.067 | 77.767 | True
+UGA | 2017 | -1.2 | 29.8 | True
+UGA | 2017 | 29.067 | 77.767 | False
+COL | 2022 | 4.42 | 74.13 | False
+COL | 2022 | 4.42 | -74.13 | True
+USA | 2018 | -83.04 | 30.08 | False
+USA | 2018 | 30.08 | -83.04 | True
+geoBoundaries ADM0: https://www.geoboundaries.org/api/current/gbOpen/
+Gazetteer | Modipuram | Uttar Pradesh,India |29.06376 |77.70382
+Gazetteer | Marengo | Santander,Colombia |6.9 |-73.6
+Gazetteer: https://geocoding-api.open-meteo.com/v1/search
+
+SOIL FORMAT REGISTER / ICASA convention2026
+Code | alias | property | unit
+SLOC | SLOC | organic carbon | %
+SLBDM | SBDM | moist bulk density | g/cm3
+SLDUL | SDUL | drained upper water limit | cm3/cm3
+SLSAT | SSAT | saturated water content | cm3/cm3
+SLCEC | SCEC | cation-exchange capacity | cmol/kg
+SLNI | SLNI | total soil nitrogen | %
+SLRGF | SRGF | root-growth factor | number
+SLKE | . | exchangeable potassium | cmol/kg
+SLCA | . | calcium | cmol/kg
+SLAL | . | aluminum | ppm
+SLMG | . | magnesium | cmol/kg
+SLNA | . | sodium | cmol/kg
+SLBS | . | base saturation | cmol/kg
+Format source: https://raw.githubusercontent.com/DSSAT/ICASA-Dictionary/main/CSV/Soils_data.csv
+Historical2012 convention:SLBS%. Aluminum assay method:-.
+Profile register | IAHM9701 | IB00000009
+Profile register | IAHM9801 | IB00000009
+IB00000009 | DEFAULT - SHALLOW SANDY LOAM | layer bases5,15,30,45,60cm
+Initialization protocol | source=SYN08.xlsx | local=7 | baseline=dated laboratory campaign2008-01-01 | organic carbon
+Separate soil-library inventory:undated.
+Formulation reference | atomic masses | P30.973762 | K39.0983 | O15.999
+Crop namespace | CO=cotton | PT=potato

@@ -1,0 +1,22 @@
+*SOIL02 SCS -99 65 SYN02
+! Water-retention limits and saturated contents were recorded independently in the supplied layer table.
+! SLLL and SDUL: nearest-neighbor estimation (Jagtap et al., 2004).
+! SBDM: Gijsman et al. (2002) method.
+! SSAT: 93-97% of porosity, following the APSRU manual (Dalgliesh and Foale, 1998); porosity follows Baumer and Rice (1988).
+! SSKS=-99: no saturated hydraulic conductivity value was supplied.
+@SITE COUNTRY LAT LONG SCS FAMILY
+MARENGO COLOMBIA 4.42 -74.13 -99
+@ SCOM SALB SLU1 SLDR SLRO SLNF SLPF SMHB SMPX SMKE
+-99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+@ SLB SLMH SLLL SDUL SSAT SRGF SSKS SBDM SLOC SLCL SLSI SLCF SLNI SLHW SLHB SCEC
+! Lower limit and field capacity are estimated; saturation is derived from porosity.
+10 -99 0.083 0.521 0.521 0.75 -99 1.1966842105263156 1.02 -99 -99 -99 0.09 -99 -99 9.1
+25 -99 0.085 0.521 0.521 1 -99 1.1966842105263156 0.7933 -99 -99 -99 0.10500000000000001 -99 -99 9.35
+40 -99 0.088 0.2415 0.408 0.5 -99 1.5118947368421054 0.595 -99 -99 -99 0.12 -99 -99 9.725
+65 -99 0.091 0.243 0.408 0.15 -99 1.5118947368421054 0.476 -99 -99 -99 0.14500000000000002 -99 -99 10.1
+@ SLB SLPX SLPT SLPO CACO3 SLAL SLFE SLMN SLBS SLPA SLPB SLKE SLMG SLNA SLSU SLEC SLCA
+10 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+25 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+40 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+65 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+
