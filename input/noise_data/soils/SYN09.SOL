@@ -1,0 +1,45 @@
+*SOIL09 SCS -99 65 SYN09
+! SOIL09 and SOIL09B share the same layer input data; their profile-level parameters are reported independently.
+
+! SLLL and SDUL: nearest-neighbor estimation (Jagtap et al., 2004).
+! SBDM: Gijsman et al. (2002) method.
+! SSAT: 93-97% of porosity, following the APSRU manual (Dalgliesh and Foale, 1998); porosity follows Baumer and Rice (1988).
+! SSKS=-99: no saturated hydraulic conductivity value was supplied.
+@SITE COUNTRY LAT LONG SCS FAMILY
+SUWANNEE USA -82 24 -99
+@ SCOM SALB SLU1 SLDR SLRO SLNF SLPF SMHB SMPX SMKE
+-99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+@ SLB SLMH SLLL SDUL SSAT SRGF SSKS SBDM SLOC SLCL SLSI SLCF SLNI SLHW SLHB SCEC
+10 -99 0.111 0.288 0.436 0.75 -99 1.4337894736842105 2.14 -99 -99 -99 0.09 -99 -99 14.7
+25 -99 0.113 0.289 0.436 1 -99 1.4337894736842105 1.6644 -99 -99 -99 0.10500000000000001 -99 -99 14.95
+40 -99 0.116 0.2905 0.436 0.5 -99 1.4337894736842105 1.2483 -99 -99 -99 0.12 -99 -99 15.325
+65 -99 0.119 0.292 0.436 0.15 -99 1.4337894736842105 0.9987 -99 -99 -99 0.14500000000000002 -99 -99 15.7
+@ SLB SLPX SLPT SLPO CACO3 SLAL SLFE SLMN SLBS SLPA SLPB SLKE SLMG SLNA SLSU SLEC SLCA
+10 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+25 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+40 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+65 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+! tiledrain at 100 cm
+
+*SOIL09B SCS -99 65 SYN09
+! SOIL09 and SOIL09B share the same layer input data; their profile-level parameters are reported independently.
+! SLLL and SDUL: nearest-neighbor estimation (Jagtap et al., 2004).
+! SBDM: Gijsman et al. (2002) method.
+! SSAT: 93-97% of porosity, following the APSRU manual (Dalgliesh and Foale, 1998); porosity follows Baumer and Rice (1988).
+! SSKS=-99: no saturated hydraulic conductivity value was supplied.
+@SITE COUNTRY LAT LONG SCS FAMILY
+SUWANNEE USA -82 24 -99
+@ SCOM SALB SLU1 SLDR SLRO SLNF SLPF SMHB SMPX SMKE
+-99 -99 -99 -99 -99 -99 0.92 -99 -99 -99
+! -99 -99 -99 -99 -99 -99 1.00 -99 -99 -99 ! revision 5/31/09: decreased .99 to .92.
+@ SLB SLMH SLLL SDUL SSAT SRGF SSKS SBDM SLOC SLCL SLSI SLCF SLNI SLHW SLHB SCEC
+10 -99 0.111 0.288 0.436 0.75 -99 1.4337894736842105 2.14 -99 -99 -99 0.09 -99 -99 14.7
+25 -99 0.113 0.289 0.436 1 -99 1.4337894736842105 1.6644 -99 -99 -99 0.10500000000000001 -99 -99 14.95
+40 -99 0.116 0.2905 0.436 0.5 -99 1.4337894736842105 1.2483 -99 -99 -99 0.12 -99 -99 15.325
+65 -99 0.119 0.292 0.436 0.15 -99 1.4337894736842105 0.9987 -99 -99 -99 0.14500000000000002 -99 -99 15.7
+@ SLB SLPX SLPT SLPO CACO3 SLAL SLFE SLMN SLBS SLPA SLPB SLKE SLMG SLNA SLSU SLEC SLCA
+10 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+25 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+40 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+65 -99 -99 -99 -99 0.2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+

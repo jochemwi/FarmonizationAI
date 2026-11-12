@@ -1,0 +1,174 @@
+Code_display,Crop_code,Common_name,Latin_name,Major_use,Other_uses,Crop_comments,DSSAT_code,APSIM_code,AgTrials_code,Photosynthetic pathway,Repro_type,Daylength,Vernalization,Harvested_parts,When_harvested,N_fixation,Major_planting,Other_planting,Wikipedia,DSSAT_tree_node,Variable_name
+"CRID, ICPCR, HACRID",ACK,Artichoke,Cynara scolymus ,Vegetable,,,,,,C3,Annual,SD/LD,Y,Inflorescence,Size,N,Cuttings,Seed,en.wikipedia.org/wiki/Artichoke,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ALD,Almond,Prunus dulcis,Nut,,,,,,C3,Perennial,,,Seed,,N,,,en.wikipedia.org/wiki/Almond,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ALF,Alfalfa,Medicago sativa,Forage,,Lucerne,AL,Lucerne,,C3,Perennial,LD,N,Shoot,,Y,Seed,,en.wikipedia.org/wiki/Alfalfa,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",AMR,Amaranth,Amaranthus spp.,Pseudocereal,Vegetable," A. caudatus, A. cruentus, and A.hypochondriacus",,,,C4,Annual,SD,,Seed,,N,Seed,,en.wikipedia.org/wiki/Amaranth#Seed,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",APL,Apple,Malus pumila,Fruit,,,AM,Apple,,C3,Perennial,,Y,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Apple,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",APR,Apricot,Prunus armeniaca,Fruit,,,AP,Apricot,,C3,Perennial,,Y,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Apricot,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ASP,Asparagus,Asparagus officinalis,Vegetable,,,,,,C3,Perennial,,,Seed,,N,Crowns,,en.wikipedia.org/wiki/Asparagus,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",AVC,Avocado,Persea americana,Fruit,,,,,,C3,Perennial,,,Fruit,Size,N,,,en.wikipedia.org/wiki/Avocado,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BAR,Barley,Hordeum vulgare,Cereal,Fodder,,BA,Barley,Barley,C3,Annual,LD,Y,Seed,Stage,N,Seed,,en.wikipedia.org/wiki/Barley,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BBR,Blueberry,Vaccinium spp.,Fruit,,,,,,C3,Perennial,,,Fruit,,N,Cuttings,,en.wikipedia.org/wiki/Blueberry,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BGR,Bitter gourd,Momordica charantia,Vegetable,,,,,,C3,Annual,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Momordica_charantia,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BHG,Bahia grass,Paspalum spp.,Forage,,,BH,Bahia,,C4,Perennial,LD,,Shoot,,N,Seed,,en.wikipedia.org/wiki/Paspalum_notatum,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BLW,Broad leaf weeds,(various),NA,,,BW,Weed,,NA,Annual,NA,,NA,,N,Seed,,,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BMD,Bermudagrass,Cynodon dactylon,Forage,,,BM,,,C4,Perennial,,,Shoot,,N,Transplant,,en.wikipedia.org/wiki/Cynodon_dactylon,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BMG,Bambara groundnut,Vigna subterranea,Pulse,,,BG,,,C3,Annual,SD,N,Seed,,Y,Seed,,en.wikipedia.org/wiki/Vigna_subterranea,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BND,Dry bean,Phaseolus vulgaris,Pulse,,Dry or shell bean,BN,Drybean,Bean common (dry),C3,Annual,SD,N,Seed,,Y,Seed,,en.wikipedia.org/wiki/Phaseolus_vulgaris,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BNG,Green bean,Phaseolus vulgaris,Vegetable,,Snap bean (low fibre pods),GB,Greenbean,,C3,Annual,SD,N,Fruit,,Y,Seed,,https://en.wikipedia.org/wiki/Phaseolus_vulgaris,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BNN,Banana,Musa paradisiaca,Fruit,,,NN,Banana,Banana,C3,Perennial,,N,Fruit,,N,Rhizome,,en.wikipedia.org/wiki/Banana#Historical_cultivation,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BRC,Brachiaria,Brachiaria spp.,Forage,,Check which species,BR,Brachiaria,,C4,Perennial,,,Shoot,,N,Seed,,en.wikipedia.org/wiki/Brachiaria,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BWH,Buckwheat,Fagopyrum esculentum,Pseudocereal,,,BK,Buckwheat,,C3,Annual,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Buckwheat,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CAM,Camelina,Camelina sativa,Oil seed,,,CM,Camelina,,C3,Annual,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Camelina,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CAR,Carrot,Daucus carota,Vegetable,,,C1,Carrot,,C3,Biennial,SD/LD,Y,Root,,N,Seed,,en.wikipedia.org/wiki/Carrot,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CBG,Cabbage,Brassica oleraceae,Vegetable,,,CB,Cabbage,,C3,Annual,,,Leaf,,N,Seed,,en.wikipedia.org/wiki/Cabbage,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CBY,Cranberry,Vaccinium macrocarpon,Fruit,,,,,,C3,Perennial,,,Fruit,,N,Cuttings,,en.wikipedia.org/wiki/Cranberry,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CCB,Chinese cabbage,Brassica rapa,Vegetable,,inlcudes napa cabbage and bok choy,C3,,,C3,Annual,LD,Y,Seed,Size,N,Seed,,en.wikipedia.org/wiki/Chinese_cabbage,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CCN,Coconut,Cocos nucifera,Oil seed,,,CC,Coconut,,C3,Perennial,,,Seed,Stage,N,Seed,,en.wikipedia.org/wiki/Coconut,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CEL,Celery,Apium graveolens,Vegetable,,,,,,C3,Annual,SD/LD,Y,Shoot,,N,Seed,,en.wikipedia.org/wiki/Celery,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CFE,Coffee,Coffea spp.,Beverage,,"C. arabica, C. rustica",CF,Coffee,,C3,Perennial,,,Fruit,,N,Seed,,en.wikipedia.org/wiki/Coffee,Beverage,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CGR,Concord grape,Vitis labrusca,Fruit,,Concord grape,CG,Concordgrape,,C3,Perennial,,,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Concord_grape,Fruit Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CHI,Chia,Salvia hispanica,Pseudocereal,,,CI,Chia,,C3,Annual,SD,,Seed,Stage,N,Seed,,en.wikipedia.org/wiki/Salvia_hispanica,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CHN,Chestnut,Castanea spp.,Nut,,,,,,C3,Perennial,,,Seed,,N,,,en.wikipedia.org/wiki/Chestnut,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CHP,Chickpea,Cicer arietenum,Pulse,,Garbanzo,CH,Chickpea,,C3,Annual,LD,,Seed,,Y,Seed,,en.wikipedia.org/wiki/Chickpea,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CHR,Cherry,Prunus spp.,Fruit,,Many species,CY,Cherry,,C3,Perennial,,,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Cherry,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CIT,Citrus,Citrus spp.,Fruit,,,CT,Citrus,,C3,Perennial,,,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Citrus,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CLF,Cauliflower,Brassica oleraceae,Vegetable,,,,,,C3,Annual,,,Inflorescence,,N,Seed,,en.wikipedia.org/wiki/Cauliflower,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CLV,Clover,Trifolium spp.,Forage,Fodder,,CV,Clover,,C3,Perennial,,,Shoot,,Y,Seed,,en.wikipedia.org/wiki/Clover,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CNL,Canola,Brassica spp.,Oil seed,,"B. rapa, B. juncea, B. napus",CN,Canola,,C3,Annual,Y,Y,Seed,,N,Seed,,en.wikipedia.org/wiki/Canola,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",COC,Chocolate,Theobroma cacao,"Fruit, Beverage",,Cocoa,,,,C3,Perennial,,,Seed,,N,,,en.wikipedia.org/wiki/Cacao,Beverage,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",COT,Cotton,Gossypium spp.,Fiber,,"G. hirsutum, G barbadense",CO,Cotton,,C3,Annual,SD,N,Fruit,,N,Seed,,en.wikipedia.org/wiki/Cotton,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CRB,Carob,Ceratonia siliqua,Fruit,,,,,,C3,Perennial,,,Fruit,,N,,,en.wikipedia.org/wiki/Ceratonia_siliqua,Specialty,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CRM,Crambe,Crambe abyssinica,Oil seed,,,CR,Crambe,,C3,Annual,Y,Y,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Crambe,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CST,Castor bean,Ricinus castorum,Oil seed,,,C2,Castorbean,,C3,Perennial,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Ricinus,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CSV,Cassava,Manihot esculenta,Root crop,,,CS,Cassava,Cassava,C3,Annual,,,Root,Date,N,Stem cutting,,en.wikipedia.org/wiki/Cassava,Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CSW,Cashew,Anacardium occidentale,Nut,,,,,,C3,Perennial,,,Seed,,N,,,en.wikipedia.org/wiki/Cashew,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CUC,Cucumber,Cucumis sativus,Vegetable,,,,,,C3,Annual,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Cucumber,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",CWP,Cowpea,Vigna unguiculata,Pulse,,,CP,Cowpea,Cowpea,C3,Annual,SD,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Cowpea,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",DAT,Dates,Phoenix dactylifera,Fruit,,,,,,C3,Perennial,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Date_palm,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",EGP,Eggplant,Solanum melongena,Vegetable,,,,,,C3,Annual,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Eggplant,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",END,Endive,Cichorium endivia,Vegetable,,,,,,C3,Annual,LD,Y,Leaves,,N,Seed,,en.wikipedia.org/wiki/Endive,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",BCR,Carinata,Brassica carinata,Bioenergy,,"Also known as ""Ethiopian mustard""",BC,,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Brassica_carinata,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FAL,Fallow,NA,NA,,,FA,Fallow,,NA,NA,,,NA,,N,NA,,,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FBN,Faba bean,Vicia faba,Pulse,,,FB,Fababean,,C3,Annual,,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Vicia_faba,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FIG,Fig,Ficus carica,Fruit,,,FG,Fig,,C3,Perennial,,,Fruit,,N,Transplant,,https://en.wikipedia.org/wiki/Fig,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FLX,Flax,Linum usitatissimum,Fiber,,,FX,,,C3,Annual,,,Stem,,N,Seed,,https://en.wikipedia.org/wiki/Flax,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FML,Finger millet,Eleusine coracana,Cereal,,,,,,C4,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Finger_millet,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FRG,Forage (generic),(various),Forage,,Unidentified forage crop,G0,,,NA,Perennial,,,Shoot,,N,,,,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FMZ,Forage maize,Zea mays,Forage,,,MF,,,C4,Annual,,,Shoot,,N,Seed,,en.wikipedia.org/wiki/Maize,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FSR,Red fescue,Festuca rubra,Turf,Ornamental,Creeping red fescue,FR,,,,Perennial,,,,,,,,https://en.wikipedia.org/wiki/Festuca_rubra,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",FXM,Foxtail millet,Setaria italica,Cereal,,,FM,Foxtailmillet,,C4,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Foxtail_millet,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GAR,Garlic,Allium sativum,Vegetable,,,GA,,,C3,Annual,,,Bulb,,N,Bulb,,https://en.wikipedia.org/wiki/Garlic,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GGR,Guinea grass,Megathyrsus maximus,Forage,,"Formerly Panicum maximum. In USA, an invasive weed.",GG,,,C4,Perennial,SD,N,Shoot,,N,Seed,,en.wikipedia.org/wiki/Megathyrsus_maximus,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GRV,Grass vegetations,(various),NA,,,GR,Grassvegetations,,NA,NA,,,NA,,N,NA,,,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GRW,Grass weeds,(various),NA,,,GW,Weed,,NA,NA,,,NA,,N,NA,,,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GUA,Guayule,Parthenium argentatum,Latex,,,GU,Guayule,,C3,Perennial,,,Stem,,N,Transplant,Seed,en.wikipedia.org/wiki/Parthenium_argentatum,Latex,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",GUR,Guar,Cyamopsis tetragonoloba,Specialty,,Cluster bean,GY,,,C3,Annual,,,Seed,,Y,Seed,,en.wikipedia.org/wiki/Guar,Specialty,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",HMP,Hemp,Cannabis sativa,Fiber,Pharmaceutical,,HM,,,C3,Annual,,,Stem,,N,Seed,,https://en.wikipedia.org/wiki/Hemp,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",HOP,Hops,Humulus lupulus,Specialty,,For brewing,HO,Hops,,C3,Perennial,,,Flower,,N,Rhizome,,en.wikipedia.org/wiki/Hops,Beverage,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",HSP,Hesperaloe,Hesperaloe spp.,"Fiber, Bioenergy",,"""false yucca"", fiber and biomass new crop",,,,CAM,Perennial,,,Leaf,,N,,,https://en.wikipedia.org/wiki/Hesperaloe,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",HVT,Hairy vetch,Vicia villosa Roth,Green manure,Forage,,HV,,,C3,,,,,,Y,,,https://en.wikipedia.org/wiki/Vicia_villosa,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",HZN,Hazelnut,Corylus avellana,Nut,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Hazelnut,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",JAT,Jatropha,Jatropha curcas,Bioenergy,,,,,,C3,Perennial,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Jatropha_curcas,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",JBN,Jack bean,Canavalia ensiformis,Pulse,,,JB,Jackbean,,C3,Annual,,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Canavalia_ensiformis,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",JUT,Jute,Corchorus spp.,Fiber,,,JT,Jute,,C3,Annual,,,Stem,,N,Seed,,en.wikipedia.org/wiki/Jute,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",KNF,Kenaf,Hibiscus cannabinus,Fiber,,"Deccan hemp, Java jute",KF,,,C3,Annual,,,Stem,,N,Seed,,en.wikipedia.org/wiki/Kenaf,Fiber,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LAB,Lablab,Dolichus lablab,Pulse,,,,,,C3,Annual,,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Lablab,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LBN,Lima bean,Phaseolus lunatus,Pulse,,,LB,Limabean,Lima bean,C3,Annual,SD,,Seed,,Y,Seed,,en.wikipedia.org/wiki/Lima_bean,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LCG,Licorice,Glycyrrhiza glabra,Root crop,,,LI,,,C3,Perennial,,,Root,,Y,,,https://en.wikipedia.org/wiki/Liquorice,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LCL,Licorice,Glycyrrhiza lepidota,Forage,,,,,,C3,Perennial,,,Leaf,,Y,,,https://plants.usda.gov/factsheet/pdf/fs_glle3.pdf,Forage,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LEK,Leek,Alllium ampeloprasum,Vegetable,,,,,,C3,,,,,,N,,,en.wikipedia.org/wiki/Leek,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LEN,Lentil,Lens culinarus,Pulse,,,LT,Lentil,,C3,Annual,,,Seed,,Y,Seed,,,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",LET,Lettuce,Lactuca spp.,Vegetable,,,,,,C3,Annual,LD,Y,Leaf,,N,Seed,,,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",MAZ,Maize,Zea mays,Cereal,Forage,,MZ,Maize,Maize,C4,Annual,,,Seed,,N,Seed,,,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",MCN,Macadamia nut,Macadamia spp.,Nut,,,,,,C3,Perennial,,,Seed,,N,,,,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",MNG,Mung bean,Vigna radiata,Pulse,,Green gram,MU,,,C3,Annual,SD,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Mung_bean,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",NPG,Napier grass,Pennisetum_purpureum,"Forage, Bioenergy",,Elephant grass,NP,Napiergrass,,C4,Perennial,,,Stem,,N,Stem cutting,,,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",NPL,Nopal,Opuntia ficus-indica,Fruit,"Vegetable, forage",Multiple other names. Other spp.,NL,,,CAM,Perennial,,,Fruit,,N,Stem cutting,,https://en.wikipedia.org/wiki/Opuntia_ficus-indica,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OST,Erect prickly pear,Opuntia stricta,Specialty,,,OS,,,CAM,Perennial,,,Fruit,,N,Stem cutting,,https://en.wikipedia.org/wiki/Opuntia_stricta,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",NCO,Cochineal nopal cactus,Nopalea cochenillifera,,,,NC,,,CAM,Perennial,,,Fruit,,N,Stem cutting,,https://en.wikipedia.org/wiki/Opuntia_cochenillifera,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PTY,Pitaya,Stenocereus spp.,Fruit,,,PY,,,CAM,Perennial,,,Fruit,,N,Stem cutting,,https://en.wikipedia.org/wiki/Stenocereus,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",DRF,Dragon fruit,Selenicereus spp.,Fruit,,,DF,,,CAM,Perennial,,,Fruit,,N,Stem cutting,,https://en.wikipedia.org/wiki/Selenicereus,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OAT,Oats,Avena sativa,"Cereal, Forage",,,OA,Oats,,C3,Annual,LD,,Seed,,N,Seed,,,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OKR,Okra,Abelmoschus esculentus,Vegetable,,,,,,C3,Annual,,,Fruit,,N,Seed,,https://en.wikipedia.org/wiki/Lentil,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OLP,Oil palm,Elaeis spp.,Oil seed,,E. guineensis & others,OP,Oilpalm,,C3,Perennial,,,Seed,,N,Transplant,,en.wikipedia.org/wiki/Elaeis,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OLV,Olives,Olea europeae,Oil seed,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Olive,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ONI,Onion,Allium cepa,Vegetable,,Includes scallion and green onions,ON,Onion,,C3,Biennial,"SD, ID, LD",Y,Bulb,,N,Seed,Sets,en.wikipedia.org/wiki/Onion,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",OTH,Other,var.,var.,,"""Other"" refers to species not listed herein, or a mixture of species.",,,,,,,,,,,,,,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PAR,Parsnip,Pastinaca sativa,Vegetable,,,,,,C3,Biennial,,Y,Root,,N,Seed,,https://en.wikipedia.org/wiki/Parsnip,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PCH,Pak choi,Brassica rapa,Vegetable,,"Bok choy, pok choi",,,,C3,Biennial,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Bok_choy,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PCN,Pecan,Carya illinoinensis,Nut,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Pecan,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PEA,Pea,Pisum sativum,Pulse,,,PE,Pea,,C3,Annual,LD,Y,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Pea,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PER,Pear,Pyrus spp.,Fruit,,,PA,Pear,,C3,Perennial,,,Fruit,,N,Transplant,,https://en.wikipedia.org/wiki/Pear,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PGP,Pigeon pea,Cajanus cajan,Pulse,,,PP,Pigeonpea,Pigeonpea,C3,Annual,SD,,Seed,,Y,Seed,,en.wikipedia.org/wiki/Pigeon_pea,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PLM,Plum,Prunus insititia,Fruit,,,,,,C3,Perennial,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Plum,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PMK,Pumpkin,Cucurbita spp.,Vegetable,,,,,,C3,Annual,,,Fruit,,N,Seed,,https://en.wikipedia.org/wiki/Pumpkin,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PML,Pearl millet,Pennisetum glaucum,Cereal,,,ML,Millet,Pearl millet,C4,Annual,,,Seed,Stage,N,Seed,,https://en.wikipedia.org/wiki/Pearl_millet,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PNA,Pineapple,Ananas comosus,Fruit,,,PI,Pineapple,,CAM,Annual,,,Fruit,,N,Slips,,en.wikipedia.org/wiki/Pineapple#Cultivation,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PNT,Peanut,Arachis hypogea,"Oil seed, Pulse",,Groundnut,PN,Peanut,,C3,Annual,DN,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Peanut,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",POP,Poplar,Populus spp.,Bioenergy,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Populus,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",POT,Potato,Solanum tunerosum,Tuber crop,,,PT,Potato,Potato,C3,Annual,,,Tuber,Date,N,Tubers,,https://en.wikipedia.org/wiki/Potato,Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PPN,Perennial peanut,Arachis spp.,Forage,,,PO,Peanut,,C3,Perennial,,,Shoot,,Y,Seed,,https://en.wikipedia.org/wiki/Arachis_glabrata,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PPR,Bell pepper,Capsicum annum,Vegetable,,Includes bell and chile,PR,Capsicumpepper,,C3,Annual,,,Fruit,,N,Seed,,en.wikipedia.org/wiki/Capsicum_annuum,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PPY,Papaya,Carica papaya,Fruit,,,,,,C3,Annual,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Papaya,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PRM,Proso millet,Panicum miliaceum,Cereal,,,PM,Prosomillet,,C4,Annual,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Proso_millet,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PRS,Parsley,Petroselenium crispum,Vegetable,,,,,,C3,Biennial,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Parsley,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PSM,Persimmon,Diospyros kaki,Fruit,,,,,,C3,Perennial,,,Fruit,,N,,,https://en.wikipedia.org/wiki/Persimmon,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",PST,Pistachio,Pistacia vera,Nut,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Pistachio,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",QUN,Quinoa,Chenopodium quinoa,Pseudocereal,,,QU,Quinoa,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Quinoa,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RAD,Radish,Raphanus sativus,Vegetable,,,RD,,,C3,Annual,LD,Y,Root,,N,,,https://en.wikipedia.org/wiki/Radish,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RAP,Rape,Brassica rapa,Oil seed,,"Also as rapeseed, oilseed rape",RA,Rape,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Rapeseed,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RCL,Red clover,Trifolium pratense,Forage,,,RC,Redclover,,C3,Perennial,,,Shoot,,Y,Seed,,en.wikipedia.org/wiki/Trifolium_pratense,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RGA,Annual ryegrass,Festuca perennis,Silage,Turf,Also as Lolium multiflorum,RG,,,C3,Annual,,,Shoot,,N,Seed,,en.wikipedia.org/wiki/Festuca_perennis,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RGP,Perennial ryegrass,Lolium perenne,Forage,Turf,See also annual ryegrass,,,,,Perennial,,,Shhot,,N,Seed,Vegetative,https://en.wikipedia.org/wiki/Lolium_perenne,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RHP,Rhizoma peanut,Arachis glabrata,Forage,,,RP,Rhizomapeanut,,C3,Perennial,,,Shoot,,N,Rhizomes,,en.wikipedia.org/wiki/Arachis_glabrata,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RIC,Rice,Oryza sativa ,Cereal,,,RI,Rice,Rice,C3,Annual,,,Seed,,N,Transplant,Seed,https://en.wikipedia.org/wiki/Rice,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RPN,Perennial rice,Oryza sativa ,Cereal,,,RN,Rice,Rice,C3,Perennial,,,Seed,,N,Transplant,Seed,https://en.wikipedia.org/wiki/Perennial_rice,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",RYE,Rye,Secale cereale,Cereal,"Forage, Cover crop",,RY,,,C3,Annual,LD,Y,Seed,,,Seed,,https://en.wikipedia.org/wiki/Rye,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SAF,Safflower,Carthamus tinctorius,Oil seed,,,SF,Safflower,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Safflower,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SBN,Soybean,Glycine max,Pulse,,,SB,Soybean,Soybean,C3,Annual,,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Soybean,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SBT,Sugar beet,Beta vulgaris,Sugar,,,BS,Beetsugar,,C3,Annual,,,Root,,N,Seed,,en.wikipedia.org/wiki/Sugar_beet,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SES,Sesame,Sesamum indicum,Oil seed,,,SS,Sesame,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Sesame,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SGG,Sorghum,Sorghum bicolor ,Cereal,"Forage, bioenergy",,SG,,,C4,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Sorghum,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SHL,Shallot,Allium cepa,Vegetable,,,,,,C3,Annual,,,Seed,,N,,,https://en.wikipedia.org/wiki/Shallot,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SPN,Spinach,Spinacia oleracea,Vegetable,,,,,,C3,Annual,LD,,Leaf,,N,Seed,,https://en.wikipedia.org/wiki/Spinach,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SQS,Summer squash,Cucurbita pepo,Vegetable,,,,,,C3,Annual,,,Fruit,,N,Seed,,https://en.wikipedia.org/wiki/Summer_squash,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SQW,Winter squash,Cucurbita moschata,Vegetable,,,,,,C3,Annual,,,Fruit,,N,Seed,,https://en.wikipedia.org/wiki/Winter_squash,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",STB,Strawberry,Fragaria spp.,Fruit,,,SR,,,C3,Annual,,,Fruit,,N,Runners,,en.wikipedia.org/wiki/Strawberry,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",STR,Shrubs/trees,(various),NA,,,ST,Tree,,C3,Perennial,,,,,N,,,,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",STV,Stevia,Stevia rebaudiana,Artificial sweetener,,,SV,,,,Perennial,,,Leaves,,N,Seeds,Cuttings,en.wikipedia.org/wiki/Stevia_rebaudiana,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SUC,Sugarcane,Saccharum spp. ,Sugar,,,SC,Sugar,,C4,Perennial,,,Stem,,N,Stem cutting,,https://en.wikipedia.org/wiki/Sugarcane,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SUN,Sunflower,Helianthus annuus ,Oil seed,,,SU,Sunflower,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Common_sunflower,Oil crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SWC,Sweet corn,Zea mays,Vegetable,,,SW,,,C4,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Sweet_corn,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SWG,Switch grass,Panicum virgatum,Bioenergy,Forage,,SI,Switchgrass,,C3,Perennial,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Panicum_virgatum,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",SWP,Sweet potato,Ipomoea batata,Root crop,,,SP,Sweetpotato,Sweet potato ,C3,Annual,,,Root,Date,N,Stem cutting,"Root cutting, slips",https://en.wikipedia.org/wiki/Sweet_potato,Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TAN,Tanier,Xanthosoma spp,Tuber crop,,"Also known as cocoyam, tannier, malanga, yautia, dasheen, etc.",TN,Tanier,,C3,Annual,,,Corm,,N,Corm pieces,,en.wikipedia.org/wiki/Xanthosoma,Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TAR,Taro,Colocasia esculenta,Tuber crop,,,TR,Taro,,C3,Annual,,,Tuber,,N,Hulls,Tuber pieces,en.wikipedia.org/wiki/Taro,Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TBN,Tepary bean,Phaseolus acutifolius,Pulse,,,TB,Teparybean,,C3,Annual,,,Seed,,Y,Seed,,en.wikipedia.org/wiki/Phaseolus_acutifolius,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TEA,Tea,Camellia sinensis,Beverage,,,,,,C3,Perennial,,,Leaf,,N,,,https://en.wikipedia.org/wiki/Tea,Beverage,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TEF,Teff,Eragrostis tef,Cereal,Forage,Ethiopian small grain,TF,,,C4,Annual,,,Seed,,N,Seed,,en.wikipedia.org/wiki/Eragrostis_tef,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TFS,Tall fescue,Lolium arundinaceum ,Forage,,,TS,Tallfescue,,C3,Perennial,,,Shoot,,N,Seed,,en.wikipedia.org/wiki/Festuca_arundinacea,Forages,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TGR,Table grape,Vitis spp.,Fruit,,Various edible (non-wine) types,TG,Tablegrape,,C3,Perennial,,,Fruit,,N,Transplant,,en.wikipedia.org/wiki/Table_grape,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TNP,Turnip,Brassica rapa,Vegetable,,,,,,C3,Annual,,Y,Root,,N,Seed,,https://en.wikipedia.org/wiki/Turnip,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TOB,Tobacco,Nicotiana tabacum,Pharmaceutical,,,,,,C3,Perennial,,,Leaf,,N,Seed,,https://en.wikipedia.org/wiki/Tobacco,Various,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TOM,Tomato,Solanumn lycopersicum,Vegetable,,"Formerly ""Lycopersicon esculentum""",TM,Tomato,,C3,Annual,SD,,Fruit,,N,Seed,,en.wikipedia.org/wiki/Tomato,Vegetables,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",TRT,Triticale,x Triticosecale ,"Cereal, forage",,,TL,Triticale,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Triticale,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",VBN,Velvet bean,Mucuna pruriens,Green manure,,Mucuna,VB,Velvetbean,Mucuna,C3,Annual,,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Mucuna_pruriens,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",VIN,Wine grape,Vitis spp.,Fruit,,,VI,Vine,,C3,Perennial,,,Fruit,,N,Transplant,,https://en.wikipedia.org/wiki/Vitis_vinifera,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",VMG,Black gram,Vigna mungo,Pulse,,"Various small-seeded legumes of S Asia including urad bean, ulundu",VM,,,C3,Annual,SD,,Seed,,Y,Seed,,https://en.wikipedia.org/wiki/Vigna_mungo,Legumes,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WHB,Bread wheat,Triticum aestivum,Cereal,,"Bread, pastries",WH,Wheat,Wheat,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Common_wheat,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WHD,Durum wheat,Triticum turgidum durum,Cereal,,Pasta,WH,Wheat,Wheat,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Durum_wheat,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WHT,Wheat,Triticum spp.,Cereal,Forage,All types,WH,,,C3,Annual,,,Seed,,N,Seed,,https://en.wikipedia.org/wiki/Wheat,Cereals,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WIL,Willow,Salix spp.,Bioenergy,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Willow,Sugar/Energy,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WML,Watermelon,Citrullus lanatus,Fruit,,,,,,C3,Annual,,,Fruit,,N,Seed,,https://en.wikipedia.org/wiki/Watermelon,Fruit crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WNB,Black walnut,Juglans nigra,Nut,,,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Juglans_nigra,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",WNT,Walnut,Juglans regia,Nut,,English or Persian ,,,,C3,Perennial,,,Seed,,N,,,https://en.wikipedia.org/wiki/Walnut,Nut,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",YAM,Yam,Dioscorea spp.,Tuber crop,,"""Yam"" is often applied to sweet potato",,,,C3,Annual,,,Tuber,,N,,,https://en.wikipedia.org/wiki/Yam_(vegetable),Root Crops,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ZZ1,Cereal-unknown or mixture,NA,Cereal,,,,,,,,,,,,,,,,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ZZ2,Legume-unknown or mixture,NA,Legume,,,,,,,,,,,,,,,,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ZZ3,Grass-unknown or mixture,NA,NA,,,,,,,,,,,,,,,,,crop_id;residue_nature_prev_crop
+"CRID, ICPCR",ZZ4,Cover crop-unknown or mixture,NA,Cover crop,,,,,,,,,,,,,,,,,crop_id;residue_nature_prev_crop
+,,,,,,,FC,,,,,,,,,,,,,,
+,,[Sequence],,,,,SQ,,,,,,,,,,,,,,
+,,[Seasonal],,,,,SN,,,,,,,,,,,,,,
+,,,,,,,GS,,,,,,,,,,,,,,

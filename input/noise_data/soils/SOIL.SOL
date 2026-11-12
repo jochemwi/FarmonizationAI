@@ -1,0 +1,11 @@
+*IB00000009  IBSNAT      SL       60 DEFAULT - SHALLOW SANDY LOAM
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ Generic     Generic           -99    -99  Generic
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+   -99  0.13   6.0  0.40  74.0  1.00  1.00 IB001 IB001 IB001
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+     5   -99 0.052 0.176 0.359 1.000   -99  1.61  0.70  10.0  30.0   0.0 0.070   6.5   -99   -99   -99
+    15   -99 0.052 0.176 0.359 1.000   -99  1.61  0.70  10.0  30.0   0.0 0.070   6.5   -99   -99   -99
+    30   -99 0.052 0.176 0.359 0.638   -99  1.61  0.66  10.0  30.0   0.0 0.070   6.5   -99   -99   -99
+    45   -99 0.073 0.192 0.360 0.472   -99  1.61  0.58  10.0  30.0   0.0 0.060   6.5   -99   -99   -99
+    60   -99 0.073 0.192 0.360 0.350   -99  1.61  0.58  10.0  30.0   0.0 0.060   6.5   -99   -99   -99
