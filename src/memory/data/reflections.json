@@ -1040,5 +1040,199 @@
       "aggregation_mapping"
     ],
     "status": "active"
+  },
+  {
+    "id": "r062",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "UYFAD alias can suppress fresh tuber rows",
+    "situation": "Observed UYFAD and UYAD source values did not appear under the fresh-tuber target.",
+    "what_happened": "The observed-field exclusion and source-count audit exposed an erroneous UYFAD-to-UYAD alias; restoring the canonical UYFAD target recovered 15 additional dated rows and missing values on existing rows.",
+    "lesson": "Resolve aliases against the exact target Code_Display before excluding an observed source field.",
+    "outcome": "success",
+    "keywords": [
+      "UYFAD",
+      "UYAD",
+      "tuber_fresh_weight"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r063",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Recover fractional serials from date-formatted numeric cells",
+    "situation": "Numeric biomass and nitrogen cells were formatted as Excel dates.",
+    "what_happened": "A source-format audit found 102 nonmidnight datetimes. The initial extraction had retained only their calendar dates; preserving full datetime values and converting them to Excel serials recovered the fractional numeric values.",
+    "lesson": "When a numeric measurement is date-formatted, recover its complete Excel serial including the fractional day rather than truncating to the date.",
+    "outcome": "success",
+    "keywords": [
+      "Excel_serial",
+      "fractional_day",
+      "date_formatted_numeric"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r064",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Apply fertilizer oxide conversions only on stated oxide basis",
+    "situation": "SYN10 fertilizer source units explicitly reported P2O5 and K2O.",
+    "what_happened": "The final unit audit found that these had initially been loaded as elemental amounts. Applying atomic-mass factors to only those oxide-labeled columns corrected P and K while leaving explicitly elemental columns unchanged.",
+    "lesson": "Inspect each source unit for P2O5 or K2O before mapping FEAMP or FEAMK to elemental nutrients.",
+    "outcome": "success",
+    "keywords": [
+      "FEAMP",
+      "FEAMK",
+      "P2O5",
+      "K2O"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r065",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Coalesce irrigation copies across ownership-linked exports",
+    "situation": "Primary workbooks and PULU0801 repeated identical 40 mm applications under the same canonical contexts and dates.",
+    "what_happened": "The source overlap audit showed that additive event consolidation had doubled repeated export amounts. The build now coalesces cross-workbook copies while retaining their provenance.",
+    "lesson": "Establish whether same-key applications are duplicate exports or distinct additive records before summing amounts.",
+    "outcome": "success",
+    "keywords": [
+      "Irrigation_events",
+      "irrig_amount_depth",
+      "duplicate_exports",
+      "ownership"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r066",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Hidden workbook soil inventory can describe another experiment",
+    "situation": "The Soils sheet inside SYN07.xlsx explicitly identified profile SOIL06.",
+    "what_happened": "The observed-field completeness audit found its populated properties were excluded. Loading the sheet under its stated profile identity restored field observations and selected the four-layer SOIL06 configuration without dropping the alternative SOL observations.",
+    "lesson": "Use the explicit profile ID inside a workbook soil sheet rather than inferring ownership from the workbook filename.",
+    "outcome": "success",
+    "keywords": [
+      "SOIL06",
+      "hidden_Soils_sheet",
+      "Soil_profile_layers"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r067",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Misplaced SYN09 layer ID must be repaired before intervals",
+    "situation": "SYN09 row52 carried context25 while completing the context16 layer block.",
+    "what_happened": "The official validator exposed a 90-to-20 cm reversed interval. Restoring row52 to context16 using adjacent bases and its temperature-interval comment preserved all 100 unique initial-layer rows.",
+    "lesson": "Resolve a misplaced source layer-context ID before calculating successive top boundaries.",
+    "outcome": "success",
+    "keywords": [
+      "SYN09_row52",
+      "initial_conditions_layer",
+      "reversed_interval"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r068",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Calendar conflicts need corroboration rather than row omission",
+    "situation": "Several source emergence, January measurement and harvest dates contradicted linked crop seasons.",
+    "what_happened": "Official temporal checks identified the conflicts. Adjacent growth-series dates, final samples and the explicit calendar register supported specific day-month, year-rollover and harvest corrections; original evidence remained documented.",
+    "lesson": "Repair a conflicting crop date only from corroborating source timing and retain the original date evidence instead of dropping the observation.",
+    "outcome": "success",
+    "keywords": [
+      "emergence_date",
+      "January_year_rollover",
+      "harvest_operations_date"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r069",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Soil depth is reference-backed configuration data",
+    "situation": "A numeric soil depth was initially written directly in Soil_profiles.",
+    "what_happened": "The official validator rejected the value because Storage declared an observation reference. The build now stores depth in shared soil observations and writes a complete profile selection reference.",
+    "lesson": "Inspect Storage before writing even apparently simple configuration properties such as soil depth.",
+    "outcome": "success",
+    "keywords": [
+      "Soil_profiles",
+      "soil_depth",
+      "Storage",
+      "observation_reference"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r070",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Soil texture uses the field-specific canonical code",
+    "situation": "The hidden soil inventory used DSSAT texture abbreviation L.",
+    "what_happened": "The official validator rejected both the raw abbreviation and the description Loam. Other_codes.csv explicitly mapped DSSAT L to canonical LO, which passed.",
+    "lesson": "Use the field-specific vocabulary code, not a similarly named list or the category description.",
+    "outcome": "success",
+    "keywords": [
+      "SLTX",
+      "soil_texture",
+      "DSSAT_L",
+      "canonical_LO"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r071",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Proposed Dictionary ontology identifiers require explanation",
+    "situation": "Source-supported harvest variables were proposed to preserve organ and harvest scope.",
+    "what_happened": "The official Dictionary validator required ai_comments for the proposed ontology identifiers. Adding explicit package-local proposal explanations corrected the metadata without changing measurements.",
+    "lesson": "Explain every package-local proposed ontology identifier in Dictionary ai_comments.",
+    "outcome": "success",
+    "keywords": [
+      "ontology_link_requires_comments",
+      "Dictionary_ai_comments",
+      "proposed_identifier"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r072",
+    "created": "2026-11-12",
+    "provenance": "reflection",
+    "run_id": "d97ccc18cd7c0fb16da4335690705255",
+    "title": "Weather_monthly can be completed from compatible daily source measurements",
+    "situation": "Weather_monthly remained header-only because no workbook comments or weather files directly reported monthly records.",
+    "what_happened": "The follow-up source review compared the exact monthly target definitions with real daily measurements. Complete calendar-day groups supported 432 station-month rows containing mean SRAD, mean TMAX, mean TMIN and total RAIN. Dictionary and row comments explicitly label the values as derived, and the official validator passed.",
+    "lesson": "Before leaving a summary table empty, check whether complete real source measurements support its exact declared aggregation, while clearly distinguishing derived summaries from directly reported observations.",
+    "outcome": "success",
+    "keywords": [
+      "Weather_monthly",
+      "SAMN",
+      "XAMN",
+      "NAMN",
+      "RTOT",
+      "complete_calendar_month"
+    ],
+    "status": "active"
   }
 ]
