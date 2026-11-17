@@ -25,3 +25,5 @@ runs/
 scripts/
 src/memory/data/
 src/memory/data/chroma/
+
+observability/
