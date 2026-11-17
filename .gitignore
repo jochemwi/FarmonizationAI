@@ -24,3 +24,4 @@ data/synthetic_messy.xlsx
 runs/
 scripts/
 src/memory/data/
+src/memory/data/chroma/
