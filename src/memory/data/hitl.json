@@ -3822,21 +3822,21 @@
     "provenance": "HITL",
     "schema_bindings": [],
     "kind": "other",
-    "title": "SYN10 NY station retains metadata ID with NYCU alias",
-    "when_to_use": "Link SYN10 context 25 to W10N.WTH station NYCU",
+    "title": "Associate NYCU weather with explicit NY station",
+    "when_to_use": "SYN10 context 25 linked to W10N.WTH New York documentation counterpart",
     "keywords": [
+      "NY",
       "NYCU",
-      "W10N",
-      "station_alias"
+      "W10N"
     ],
-    "correction": "Retain NY, attach W10N.WTH observations, treat NYCU as an alias in comments, and use metadata coordinates 42.4,-76.5.",
-    "rationale": "The file covers only 1980, matching this context; longitude 97.00 does not fit New York.",
-    "limits": "This answer applies to SYN10 context 25 and W10N.WTH.",
-    "user_answer": "Retain NY as the station ID, as SYN10 context 25 states it, and attach the W10N.WTH observations to it. NYCU is the weather file\u2019s own name for the station (the file is titled as the New York documentation counterpart NYCU8001) and it covers only 1980, which matches this context. Treat NYCU as an alias and record it in the comments. Use the SYN10 metadata coordinates (latitude 42.4, longitude -76.5), and keep the file header\u2019s coordinates (42.70, 97.00) in the comments as an unverified conflict, since a longitude of 97.00 does not fit New York.",
+    "correction": "Retain NY as station ID and associate the NYCU weather records from W10N.WTH with it. Use SYN10 metadata coordinates latitude 42.4 and longitude -76.5. Keep NYCU and header coordinates 42.70, 97.00 in comments as an unverified recorded conflict.",
+    "rationale": "The file is titled as the New York documentation counterpart NYCU8001, covers only 1980, and matches the context\u2019s 1980-05-19 planting date. Header longitude 97.00 does not fit New York.",
+    "limits": "This decision applies to SYN10 context 25 and W10N.WTH.",
+    "user_answer": "Retain NY as the station ID, as SYN10 context 25 states it, and associate the NYCU weather records from W10N.WTH with it. The file is titled as the New York documentation counterpart NYCU8001, it covers only 1980, and that matches the context\u2019s 1980-05-19 planting date, so the weather belongs to this context. Use the SYN10 metadata coordinates (latitude 42.4, longitude -76.5) for the station, because the longitude of 97.00 in the weather file\u2019s header does not fit New York. Keep the declared station name NYCU and its header coordinates (42.70, 97.00) in the comments as a recorded conflict, and do not treat them as verified.",
     "priority": "must",
     "trigger": "other",
-    "source_context": "experiments/SYN10.xlsx metadata context 25: wst_id=NY; weather/W10N.WTH INSI=NYCU (file title NYCU8001).",
-    "agent_proposal": "Preferred: retain NY from experiment metadata, treating NYCU as the weather-file alias and documenting it. Alternative: use NYCU only if you confirm the metadata identifier should be corrected.",
+    "source_context": "experiments/SYN10.xlsx Sheet Field-mgmt row 27: wst_id=NY, latitude=42.4, longitude=-76.5; weather/W10N.WTH internal station line: NYCU 42.70 97.00 50.",
+    "agent_proposal": "Prefer keeping the explicit NY treatment ID with source metadata only unless you confirm that NYCU weather is intended for this context; both station identity and longitude differ.",
     "status": "active"
   },
   {
