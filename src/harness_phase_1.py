@@ -10,8 +10,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from langchain.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage, ToolMessage
-from langchain_core.runnables import RunnableConfig
+from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
 from langfuse.langchain import CallbackHandler
 from langgraph.checkpoint.memory import InMemorySaver
@@ -31,19 +30,15 @@ tools = [bash, ask_human] #append when more tools get made
 tools_by_name = {t.name: t for t in tools}
 model_with_tools = configurable_model.bind_tools(tools)
 
-# Finisher (fresh agent, bash only: no ask_human, because interrupt() inside a node would re-run the node on resume)
-finisher_model = configurable_model.bind_tools([bash])
-MAX_FINISHER_ROUNDS = 2
-MAX_FINISHER_STEPS = 40
-
+# Validator rounds: how many times the agent may be sent back to work after validation fails
+MAX_VAL_ROUNDS = 3
 
 # State
 class MessagesState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
     validation: dict
-    finisher_rounds: int
-
+    validation_rounds: int
 
 # Nodes
 def llm_call(state: MessagesState):
@@ -108,12 +103,12 @@ def validate_node(state: MessagesState):
     directory = Path(SUBMISSION_DIR)
     present = len(list(directory.glob("*.csv"))) if directory.is_dir() else 0
     proc = subprocess.run(
-        [sys.executable, FILL_API, "--validate-package", SUBMISSION_DIR, "--complete"],
+        [sys.executable, FILL_API, "--validate-package", SUBMISSION_DIR, "--complete", "--final"],
         capture_output=True, text=True,
         env={**os.environ, "PYTHONPATH": str(Path(FILL_API).parents[1])},
     )
     stderr_lines = proc.stderr.strip().splitlines()
-    return {"validation": {
+    v = {
         "status": "valid" if proc.returncode == 0 else "invalid",
         "exit_code": proc.returncode,
         "tables_present": f"{present}/35",
@@ -121,55 +116,36 @@ def validate_node(state: MessagesState):
         "error": stderr_lines[-1] if stderr_lines else "",
         "message": proc.stderr[-2000:],
         "empty_tables": empty_tables(),
-    }}
-
-
-def finisher_node(state: MessagesState, config: RunnableConfig):
-    # fresh agent: own short context, continues from the existing build.py and output
-    rounds = state.get("finisher_rounds", 0) + 1
-    v = state["validation"]
-    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
-    task = HumanMessage(content=f"""An earlier agent worked on the task described in /app/input/README.md but did not finish. Finish it.
-
-Its work is in /app/workspace (for example build.py) and /app/output/submission. Reuse and extend it. Do not rebuild what already works.
-
-Current official validator result: {v.get('status')}
-Last validator output:
-{v.get('message')}
-Tables with a header but no data rows: {v.get('empty_tables')}
-
-Do the following:
-1. Run the official validator yourself to see the full list of errors:
-      PYTHONPATH=/app/data/target python /app/data/target/harmonization_template/fill_api.py --validate-package /app/output/submission --complete --final
-2. For every empty table, check the source data in /app/input (all workbooks, soil files and weather files) for matching data. If there is matching source data, build the table from it. If there is none, leave it empty.
-3. Reference errors (an ID used in one table but not defined in another) are fixed by building the table that defines the ID from the source data. Never fix them by deleting rows or inventing placeholder rows.
-4. Never delete or skip source rows just to make the validator pass.
-5. Run the official validator after your last change and fix every error before you finish. Do not write your own validation script.
-6. Never call bash with an empty command.
-When done, reply with a short summary of what you fixed and what is still wrong.""")
-    messages = [task]
-    final_text = ""
-    steps = 0
-    stop_reason = "step cap reached"
-    for _ in range(MAX_FINISHER_STEPS):
-        response = finisher_model.invoke([system] + messages, config=config)
-        steps += 1
-        messages.append(response)
-        final_text = response.content if isinstance(response.content, str) else "".join(b.get("text", "") for b in response.content if isinstance(b, dict))
-        if not response.tool_calls:
-            stop_reason = "model finished" if final_text.strip() else "model returned an empty reply"
-            break
-        for tool_call in response.tool_calls:
-            try:
-                observation = bash.invoke(tool_call["args"])
-            except Exception as e:
-                observation = f"Tool call failed: {e}. Fix the arguments and call the tool again."
-            messages.append(ToolMessage(content=observation, tool_call_id=tool_call["id"]))
-    return {
-        "messages": [AIMessage(content=f"[finisher round {rounds}] steps={steps}/{MAX_FINISHER_STEPS}, stop={stop_reason}. {final_text}")],
-        "finisher_rounds": rounds,
     }
+    rounds = state.get("validation_rounds", 0) + 1
+    # valid package; empty tables get one review nudge (rounds == 1), after that they count as reviewed
+    done = v["status"] == "valid" and (not v["empty_tables"] or rounds > 1)
+    v["done"] = done
+    if done and v["empty_tables"]:
+        v["outcome"] = "done_empty_tables_reviewed"
+    elif done:
+        v["outcome"] = "done"
+    elif rounds > MAX_VAL_ROUNDS:
+        v["outcome"] = "cap_reached"
+    else:
+        v["outcome"] = "nudged"
+    update = {"validation": v, "validation_rounds": rounds}
+    if not done and rounds <= MAX_VAL_ROUNDS:
+        update["messages"] = [HumanMessage(content=f"""You stopped, but the package is not confirmed complete yet. The official validator result is: {v['status']}.
 
+Validator output:
+{v['message']}
+
+Tables with a header but no data rows: {v['empty_tables']}
+
+- For every empty table, check the source data in /app/input for matching data, including the cell comments of every workbook, not only the cell values. If there is matching source data, build the table from it. If there is none, leave it empty and list the table, the workbook, the cell and the comment text you checked in /app/workspace/empty_table_review.md.
+- Fix reference errors (an ID used in one table but not defined in another) by building the table that defines the ID from the source data. Never fix them by deleting rows or inventing placeholder rows.
+- If the validator rejects parent records that no plot-season context uses, fix it by building the missing plot-season context from the source data. Never fix it by deleting the parent records.
+- Never delete or skip source rows just to make the validator pass.
+- After your last change, run the official validator and fix every error before you finish:
+  PYTHONPATH=/app/data/target python /app/data/target/harmonization_template/fill_api.py --validate-package /app/output/submission --complete --final
+- Never call bash with an empty command.""")]
+    return update
 
 def should_continue(state: MessagesState) -> Literal["tool_node", "ask_node", "validate_node"]:
     tool_calls = state["messages"][-1].tool_calls
@@ -180,13 +156,13 @@ def should_continue(state: MessagesState) -> Literal["tool_node", "ask_node", "v
     return "validate_node"
 
 
-def after_validate(state: MessagesState) -> Literal["finisher_node", "__end__"]:
-    if state.get("finisher_rounds", 0) >= MAX_FINISHER_ROUNDS:
-        return END
+def after_validate(state: MessagesState) -> Literal["llm_call", "__end__"]:
     v = state["validation"]
-    if v["status"] == "valid" and not v["empty_tables"]:
+    if v["done"]:
         return END
-    return "finisher_node"
+    if state["validation_rounds"] > MAX_VAL_ROUNDS:
+        return END
+    return "llm_call"
 
 # Build graph
 agent_builder = StateGraph(MessagesState)
@@ -196,9 +172,7 @@ agent_builder.add_edge(START, "llm_call")
 agent_builder.add_edge("tool_node", "llm_call")
 agent_builder.add_node("validate_node", validate_node)
 agent_builder.add_node("ask_node", ask_node)
-agent_builder.add_node("finisher_node", finisher_node)
 agent_builder.add_edge("ask_node", "llm_call")
 agent_builder.add_conditional_edges("llm_call", should_continue, ["tool_node", "ask_node", "validate_node"])
-agent_builder.add_conditional_edges("validate_node", after_validate, ["finisher_node", END])
-agent_builder.add_edge("finisher_node", "validate_node")
+agent_builder.add_conditional_edges("validate_node", after_validate, ["llm_call", END])
 agent = agent_builder.compile(checkpointer=InMemorySaver())
