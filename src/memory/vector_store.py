@@ -1,19 +1,52 @@
-"""Embedding calls (OpenAI via LangChain) and the Chroma client."""
+"""Local embeddings (sentence-transformers) and the Chroma client."""
+import os
+from functools import lru_cache
 from pathlib import Path
 
 import chromadb
-from langchain_openai import OpenAIEmbeddings
 
-EMBED_MODEL = "text-embedding-3-small"
+from src.memory.embeddings import entry_hash
+
+EMBED_MODEL = os.getenv("EMBEDDING_MODEL") or "avsolatorio/GIST-all-MiniLM-L6-v2"
 CHROMA_DIR = Path(__file__).parent / "data" / "chroma"
 
 
+@lru_cache(maxsize=1)
+def _model():
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer(EMBED_MODEL)
+
+
 def embed(texts):
-    """Embed a list of texts; returns a list of vectors."""
-    return OpenAIEmbeddings(model=EMBED_MODEL).embed_documents(texts)
+    """Embed a list of texts locally; returns a list of vectors."""
+    return _model().encode(texts, normalize_embeddings=True).tolist()
 
 
 def get_client():
     """Persistent Chroma store inside the writable memory folder."""
     CHROMA_DIR.mkdir(parents=True, exist_ok=True)
     return chromadb.PersistentClient(path=str(CHROMA_DIR))
+
+
+def sync_collection(client, name, items, embed_fn=embed, model=EMBED_MODEL):
+    """items: {id: (text, metadata)}. Embeds only new or changed entries and removes stale ones.
+    Metadata values must be str, int, float or bool (no lists)."""
+    col = client.get_or_create_collection(name, metadata={"hnsw:space": "cosine"})
+    stored = col.get(include=["metadatas"])
+    stored_hash = {i: (m or {}).get("hash") for i, m in zip(stored["ids"], stored["metadatas"])}
+    new_hash = {i: entry_hash(text, model) for i, (text, _) in items.items()}
+
+    todo = [i for i, h in new_hash.items() if stored_hash.get(i) != h]
+    stale = [i for i in stored_hash if i not in items]
+
+    if stale:
+        col.delete(ids=stale)
+    if todo:
+        texts = [items[i][0] for i in todo]
+        col.upsert(
+            ids=todo,
+            embeddings=embed_fn(texts),
+            documents=texts,
+            metadatas=[{**items[i][1], "hash": new_hash[i]} for i in todo],
+        )
+    return {"embedded": len(todo), "removed": len(stale), "unchanged": len(items) - len(todo)}

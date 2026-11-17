@@ -1234,5 +1234,597 @@
       "complete_calendar_month"
     ],
     "status": "active"
+  },
+  {
+    "id": "r073",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Source blanks must not overwrite an ownership-linked cultivar",
+    "situation": "SYN08:4 legacy planting row had a blank cultivar despite populated canonical data.",
+    "what_happened": "The first build stopped on a missing genotype; merging only populated ownership-linked fields restored it.",
+    "lesson": "Merge populated fields across source-linked rows without letting auxiliary blanks erase source identifiers.",
+    "outcome": "success",
+    "keywords": [
+      "CUL_ID",
+      "SYN08:4",
+      "ownership_merge"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r074",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Excel date-formatted nitrogen can extend beyond 1900",
+    "situation": "Numeric UNAM cells had Excel date formatting, including 1901 values.",
+    "what_happened": "The numeric parser failed on a 1901 timestamp; it now recovers the serial number only in numeric fields.",
+    "lesson": "Interpret Excel cell formatting using the field definition, not an arbitrary cutoff year.",
+    "outcome": "success",
+    "keywords": [
+      "UNAM",
+      "Excel_serial",
+      "numeric_date_format"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r075",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Field-specific SLTX vocabulary differs from general texture vocabulary",
+    "situation": "Source L meant loam, but both L and Loam were rejected.",
+    "what_happened": "Official field code options showed SLTX requires LO; the build now uses LO with the original code preserved.",
+    "lesson": "Use the vocabulary bound to the exact field rather than a similarly named standalone code list.",
+    "outcome": "success",
+    "keywords": [
+      "SLTX",
+      "LO",
+      "field_specific_codes"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r076",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Normalize numeric observation keys before consolidation",
+    "situation": "Soil layer boundaries appeared as 15 and 15.0.",
+    "what_happened": "The official validator found duplicate logical keys; normalizing numeric key components merged the records without losing properties.",
+    "lesson": "Normalize numeric primary-key representations before observation consolidation.",
+    "outcome": "success",
+    "keywords": [
+      "Soil_layer_observations_summary",
+      "numeric_key",
+      "duplicate_logical_key"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r077",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "ID-only irrigation rows are not application events",
+    "situation": "Irrigation sections contained a no-irrigation sentence and an entirely blank payload under an ID.",
+    "what_happened": "The official validator rejected their event timing; declarations and unknown status were retained at treatment level instead.",
+    "lesson": "Classify non-event section rows by their payload and preserve their evidence without inventing event dates.",
+    "outcome": "success",
+    "keywords": [
+      "Irrigation_events",
+      "blank_payload",
+      "no_irrigation_statement"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r078",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Dated soil analysis is not an initial-state layer",
+    "situation": "One shifted-header laboratory record was parsed under an initial-layer section.",
+    "what_happened": "The source count audit found 101 initial layers instead of 100; requiring actual state variables routed the laboratory record only to dated observations.",
+    "lesson": "Classify initial-state layers by reported state fields, not section position alone.",
+    "outcome": "success",
+    "keywords": [
+      "Initial_conditions_layer",
+      "SADAT",
+      "analysis_routing"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r079",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Corroborate harvest date with summary and final sample",
+    "situation": "SYN10 context13 management harvest was October27, while summary and final sample both said November2.",
+    "what_happened": "The official season check exposed the mismatch; November2 was selected with the original date retained.",
+    "lesson": "Resolve a conflicting harvest endpoint from multiple source correspondences instead of dropping later measurements.",
+    "outcome": "success",
+    "keywords": [
+      "SYN10:13",
+      "harvest_operations_date",
+      "season_bounds"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r080",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Fresh-tuber endpoint needs corroborated source selection",
+    "situation": "SYN08 context4 had competing final values1.73 and17.3 Mg/ha.",
+    "what_happened": "The count/evidence audit found first-source selection was wrong; the PULU endpoint, summary and protocol corroborated17.3.",
+    "lesson": "Select the corroborated competing endpoint without rescaling the unresolved earlier curve.",
+    "outcome": "success",
+    "keywords": [
+      "SYN08:4",
+      "tuber_fresh_weight",
+      "endpoint_selection"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r081",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Equal nutrient amounts can be additive across materials",
+    "situation": "The consolidation branch summed amounts only when values differed.",
+    "what_happened": "The management-grain audit exposed this logic gap; equal amounts from distinct material records are now summed, with exact duplicate records retained separately as evidence.",
+    "lesson": "Test additive consolidation before equality-based coalescing for distinct source material records.",
+    "outcome": "success",
+    "keywords": [
+      "Fertilization_events",
+      "additive_amounts",
+      "equal_values"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r082",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "CIMO counterpart comments change yield-basis interpretation",
+    "situation": "SYN02 contexts1 and4 reported27 and20.1 under dry kg/ha labels.",
+    "what_happened": "The source-comment unit audit linked them to CIMO documentation and a retained human correction; they are now fresh27000 and20100 kg/ha, without derived dry mass.",
+    "lesson": "Apply a counterpart-based yield correction only to explicitly linked source records and preserve the incorrect original basis.",
+    "outcome": "success",
+    "keywords": [
+      "CIMO0201",
+      "UWAH",
+      "fresh_t_ha"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r083",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Preserve explicit annual management register IDs",
+    "situation": "The first build generated DITY_IRRIGATION and DITY_FERTILIZER identifiers.",
+    "what_happened": "The final identity audit found explicit DITY_IRR and DITY_FERT register names in documentation; source IDs and all links were restored.",
+    "lesson": "Search documentation for explicit management-register identifiers before generating technical IDs.",
+    "outcome": "success",
+    "keywords": [
+      "DITY_IRR_1981",
+      "DITY_FERT_1981",
+      "register_identity"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r084",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Organic annual block ID need not match fertilizer block year",
+    "situation": "DITY organic row1 carried a1982 date and explicit DITY_ORG_1982 register.",
+    "what_happened": "The final source scope audit found a generic block1\u21921981 mapping was wrong for manure; all five1982 cultivars now share the1982 organic register.",
+    "lesson": "Determine each management category\u2019s shared scope independently from its dated register evidence.",
+    "outcome": "success",
+    "keywords": [
+      "DITY_ORG_1982",
+      "organic_scope",
+      "annual_block"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r085",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Daily crop definitions can override a borrowed harvest code",
+    "situation": "A growth-series section used UYAFH but defined daily tuber fresh weight.",
+    "what_happened": "The field-definition audit corrected the mapping to UYFAD while retaining the source label and unit conversion.",
+    "lesson": "Map physical meaning and observation timing rather than relying solely on the source code label.",
+    "outcome": "success",
+    "keywords": [
+      "UYAFH",
+      "UYFAD",
+      "daily_tuber_fresh_weight"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r086",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Comment protocols need coverage beyond dated event patterns",
+    "situation": "The first comment parser missed explicit CO2 target syntax and field water-deficit rules.",
+    "what_happened": "The completeness audit restored the600ppm chamber and550ppm FACE treatments plus four deficit protocols using a proposed20mm threshold field.",
+    "lesson": "Audit comment variables independently of parser patterns, preserving absolute targets and deficit units.",
+    "outcome": "success",
+    "keywords": [
+      "CO2_target",
+      "autoirrig_soil_water_deficit_threshold",
+      "comment_protocol"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r087",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "1963574021b51ebd4193c6ff116ff8da",
+    "title": "Plot-season provenance needs actual source locations",
+    "situation": "Plot_seasons had 100 correct rows and links but its provenance text named only canonical contexts.",
+    "what_happened": "The printed 35-table source audit exposed a blank source-file listing; source workbook locations were added and all count reports regenerated.",
+    "lesson": "Carry source file and row provenance into technical link tables so source-feed reports can identify their actual inputs.",
+    "outcome": "success",
+    "keywords": [
+      "Plot_seasons",
+      "source_provenance",
+      "source_feed_report"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r088",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Dictionary uses registered mapping statuses",
+    "situation": "The first official package check stopped in Dictionary.",
+    "what_happened": "The build used mapped, which is not a registered status; it was changed to confirmed where supported.",
+    "lesson": "Read Dictionary_mapping_status_codes.csv instead of inventing a success label.",
+    "outcome": "success",
+    "keywords": [
+      "Dictionary",
+      "invalid_mapping_status"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r089",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Proposed field displays need namespaced identifiers",
+    "situation": "The official Dictionary check rejected proposed fields.",
+    "what_happened": "Package-local target_code_display values were changed from bare names to FARMONIZER identifiers, retaining column names and definitions.",
+    "lesson": "Give every proposed field a namespaced target_code_display and explain its local identifier.",
+    "outcome": "success",
+    "keywords": [
+      "target_code_display",
+      "ontology_target_requires_term_identifier"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r090",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Unknown source units need explicit metadata",
+    "situation": "The official Dictionary check found blank source_unit values.",
+    "what_happened": "Unknown units were explicitly described as not stated in source; known weather and soil units were filled from the source format notes.",
+    "lesson": "Distinguish a genuinely unstated source unit from an accidentally omitted Dictionary unit.",
+    "outcome": "success",
+    "keywords": [
+      "source_unit",
+      "missing_dictionary_value"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r091",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Numeric Excel dates follow column semantics",
+    "situation": "The build stopped on numeric nitrogen cells formatted as dates.",
+    "what_happened": "Excel serials were recovered for explicitly numeric measurement fields, retaining displayed source values in comments.",
+    "lesson": "Determine numeric-versus-date meaning from the source field definition, not Excel display formatting.",
+    "outcome": "success",
+    "keywords": [
+      "Excel_serial",
+      "UNAM",
+      "numeric_date_format"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r092",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Irrigation code-amount transpositions are row specific",
+    "situation": "The build found IR004 under IRVAL in SYN04.",
+    "what_happened": "Rows with an operation code in the numeric amount cell and a numeric value in the code cell were repaired, with original pairs retained.",
+    "lesson": "Repair a transposition only when source headers and both cell types establish the exchange.",
+    "outcome": "success",
+    "keywords": [
+      "IRVAL",
+      "IROP",
+      "column_transposition"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r093",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Field-specific texture vocabularies differ",
+    "situation": "Official validation rejected both SL and descriptive Sandy loam for an observation texture.",
+    "what_happened": "Other_codes.csv provided the field-specific DSSAT crosswalk SL to SALO and S to SA.",
+    "lesson": "Use the vocabulary bound to the actual field, not another similarly named texture options file.",
+    "outcome": "success",
+    "keywords": [
+      "SLTX",
+      "Other_codes",
+      "SALO"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r094",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Source crop namespace differs from target crop codes",
+    "situation": "Official validation rejected previous-crop CO.",
+    "what_happened": "The source note defines CO as cotton; the canonical crosswalk changed CO to COT and PT to POT in direct crop fields.",
+    "lesson": "Apply the documented crop namespace crosswalk to both genotypes and previous-crop observations.",
+    "outcome": "success",
+    "keywords": [
+      "ICPCR",
+      "COT",
+      "POT"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r095",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Blank application lines are not dated events",
+    "situation": "Official validation found a no-irrigation sentence and an ID-only application row.",
+    "what_happened": "The source statements were retained in linked treatment records, without fabricated event dates or amounts.",
+    "lesson": "Separate treatment declarations from application records before forming event keys.",
+    "outcome": "success",
+    "keywords": [
+      "Irrigation_events",
+      "empty_event",
+      "irrig_applied"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r096",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Undefined fertilizer methods remain unknown",
+    "situation": "Official validation rejected AP010.",
+    "what_happened": "The raw code was retained in source comments and unresolved mapping metadata; date, depth and nutrient rates remained loaded.",
+    "lesson": "Do not manufacture a standardized application method for an undefined source code.",
+    "outcome": "success",
+    "keywords": [
+      "AP010",
+      "FEACD",
+      "undefined_method"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r097",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Environmental operations require vocabulary codes",
+    "situation": "Official validation rejected the word multiply.",
+    "what_happened": "Source operation words were mapped to registered M/A/S/R without altering factors, increments or replacements.",
+    "lesson": "Translate operation labels using the environmental operation vocabulary while preserving semantics.",
+    "outcome": "success",
+    "keywords": [
+      "ECRAD",
+      "ECCO2",
+      "operation_code"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r098",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "SYN09 layer52 identity requires source evidence",
+    "situation": "The official depth check exposed a 90-to20 interval.",
+    "what_happened": "The source sequence and interval comment supported a focused human decision assigning row52 to context16; all measurements were preserved.",
+    "lesson": "Do not let an identity error propagate into inferred layer boundaries; ask using the complete neighbouring sequences.",
+    "outcome": "success",
+    "keywords": [
+      "SYN09",
+      "row52",
+      "initial_layer_id"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r099",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Unknown measurement dates must not return through configuration dates",
+    "situation": "The completeness review traced an undated initial-state note.",
+    "what_happened": "Layer observations now use separately tracked observation dates rather than reusing a known configuration date.",
+    "lesson": "Track observation timing separately from configuration timing throughout the build.",
+    "outcome": "success",
+    "keywords": [
+      "Initial_conditions_layer",
+      "measurement_date",
+      "configuration_date"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r100",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Numbered soil states need layer expansion",
+    "situation": "Source-column coverage found NI1D through SW4D omitted by a crop-only parser.",
+    "what_happened": "The one real SYN06 sample was expanded to four source-supported intervals using NOSLD, NHSLD and SWLD.",
+    "lesson": "Audit unmapped numbered columns for their physical observation grain before treating them as crop series.",
+    "outcome": "success",
+    "keywords": [
+      "NI1D",
+      "NH4D",
+      "SWLD"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r101",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Bang headers can hold physical data",
+    "situation": "The source-column audit found populated !CYAD and anonymous irrigation columns.",
+    "what_happened": "Definition rows recovered tops fresh mass, irrigation amounts and operations, plot area and row counts; simulation-only dates stayed excluded.",
+    "lesson": "Use definitions and reported values to interpret physical columns even when their headers start with an exclamation mark.",
+    "outcome": "success",
+    "keywords": [
+      "CYAD",
+      "IRVAL",
+      "bang_header"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r102",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "DITY annual IDs are not plot IDs",
+    "situation": "The source-count review showed far too few cultivar management applications.",
+    "what_happened": "Exact prior annual-scope decisions expanded14 irrigations to70,4 fertilizer records to20 and manure to five1982 cultivars.",
+    "lesson": "Determine block-local management scope before joining annual log IDs to plot metadata IDs.",
+    "outcome": "success",
+    "keywords": [
+      "DITY8101",
+      "annual_scope",
+      "management_ID"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r103",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Fertilizer consolidation needs source identity",
+    "situation": "The overlap review found material codes lost and cross-file alternative amounts at risk of addition.",
+    "what_happened": "Within-workbook additive records are summed at declared keys; cross-file copies are selected as alternatives, and material codes are retained as a list.",
+    "lesson": "Distinguish multiple source applications from corroborating workbook copies before consolidating nutrients.",
+    "outcome": "success",
+    "keywords": [
+      "fertilizer_material_codes",
+      "FECD",
+      "same_key_consolidation"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r104",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Rainfed comments must populate treatment links",
+    "situation": "The source-link audit found explicit rainfed contexts with blank irrigation links.",
+    "what_happened": "Rainfed comments now create linked N treatment records, while absence of entries alone maps to U, with no invented event.",
+    "lesson": "Use explicit comment declarations for treatment status without inferring rainfed status from missing event entries.",
+    "outcome": "success",
+    "keywords": [
+      "irrigation_treatment_id",
+      "rainfed_comment",
+      "IRRIG"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r105",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "All CIMO counterpart comments determine basis scope",
+    "situation": "The final source review found three CIMO-linked dry-labelled values, not only the first two flagged previously.",
+    "what_happened": "Contexts1,4,7 values27,20.1,34.2 were mapped to fresh27000,20100,34200kg/ha using source counterpart notes and h017, without invented dry mass.",
+    "lesson": "Scan every counterpart comment before limiting a source-supported mass-basis correction.",
+    "outcome": "success",
+    "keywords": [
+      "CIMO0201",
+      "UWAH",
+      "context7"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r106",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Excluded observations keep original dates",
+    "situation": "The official season check flagged a SYN09 row dated after harvest.",
+    "what_happened": "Inspection showed only excluded unitless HIAD; human clarification retained its raw date in Dictionary and prohibited an empty observation row.",
+    "lesson": "Apply date repairs only to eligible loaded observations, never to raw excluded evidence.",
+    "outcome": "success",
+    "keywords": [
+      "HIAD",
+      "row255",
+      "excluded_date"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "r107",
+    "created": "2026-11-17",
+    "provenance": "reflection",
+    "run_id": "7ae9478a64708857abd5d08e2e9d6d28",
+    "title": "Baseline and supplemental station overlaps need explicit alternatives",
+    "situation": "The conflict report showed9132 repeated weather keys with differing temperatures.",
+    "what_happened": "Baseline values were selected at identical station/date keys and supplemental alternatives retained in row comments, without duplicate rows or erased source evidence.",
+    "lesson": "Document source selection and retain alternatives when daily station files overlap at the same physical key.",
+    "outcome": "success",
+    "keywords": [
+      "Weather_daily",
+      "station_date_overlap",
+      "source_alternative"
+    ],
+    "status": "active"
   }
 ]
