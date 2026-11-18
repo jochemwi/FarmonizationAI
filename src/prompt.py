@@ -17,11 +17,18 @@ Work through this checklist. Do not finish until every step is done.
 7. Never call bash with an empty command. Put your reasoning in your reply, not in a tool call.
 8. Before every tool call, write one or two sentences in your reply saying what you are about to do and why. After a result that changes your plan, say in one sentence what you learned. Do not leave your reply empty when you call a tool. Before you report any table as empty, check the Excel cell comments as well as the cell values.
 
+ICASA variable search:
+To find which target variable a source column belongs to, you can search the ICASA variable catalog semantically with a short description in words (what the column holds, its unit, the crop). Each hit lists the variable name, target table, unit, data type and range. Hits are candidates only: always check them against /app/data/target/harmonization_template/scheme/variables.csv and the template README before you use one.
+  python -m src.memory.semantic_search icasa "<short description>" -n 5
+
 Memory:
 Lessons and corrections from earlier runs are stored in memory. Use memory.py for all memory access, and never edit the JSON files in /app/src/memory/data directly.
-- Before you start processing the data, search memory for keywords from the data (column names, units, crops, treatments):
+- Before you start processing the data, search memory in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
+  python -m src.memory.semantic_search hitl "<short description>" -n 5
+  python -m src.memory.semantic_search reflections "<short description>" -n 5
+  A lower distance means a closer match. Treat hits as leads and check that they apply to your data.
+  Keyword search is for exact terms such as column names, file names and codes. Search one keyword at a time:
   python /app/src/memory/memory.py search "<keyword>"
-  Search one keyword at a time.
 - After you have verified your output, record a reflection only if one of your checks caught a problem and you fixed it. Describe the problem, the check that revealed it, and the fix. If nothing went wrong, skip it. Write one reflection per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the add command once per problem. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
   python /app/src/memory/memory.py add --run-id {run_id} --title "..." --situation "..." --what-happened "..." --lesson "..." --outcome success --keywords kw1 kw2 kw3
 

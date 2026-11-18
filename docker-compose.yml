@@ -26,6 +26,8 @@ services:
       - ./tests:/app/tests:ro
     tmpfs:
       - /app/runs # hide archived runs
+      - /app/observability # hide trace analysis
+      - /app/VibeCoded # hide vibe-coded scripts
 
   proxy:
     build: ./proxy
