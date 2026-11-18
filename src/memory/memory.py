@@ -1,169 +1,182 @@
-"""Persistent memory helper: HITL corrections and reflections (JSON files)."""
+"""Persistent memory helper: the playbook (one JSON file) and the agent's proposal queue."""
+import argparse
 import json
 import os
 import tempfile
-from pathlib import Path
 from datetime import date
-import argparse
+from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / "data"
-FILES = {
-    "hitl": DATA_DIR / "hitl.json",
-    "reflection": DATA_DIR / "reflections.json",
-}
+PLAYBOOK = DATA_DIR / "playbook.json"
 
-def load(kind):
-    """Return the list of entries for a memory type; empty list if the file doesn't exist yet."""
-    path = FILES[kind]
+
+def proposals_path():
+    """Per-run review queue the agent writes to (untracked, outside the memory folder)."""
+    return Path(os.environ.get("PROPOSALS_FILE", "/app/output/playbook_proposals.json"))
+
+
+def read_json(path):
+    """Return the list of entries in a file; empty list if the file doesn't exist yet."""
     if not path.exists():
         return []
     return json.loads(path.read_text())
 
 
-def save(kind, entries):
+def write_json(path, entries):
     """Write atomically: temp file in the same folder, then rename over the original."""
-    path = FILES[kind]
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
-    os.chmod(tmp, 0o644) #  mkstemp creates 0600; make readable for the host user and git
+    os.chmod(tmp, 0o644)  # mkstemp creates 0600; make readable for the host user and git
     with os.fdopen(fd, "w") as f:
         json.dump(entries, f, indent=2)
     os.replace(tmp, path)
 
-PREFIX = {"hitl": "h", "reflection": "r"}
 
-def next_id(kind, entries):
-    """h001, h002, ... / r001, r002, ... based on the highest existing number."""
-    nums = [int(e["id"][1:]) for e in entries if e["id"][1:].isdigit()]
-    return f"{PREFIX[kind]}{max(nums, default=0) + 1:03d}"
+def load():
+    return read_json(PLAYBOOK)
 
-REQUIRED = {
-    "hitl": {"kind", "title", "when_to_use", "keywords", "correction",
-            "rationale", "limits", "user_answer", "priority"},
-    "reflection": {"run_id", "title", "situation", "what_happened",
-                "lesson", "outcome", "keywords"},
-}
-OPTIONAL = {
-    "hitl": {"schema_bindings", "trigger", "source_context", "agent_proposal"},
-    "reflection": set(),
-}
+
+def save(entries):
+    write_json(PLAYBOOK, entries)
+
+
+def next_id(entries, prefix="p"):
+    """p001, p002, ... based on the highest existing number."""
+    nums = [int(e["id"][len(prefix):]) for e in entries if e["id"][len(prefix):].isdigit()]
+    return f"{prefix}{max(nums, default=0) + 1:03d}"
+
+
+REQUIRED = {"type", "title", "keywords", "when_to_use", "guidance", "background"}
+OPTIONAL = {"limits", "kind", "priority", "trigger", "source_context",
+            "agent_proposal", "user_answer", "run_id", "outcome"}
 ENUMS = {
-    "hitl": {
-        "kind": {"column_mapping", "unit", "value_recode", "other"},
-        "priority": {"must", "should"},
-        "trigger": {"low_similarity", "small_margin", "out_of_range", "other"},
-    },
-    "reflection": {"outcome": {"success", "failure"}},
+    "type": {"HITL", "reflection"},
+    "kind": {"column_mapping", "unit", "value_recode", "other"},
+    "priority": {"must", "should"},
+    "trigger": {"low_similarity", "small_margin", "out_of_range", "other"},
+    "outcome": {"success", "failure"},
 }
-PROVENANCE = {"hitl": "HITL", "reflection": "reflection"}
 
-def validate(kind, fields):
+
+def validate(fields):
     """Raise ValueError on missing, unknown or invalid fields."""
-    missing = REQUIRED[kind] - fields.keys()
+    missing = REQUIRED - fields.keys()
     if missing:
         raise ValueError(f"missing fields: {sorted(missing)}")
-    unknown = fields.keys() - REQUIRED[kind] - OPTIONAL[kind]
+    unknown = fields.keys() - REQUIRED - OPTIONAL
     if unknown:
         raise ValueError(f"unknown fields: {sorted(unknown)}")
-    for name, allowed in ENUMS[kind].items():
-        if name not in fields:
-            continue
-        if fields[name] not in allowed:
+    for name, allowed in ENUMS.items():
+        if name in fields and fields[name] not in allowed:
             raise ValueError(f"{name} must be one of {sorted(allowed)}, got {fields[name]!r}")
 
-def add(kind, /, **fields):
-    """Create a new active entry with auto-filled id, created date, provenance and status."""
-    validate(kind, fields)
-    entries = load(kind)
-    entry = {
-        "id": next_id(kind, entries),
+
+def new_entry(entries, prefix, status, fields):
+    """Auto-fill id, created date and status around the given fields."""
+    return {
+        "id": next_id(entries, prefix),
         "created": date.today().isoformat(),
-        "provenance": PROVENANCE[kind],
-        **({"schema_bindings": []} if kind == "hitl" else {}),
-        **fields,
-        "status": "active",
+        "type": fields["type"],
+        "status": status,
+        **{k: v for k, v in fields.items() if k != "type"},
     }
+
+
+def add(**fields):
+    """Add an active entry to the playbook (for the owner, not the agent)."""
+    validate(fields)
+    entries = load()
+    entry = new_entry(entries, "p", "active", fields)
     entries.append(entry)
-    save(kind, entries)
+    save(entries)
     return entry
 
-def list_entries(kind):
-    """Active entries only."""
-    active = []
-    for e in load(kind):
-        if e["status"] == "active":
-            active.append(e)
-    return active
+
+def propose(**fields):
+    """Agent-facing: append a proposed entry to the proposals file. The playbook is not touched."""
+    fields = {"type": "reflection", **fields}
+    validate(fields)
+    path = proposals_path()
+    entries = read_json(path)
+    entry = new_entry(entries, "pr", "proposed", fields)
+    entries.append(entry)
+    write_json(path, entries)
+    return entry
+
+
+def list_entries(entry_type=None):
+    """Active playbook entries, optionally only one type."""
+    return [e for e in load()
+            if e["status"] == "active" and (entry_type is None or e["type"] == entry_type)]
+
 
 def search(query):
-    """Case-insensitive keyword search over active entries of both types."""
+    """Case-insensitive keyword search over active entries."""
     q = query.lower()
-    results = []
-    for kind in FILES:
-        for e in list_entries(kind):
-            if q in json.dumps(e).lower():
-                results.append({"type": kind, **e})
-    return results
+    return [e for e in list_entries() if q in json.dumps(e).lower()]
 
-KIND_BY_PREFIX = {v: k for k, v in PREFIX.items()}
-
-def kind_of(entry_id):
-    """'h002' -> 'hitl', 'r067' -> 'reflection'."""
-    kind = KIND_BY_PREFIX.get(entry_id[:1])
-    if kind is None:
-        raise ValueError(f"unknown id {entry_id!r}, expected h### or r###")
-    return kind
 
 def set_status(entry_id, status):
     """Change the status of one entry and return it."""
-    kind = kind_of(entry_id)
-    entries = load(kind)
+    entries = load()
     for e in entries:
         if e["id"] == entry_id:
             e["status"] = status
-            save(kind, entries)
+            save(entries)
             return e
     raise ValueError(f"no entry with id {entry_id}")
 
+
 def delete(entry_id):
-    """Remove one entry from its file."""
-    kind = kind_of(entry_id)
-    entries = load(kind)
+    """Remove one entry from the playbook."""
+    entries = load()
     kept = [e for e in entries if e["id"] != entry_id]
     if len(kept) == len(entries):
         raise ValueError(f"no entry with id {entry_id}")
-    save(kind, kept)
+    save(kept)
+
+
+def add_entry_args(parser):
+    parser.add_argument("--title", required=True)
+    parser.add_argument("--when-to-use", required=True)
+    parser.add_argument("--guidance", required=True)
+    parser.add_argument("--background", required=True)
+    parser.add_argument("--keywords", required=True, nargs="+")
+
+
+def entry_fields(args):
+    fields = {
+        "title": args.title,
+        "when_to_use": args.when_to_use,
+        "guidance": args.guidance,
+        "background": args.background,
+        "keywords": args.keywords,
+    }
+    for name in ("limits", "run_id", "outcome"):
+        value = getattr(args, name, None)
+        if value:
+            fields[name] = value
+    return fields
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Persistent memory: HITL corrections and reflections")
+    parser = argparse.ArgumentParser(description="Persistent memory: the playbook and the agent's proposal queue")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p_add = sub.add_parser("add", help="add a reflection")
-    p_add.add_argument("--run-id", required=True)
-    p_add.add_argument("--title", required=True)
-    p_add.add_argument("--situation", required=True)
-    p_add.add_argument("--what-happened", required=True)
-    p_add.add_argument("--lesson", required=True)
-    p_add.add_argument("--outcome", required=True, choices=sorted(ENUMS["reflection"]["outcome"]))
-    p_add.add_argument("--keywords", required=True, nargs="+")
+    p_add = sub.add_parser("add", help="add an entry to the playbook (for the owner; the agent uses propose)")
+    p_add.add_argument("--type", required=True, choices=sorted(ENUMS["type"]))
+    add_entry_args(p_add)
+    p_add.add_argument("--limits")
+    p_add.add_argument("--run-id")
+    p_add.add_argument("--outcome", choices=sorted(ENUMS["outcome"]))
 
-    p_hitl = sub.add_parser("add-hitl", help="add a HITL correction")
-    p_hitl.add_argument("--kind", required=True, choices=sorted(ENUMS["hitl"]["kind"]))
-    p_hitl.add_argument("--title", required=True)
-    p_hitl.add_argument("--when-to-use", required=True)
-    p_hitl.add_argument("--keywords", required=True, nargs="+")
-    p_hitl.add_argument("--correction", required=True)
-    p_hitl.add_argument("--rationale", required=True)
-    p_hitl.add_argument("--limits", required=True)
-    p_hitl.add_argument("--user-answer", required=True)
-    p_hitl.add_argument("--priority", required=True, choices=sorted(ENUMS["hitl"]["priority"]))
-    p_hitl.add_argument("--schema-bindings", nargs="*")
-    p_hitl.add_argument("--trigger", choices=sorted(ENUMS["hitl"]["trigger"]))
-    p_hitl.add_argument("--source-context")
-    p_hitl.add_argument("--agent-proposal")
+    p_prop = sub.add_parser("propose", help="propose an entry for review (written to the proposals file, not the playbook)")
+    p_prop.add_argument("--run-id", required=True)
+    add_entry_args(p_prop)
+    p_prop.add_argument("--outcome", required=True, choices=sorted(ENUMS["outcome"]))
 
     p_list = sub.add_parser("list", help="list active entries")
-    p_list.add_argument("kind", choices=["hitl", "reflection"])
+    p_list.add_argument("--type", choices=sorted(ENUMS["type"]))
 
     p_search = sub.add_parser("search", help="keyword search over active entries")
     p_search.add_argument("query")
@@ -176,41 +189,13 @@ def main():
 
     args = parser.parse_args()
     if args.command == "add":
-        entry = add(
-            "reflection",
-            run_id=args.run_id,
-            title=args.title,
-            situation=args.situation,
-            what_happened=args.what_happened,
-            lesson=args.lesson,
-            outcome=args.outcome,
-            keywords=args.keywords,
-        )
+        entry = add(type=args.type, **entry_fields(args))
         print(f"added {entry['id']}")
-    elif args.command == "add-hitl":
-        fields = dict(
-            kind=args.kind,
-            title=args.title,
-            when_to_use=args.when_to_use,
-            keywords=args.keywords,
-            correction=args.correction,
-            rationale=args.rationale,
-            limits=args.limits,
-            user_answer=args.user_answer,
-            priority=args.priority,
-        )
-        if args.schema_bindings:
-            fields["schema_bindings"] = args.schema_bindings
-        if args.trigger:
-            fields["trigger"] = args.trigger
-        if args.source_context:
-            fields["source_context"] = args.source_context
-        if args.agent_proposal:
-            fields["agent_proposal"] = args.agent_proposal
-        entry = add("hitl", **fields)
-        print(f"added {entry['id']}")
+    elif args.command == "propose":
+        entry = propose(**entry_fields(args))
+        print(f"proposed {entry['id']} (written to {proposals_path()}, not the playbook)")
     elif args.command == "list":
-        print(json.dumps(list_entries(args.kind), indent=2))
+        print(json.dumps(list_entries(args.type), indent=2))
     elif args.command == "search":
         print(json.dumps(search(args.query), indent=2))
     elif args.command == "deactivate":
@@ -222,4 +207,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()  
+    main()

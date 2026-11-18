@@ -1,5 +1,8 @@
 """Local embeddings (sentence-transformers) and the Chroma client."""
 import os
+import atexit
+import shutil
+import tempfile
 from functools import lru_cache
 from pathlib import Path
 
@@ -8,8 +11,7 @@ import chromadb
 from src.memory.embeddings import entry_hash
 
 EMBED_MODEL = os.getenv("EMBEDDING_MODEL") or "avsolatorio/GIST-all-MiniLM-L6-v2"
-CHROMA_DIR = Path(__file__).parent / "data" / "chroma"
-
+CHROMA_DIR = Path(os.getenv("CHROMA_DIR") or Path(__file__).parent / "data" / "chroma")
 
 @lru_cache(maxsize=1)
 def _model():
@@ -23,9 +25,19 @@ def embed(texts):
 
 
 def get_client():
-    """Persistent Chroma store inside the writable memory folder."""
-    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
-    return chromadb.PersistentClient(path=str(CHROMA_DIR))
+    """Persistent Chroma store. A read-only snapshot is opened through a temporary copy,
+    because Chroma writes lock files next to its database."""
+    if os.access(CHROMA_DIR.parent, os.W_OK):  # building a snapshot
+        CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+        path = CHROMA_DIR
+    elif CHROMA_DIR.exists():  # read-only snapshot during a run
+        tmp = tempfile.mkdtemp()
+        atexit.register(shutil.rmtree, tmp, True)
+        path = Path(tmp) / "chroma"
+        shutil.copytree(CHROMA_DIR, path)
+    else:
+        raise RuntimeError("No embedding index in this configuration")
+    return chromadb.PersistentClient(path=str(path))
 
 
 def sync_collection(client, name, items, embed_fn=embed, model=EMBED_MODEL):

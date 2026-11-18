@@ -1,17 +1,14 @@
 """Text selection and hashing for embeddings. No API calls in this file."""
 import hashlib
 
-# Fields that make an entry findable. The payload (correction, rationale, user_answer) is not embedded.
-EMBED_FIELDS = {
-    "hitl": ["title", "when_to_use", "keywords", "source_context"],
-    "reflection": ["title", "situation", "lesson", "keywords"],
-}
+# Fields that make an entry findable: the situation, keywords, where it came up, and what to do.
+EMBED_FIELDS = ["title", "when_to_use", "keywords", "source_context", "guidance"]
 
 
-def embed_text(kind, entry):
+def embed_text(entry):
     """The exact text that gets embedded (and hashed) for one entry."""
     parts = []
-    for name in EMBED_FIELDS[kind]:
+    for name in EMBED_FIELDS:
         value = entry.get(name)
         if not value:
             continue
