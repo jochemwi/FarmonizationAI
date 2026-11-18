@@ -1,4 +1,4 @@
-"""Turn source data (ICASA csv, later HITL and reflections) into {id: (text, metadata)} for syncing."""
+"""Turn source data (ICASA csv and the playbook) into {id: (text, metadata)} for syncing."""
 import csv
 from pathlib import Path
 
@@ -26,20 +26,15 @@ def icasa_items():
     return items
 
 
-def _memory_items(kind, meta_fields):
+# stored next to the vector, so a search hit is usable on its own
+PLAYBOOK_META_FIELDS = ["title", "type", "guidance", "limits"]
+
+
+def playbook_items():
     from src.memory.embeddings import embed_text
     from src.memory.memory import list_entries
     items = {}
-    for entry in list_entries(kind):
-        meta = {name: str(entry.get(name, "")) for name in meta_fields}
-        items[entry["id"]] = (embed_text(kind, entry), meta)
+    for entry in list_entries():
+        meta = {name: str(entry.get(name, "")) for name in PLAYBOOK_META_FIELDS}
+        items[entry["id"]] = (embed_text(entry), meta)
     return items
-
-
-def hitl_items():
-    # the payload (correction, limits) is stored next to the vector so a search hit is usable on its own
-    return _memory_items("hitl", ["title", "kind", "priority", "correction", "limits"])
-
-
-def reflection_items():
-    return _memory_items("reflection", ["title", "outcome", "lesson"])

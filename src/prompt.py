@@ -22,15 +22,14 @@ To find which target variable a source column belongs to, you can search the ICA
   python -m src.memory.semantic_search icasa "<short description>" -n 5
 
 Memory:
-Lessons and corrections from earlier runs are stored in memory. Use memory.py for all memory access, and never edit the JSON files in /app/src/memory/data directly.
-- Before you start processing the data, search memory in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
-  python -m src.memory.semantic_search hitl "<short description>" -n 5
-  python -m src.memory.semantic_search reflections "<short description>" -n 5
+Lessons and corrections from earlier runs are stored in the playbook. Use memory.py and semantic_search for all memory access, and never edit the JSON files in /app/src/memory/data directly.
+- Before you start processing the data, search the playbook in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
+  python -m src.memory.semantic_search playbook "<short description>" -n 5
   A lower distance means a closer match. Treat hits as leads and check that they apply to your data.
-  Keyword search is for exact terms such as column names, file names and codes. Search one keyword at a time:
+  Keyword search is for exact terms such as column names, filenames and codes. Search one keyword at a time:
   python /app/src/memory/memory.py search "<keyword>"
-- After you have verified your output, record a reflection only if one of your checks caught a problem and you fixed it. Describe the problem, the check that revealed it, and the fix. If nothing went wrong, skip it. Write one reflection per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the add command once per problem. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
-  python /app/src/memory/memory.py add --run-id {run_id} --title "..." --situation "..." --what-happened "..." --lesson "..." --outcome success --keywords kw1 kw2 kw3
+- After you have verified your output, propose a playbook entry only if one of your checks caught a problem and you fixed it. Your proposal goes to a review queue and is not added to the playbook during this run. If nothing went wrong, skip it. Write one proposal per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the propose command once per problem. Use title for a short name of the problem, when-to-use for the situation in which the entry applies, guidance for what to do, and background for what happened and which check revealed it. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
+  python /app/src/memory/memory.py propose --run-id {run_id} --title "..." --when-to-use "..." --guidance "..." --background "..." --outcome success --keywords kw1 kw2 kw3
 
 Open questions:
 You have a tool log_question. No human answers during the run, so never wait for an answer. Use it instead of guessing silently when a numeric value from the input falls outside the MinVal/MaxVal of its ICASA variable (/app/data/target/harmonization_template/scheme/icasa_variable.csv). Before logging, search memory for an earlier rule that already covers the case, and apply it if it does. In that case do not log a question. Otherwise log one question per issue, not one per value. If several values in the same column are out of range in the same way (for example, they all look like cm instead of m), log one question about the whole column and apply your assumption to every matching value. Put the file, column, rows and value in context, and put the allowed range, what you will do instead and why in assumed_answer. Then continue immediately with that assumption. Do not log the same question twice. Do not log questions about values inside their range.

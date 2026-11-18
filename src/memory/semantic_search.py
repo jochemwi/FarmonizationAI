@@ -1,5 +1,5 @@
 """Semantic search over the synced collections.
-Usage: python -m src.memory.semantic_search <icasa|hitl|reflections> "<query>" [-n 5]"""
+Usage: python -m src.memory.semantic_search <icasa|playbook> "<query>" [-n 5]"""
 import argparse
 import json
 
@@ -18,9 +18,10 @@ def search(name, query, n=5):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Semantic search over ICASA, HITL and reflections")
-    parser.add_argument("collection", choices=["icasa", "hitl", "reflections"])
+    parser = argparse.ArgumentParser(description="Semantic search over ICASA and the playbook")
+    parser.add_argument("collection", choices=["icasa", "playbook"])
     parser.add_argument("query")
     parser.add_argument("-n", type=int, default=5)
     args = parser.parse_args()
     print(json.dumps(search(args.collection, args.query, args.n), indent=2, ensure_ascii=False))
+    
