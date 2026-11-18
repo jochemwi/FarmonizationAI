@@ -1,4 +1,44 @@
+import os
+
+
 def build_prompt(run_id: str) -> str:
+    use_playbook = os.getenv("PLAYBOOK") == "1"
+    use_embeddings = os.getenv("EMBEDDINGS") == "1"
+
+    icasa_search = ""
+    if use_embeddings:
+        icasa_search = """ICASA variable search:
+To find which target variable a source column belongs to, you can search the ICASA variable catalog semantically with a short description in words (what the column holds, its unit, the crop). Each hit lists the variable name, target table, unit, data type and range. Hits are candidates only: always check them against /app/data/target/harmonization_template/scheme/variables.csv and the template README before you use one.
+  python -m src.memory.semantic_search icasa "<short description>" -n 5
+
+"""
+
+    memory = ""
+    search_rule = ""
+    log_start = "Log"
+    if use_playbook:
+        search_rule = "Before logging, search memory for an earlier rule that already covers the case, and apply it if it does. In that case do not log a question. "
+        log_start = "Otherwise log"
+        if use_embeddings:
+            memory_access = "memory.py and semantic_search"
+            memory_search = """- Before you start processing the data, search the playbook in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
+  python -m src.memory.semantic_search playbook "<short description>" -n 5
+  A lower distance means a closer match. Treat hits as leads and check that they apply to your data.
+  Keyword search is for exact terms such as column names, filenames and codes. Search one keyword at a time:
+  python /app/src/memory/memory.py search "<keyword>"
+"""
+        else:
+            memory_access = "memory.py"
+            memory_search = """- Before you start processing the data, search the playbook by keyword. Use exact terms such as column names, filenames and codes. Search one keyword at a time:
+  python /app/src/memory/memory.py search "<keyword>"
+"""
+        memory = f"""Memory:
+Lessons and corrections from earlier runs are stored in the playbook. Use {memory_access} for all memory access, and never edit the JSON files in /app/src/memory/data directly.
+{memory_search}- After you have verified your output, propose a playbook entry only if one of your checks caught a problem and you fixed it. Your proposal goes to a review queue and is not added to the playbook during this run. If nothing went wrong, skip it. Write one proposal per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the propose command once per problem. Use title for a short name of the problem, when-to-use for the situation in which the entry applies, guidance for what to do, and background for what happened and which check revealed it. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
+  python /app/src/memory/memory.py propose --run-id {run_id} --title "..." --when-to-use "..." --guidance "..." --background "..." --outcome success --keywords kw1 kw2 kw3
+
+"""
+
     return f"""Your task is described in /app/input/README.md. Read it first and follow it. Also read /app/data/target/harmonization_template/README.md fully.
 
 
@@ -17,21 +57,7 @@ Work through this checklist. Do not finish until every step is done.
 7. Never call bash with an empty command. Put your reasoning in your reply, not in a tool call.
 8. Before every tool call, write one or two sentences in your reply saying what you are about to do and why. After a result that changes your plan, say in one sentence what you learned. Do not leave your reply empty when you call a tool. Before you report any table as empty, check the Excel cell comments as well as the cell values.
 
-ICASA variable search:
-To find which target variable a source column belongs to, you can search the ICASA variable catalog semantically with a short description in words (what the column holds, its unit, the crop). Each hit lists the variable name, target table, unit, data type and range. Hits are candidates only: always check them against /app/data/target/harmonization_template/scheme/variables.csv and the template README before you use one.
-  python -m src.memory.semantic_search icasa "<short description>" -n 5
-
-Memory:
-Lessons and corrections from earlier runs are stored in the playbook. Use memory.py and semantic_search for all memory access, and never edit the JSON files in /app/src/memory/data directly.
-- Before you start processing the data, search the playbook in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
-  python -m src.memory.semantic_search playbook "<short description>" -n 5
-  A lower distance means a closer match. Treat hits as leads and check that they apply to your data.
-  Keyword search is for exact terms such as column names, filenames and codes. Search one keyword at a time:
-  python /app/src/memory/memory.py search "<keyword>"
-- After you have verified your output, propose a playbook entry only if one of your checks caught a problem and you fixed it. Your proposal goes to a review queue and is not added to the playbook during this run. If nothing went wrong, skip it. Write one proposal per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the propose command once per problem. Use title for a short name of the problem, when-to-use for the situation in which the entry applies, guidance for what to do, and background for what happened and which check revealed it. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
-  python /app/src/memory/memory.py propose --run-id {run_id} --title "..." --when-to-use "..." --guidance "..." --background "..." --outcome success --keywords kw1 kw2 kw3
-
-Open questions:
-You have a tool log_question. No human answers during the run, so never wait for an answer. Use it instead of guessing silently when a numeric value from the input falls outside the MinVal/MaxVal of its ICASA variable (/app/data/target/harmonization_template/scheme/icasa_variable.csv). Before logging, search memory for an earlier rule that already covers the case, and apply it if it does. In that case do not log a question. Otherwise log one question per issue, not one per value. If several values in the same column are out of range in the same way (for example, they all look like cm instead of m), log one question about the whole column and apply your assumption to every matching value. Put the file, column, rows and value in context, and put the allowed range, what you will do instead and why in assumed_answer. Then continue immediately with that assumption. Do not log the same question twice. Do not log questions about values inside their range.
+{icasa_search}{memory}Open questions:
+You have a tool log_question. No human answers during the run, so never wait for an answer. Use it instead of guessing silently when a numeric value from the input falls outside the MinVal/MaxVal of its ICASA variable (/app/data/target/harmonization_template/scheme/icasa_variable.csv). {search_rule}{log_start} one question per issue, not one per value. If several values in the same column are out of range in the same way (for example, they all look like cm instead of m), log one question about the whole column and apply your assumption to every matching value. Put the file, column, rows and value in context, and put the allowed range, what you will do instead and why in assumed_answer. Then continue immediately with that assumption. Do not log the same question twice. Do not log questions about values inside their range.
 
 """
