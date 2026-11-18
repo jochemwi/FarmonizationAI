@@ -20,7 +20,8 @@ archive:
 	@echo "archived to $(ARCHIVE_DIR)"
 
 run: clean snapshot
-	docker compose up -d --build
+	docker compose build harness
+	docker compose up -d --no-build
 	docker compose exec harness python -m src.main
 	$(MAKE) archive
 
