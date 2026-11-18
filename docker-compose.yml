@@ -23,6 +23,7 @@ services:
       - ./input:/app/input:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
+      - ./tests:/app/tests:ro
     tmpfs:
       - /app/runs # hide archived runs
 

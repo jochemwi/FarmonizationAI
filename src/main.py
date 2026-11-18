@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langfuse.langchain import CallbackHandler
@@ -13,6 +15,7 @@ load_dotenv()
 
 langfuse = get_client()
 run_id = Langfuse.create_trace_id()
+os.environ["RUN_ID"] = run_id
 print(f"run_id: {run_id}")
 
 langfuse_handler = CallbackHandler()
