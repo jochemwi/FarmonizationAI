@@ -25,6 +25,7 @@ configurable_model = init_chat_model("openai:gpt-6.1-sol", reasoning={"effort": 
 
 # Tools
 tools = [bash, log_question] 
+tools_by_name = {t.name: t for t in tools}
 model_with_tools = configurable_model.bind_tools(tools)
 
 # Validator rounds: how many times the agent may be sent back to work after validation fails
