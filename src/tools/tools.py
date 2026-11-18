@@ -1,5 +1,8 @@
 import subprocess
-from typing import Literal
+import json
+import os
+from datetime import datetime, timezone
+from pathlib import Path
 
 from langchain_core.tools import tool
 
@@ -39,19 +42,30 @@ def bash(command: str, description: str) -> str:
         return f"error: {e}"
 
 @tool
-def ask_human(
-        question: str,
-        trigger: Literal["low_similarity", "small_margin", "out_of_range", "other"],
-        source_context: str,
-        agent_proposal: str,
-) -> str:
-    """Ask the human to decide when you are unsure. Use it when a value is outside
-    the min/max of its ICASA variable, or (to be added later) when the best mapping has a low
-    similarity or a small margin over the runner-up.
+def log_question(question: str, context: str, assumed_answer: str) -> str:
+    """Record a question for the human to review after the run. Nobody answers during the run.
 
-    question: what you need decided, in one or two sentences.
-    trigger: why you are asking.
-    source_context: file, column and value that caused the question.
-    agent_proposal: your candidate answers with scores or limits, and your preferred one.
+    question: what you would ask, in one or two sentences.
+    context: file, sheet, column and rows, the value, and the target table and variable concerned.
+    assumed_answer: what you will do instead, and why.
     """
-    return "ask_human is handled by the ask node, not executed here."
+    path = Path(os.environ.get("QUESTIONS_FILE", "/app/output/questions.json"))
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    entries = json.loads(path.read_text()) if path.exists() else []
+    qid = f"q{len(entries) + 1:03d}"
+    entries.append({
+        "id": qid,
+        "run_id": os.environ.get("RUN_ID", ""),
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "question": question,
+        "context": context,
+        "assumed_answer": assumed_answer,
+    })
+
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
+    os.replace(tmp, path)  # atomic, so a crash never leaves a half-written file
+
+    return (f"Recorded as {qid}. No answer will come during this run. "
+            "Continue now with your assumed answer and apply it consistently.")
