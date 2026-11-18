@@ -1,4 +1,7 @@
 import os
+import json
+from datetime import datetime, timezone
+from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
@@ -16,6 +19,14 @@ langfuse = get_client()
 run_id = Langfuse.create_trace_id()
 os.environ["RUN_ID"] = run_id
 print(f"run_id: {run_id}")
+
+Path("/app/output/run_info.json").write_text(json.dumps({
+    "run_id": run_id,
+    "config": os.getenv("CONFIG", "unknown"),
+    "playbook": os.getenv("PLAYBOOK") == "1",
+    "embeddings": os.getenv("EMBEDDINGS") == "1",
+    "started": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+}, indent=2))
 
 langfuse_handler = CallbackHandler()
 

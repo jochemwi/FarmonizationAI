@@ -10,9 +10,18 @@ snapshot:
 	docker compose build snapshot
 	docker compose run --rm snapshot
 
+ARCHIVE_DIR := runs/$(CONFIG)_$(shell date +%Y%m%d_%H%M%S)
+
+archive:
+	mkdir -p $(ARCHIVE_DIR)
+	cp -r output/submission output/run_info.json $(ARCHIVE_DIR)/
+	-cp output/questions.json output/playbook_proposals.json $(ARCHIVE_DIR)/
+	@echo "archived to $(ARCHIVE_DIR)"
+
 run: clean snapshot
 	docker compose up -d --build
 	docker compose exec harness python -m src.main
+	$(MAKE) archive
 
 test:
 	mkdir -p memory_snapshots/$(CONFIG)
