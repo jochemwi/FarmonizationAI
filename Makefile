@@ -16,6 +16,7 @@ archive:
 	mkdir -p $(ARCHIVE_DIR)
 	cp -r output/submission output/run_info.json $(ARCHIVE_DIR)/
 	-cp output/questions.json output/playbook_proposals.json $(ARCHIVE_DIR)/
+	-cp memory_snapshots/$(CONFIG)/playbook.json $(ARCHIVE_DIR)/playbook_used.json
 	@echo "archived to $(ARCHIVE_DIR)"
 
 run: clean snapshot
