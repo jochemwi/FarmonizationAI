@@ -35,8 +35,8 @@ class HarnessState(TypedDict):
 
 # Nodes
 def llm_call(state: HarnessState):
-    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
-    
+    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source data: /app/input/, target schema and validator: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
+
     # inject tree discovery as first turn if not already done
     messages = state["messages"]
     if state.get("llm_calls", 0) == 0:

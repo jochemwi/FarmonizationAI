@@ -23,17 +23,16 @@ run: clean snapshot
 	docker compose build harness
 	docker compose up -d --no-build
 	docker compose exec harness python -m src.main
+	docker compose exec harness chmod -R a+rX /app/output
 	$(MAKE) archive
 
 test:
 	mkdir -p memory_snapshots/$(CONFIG)
-	docker compose up -d
-	docker compose exec harness python -m pytest tests/
+	docker compose run --rm -v $(CURDIR)/tests:/app/tests:ro harness python -m pytest tests/
 
 test-fast:
 	mkdir -p memory_snapshots/$(CONFIG)
-	docker compose up -d
-	docker compose exec harness python -m pytest tests/ -m"not slow"
+	docker compose run --rm -v $(CURDIR)/tests:/app/tests:ro harness python -m pytest tests/ -m"not slow"
 
 .PHONY: obs
 OBS_LABEL = $(or $(LABEL),Run)

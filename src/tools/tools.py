@@ -6,13 +6,14 @@ from pathlib import Path
 
 from langchain_core.tools import tool
 
+from src.constants import BASH_MAX_OUTPUT, BASH_TIMEOUT_S
+
 @tool
 def bash(command: str, description: str) -> str:
     """
     Run a shell command. Always provide a description of what the command does.
     Returns combined stdout and stderr. Output is truncated if too long.
     """
-    MAX_OUTPUT = 4000
 
     try:
         result = subprocess.run(
@@ -21,15 +22,15 @@ def bash(command: str, description: str) -> str:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,   # merge stderr into stdout
             text=True,
-            timeout=60,
+            timeout=BASH_TIMEOUT_S,
             start_new_session=True      # allows killing the whole process group
         )
 
         output = result.stdout or ""
 
         # truncate from the front, keep the tail (errors usually at the end)
-        if len(output) > MAX_OUTPUT:
-            output = f"[...truncated {len(output) - MAX_OUTPUT} chars...]\n" + output[-MAX_OUTPUT:]
+        if len(output) > BASH_MAX_OUTPUT:
+            output = f"[...truncated {len(output) - BASH_MAX_OUTPUT} chars...]\n" + output[-BASH_MAX_OUTPUT:]
 
         if result.returncode != 0:
             return f"exit code {result.returncode}\n{output}"
@@ -37,7 +38,7 @@ def bash(command: str, description: str) -> str:
         return output or "(no output)"
 
     except subprocess.TimeoutExpired:
-        return "error: command timed out after 60 seconds"
+        return f"error: command timed out after {BASH_TIMEOUT_S} seconds"
     except Exception as e:
         return f"error: {e}"
 

@@ -11,7 +11,7 @@ import hashlib
 import chromadb
 
 from src.constants import EMBED_MODEL
-from src.memory.memory import list_entries
+from src.memory.playbook import list_entries
 
 CHROMA_DIR = Path(os.getenv("CHROMA_DIR") or Path(__file__).parent / "data" / "chroma")
 

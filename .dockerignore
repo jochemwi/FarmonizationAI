@@ -16,3 +16,13 @@ configs/
 docker-compose.yml
 literature/
 runs/
+tests/
+
+.devcontainer/
+.github/
+.vscode/
+.gitignore
+.dockerignore
+Dockerfile
+README.md
+proxy/

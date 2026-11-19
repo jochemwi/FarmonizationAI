@@ -17,22 +17,22 @@ To find which target variable a source column belongs to, you can search the ICA
         search_rule = "Before logging, search memory for an earlier rule that already covers the case, and apply it if it does. In that case do not log a question. "
         log_start = "Otherwise log"
         if EMBEDDINGS:
-            memory_access = "memory.py and semantic_search"
+            memory_access = "playbook.py and semantic_search"
             memory_search = """- Before you start processing the data, search the playbook in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
   python -m src.memory.semantic_search playbook "<short description>" -n 5
   A lower distance means a closer match. Treat hits as leads and check that they apply to your data.
   Keyword search is for exact terms such as column names, filenames and codes. Search one keyword at a time:
-  python /app/src/memory/memory.py search "<keyword>"
+  python /app/src/memory/playbook.py search "<keyword>"
 """
         else:
-            memory_access = "memory.py"
+            memory_access = "playbook.py"
             memory_search = """- Before you start processing the data, search the playbook by keyword. Use exact terms such as column names, filenames and codes. Search one keyword at a time:
-  python /app/src/memory/memory.py search "<keyword>"
+  python /app/src/memory/playbook.py search "<keyword>"
 """
         memory = f"""Memory:
 Lessons and corrections from earlier runs are stored in the playbook. Use {memory_access} for all memory access, and never edit the JSON files in /app/src/memory/data directly.
 {memory_search}- After you have verified your output, propose a playbook entry only if one of your checks caught a problem and you fixed it. Your proposal goes to a review queue and is not added to the playbook during this run. If nothing went wrong, skip it. Write one proposal per distinct problem, each with a single lesson, so every entry covers one issue. If you fixed several unrelated problems, run the propose command once per problem. Use title for a short name of the problem, when-to-use for the situation in which the entry applies, guidance for what to do, and background for what happened and which check revealed it. Choose keywords that name the specific problem (the variable, table or error type), not broad words like validation, weather or soil:
-  python /app/src/memory/memory.py propose --run-id {run_id} --title "..." --when-to-use "..." --guidance "..." --background "..." --outcome success --keywords kw1 kw2 kw3
+  python /app/src/memory/playbook.py propose --run-id {run_id} --title "..." --when-to-use "..." --guidance "..." --background "..." --outcome success --keywords kw1 kw2 kw3
 
 """
 

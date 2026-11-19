@@ -19,6 +19,10 @@ VALIDATE_CMD = f"PYTHONPATH=/app/data/target python {FILL_API} {' '.join(VALIDAT
 # Validation settings
 MAX_VAL_ROUNDS = 3
 EMPTY_TABLE_REVIEW_ROUNDS = 3
+
 PLAYBOOK = os.getenv("PLAYBOOK") == "1"
 EMBEDDINGS = os.getenv("EMBEDDINGS") == "1"
+
+BASH_MAX_OUTPUT = 4000
+BASH_TIMEOUT_S = 60
 

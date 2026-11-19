@@ -45,9 +45,9 @@ def load(value):
 def category(command):
     if "python -m src.memory.semantic_search" in command:
         return "semantic search"
-    if "memory.py search" in command:
+    if "playbook.py search" in command:
         return "keyword search"
-    if "memory.py propose" in command:
+    if "playbook.py propose" in command:
         return "memory proposal"
     if "--validate-package" in command:
         return "validator"
