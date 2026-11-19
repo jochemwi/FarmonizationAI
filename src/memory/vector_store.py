@@ -5,6 +5,8 @@ import shutil
 import tempfile
 from functools import lru_cache
 from pathlib import Path
+import csv
+import hashlib
 
 import chromadb
 
