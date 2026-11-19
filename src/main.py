@@ -3,17 +3,15 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from dotenv import load_dotenv
-from langchain_core.messages import HumanMessage
+from langchain.messages import HumanMessage
 from langfuse.langchain import CallbackHandler
 from langfuse import Langfuse, get_client
 
 
-from src.harness_phase_1 import agent
+from src.harness import agent
 from src.prompt import build_prompt
+from src.constants import PLAYBOOK, EMBEDDINGS
 
-
-load_dotenv()
 
 langfuse = get_client()
 run_id = Langfuse.create_trace_id()
@@ -23,8 +21,8 @@ print(f"run_id: {run_id}")
 Path("/app/output/run_info.json").write_text(json.dumps({
     "run_id": run_id,
     "config": os.getenv("CONFIG", "unknown"),
-    "playbook": os.getenv("PLAYBOOK") == "1",
-    "embeddings": os.getenv("EMBEDDINGS") == "1",
+    "playbook": PLAYBOOK,
+    "embeddings": EMBEDDINGS,
     "started": datetime.now(timezone.utc).isoformat(timespec="seconds"),
 }, indent=2))
 

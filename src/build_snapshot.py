@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 
 from src.memory.memory import PLAYBOOK
-from src.memory.sources import icasa_items, playbook_items
+from src.memory.vector_store import icasa_items, playbook_items
 from src.memory.vector_store import EMBED_MODEL, get_client, sync_collection
 
 SNAPSHOT = Path(os.environ.get("SNAPSHOT_DIR", "/app/snapshot"))

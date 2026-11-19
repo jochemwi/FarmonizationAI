@@ -1,12 +1,9 @@
-import os
-
+from src.constants import PLAYBOOK, EMBEDDINGS, VALIDATE_CMD
 
 def build_prompt(run_id: str) -> str:
-    use_playbook = os.getenv("PLAYBOOK") == "1"
-    use_embeddings = os.getenv("EMBEDDINGS") == "1"
 
     icasa_search = ""
-    if use_embeddings:
+    if EMBEDDINGS:
         icasa_search = """ICASA variable search:
 To find which target variable a source column belongs to, you can search the ICASA variable catalog semantically with a short description in words (what the column holds, its unit, the crop). Each hit lists the variable name, target table, unit, data type and range. Hits are candidates only: always check them against /app/data/target/harmonization_template/scheme/variables.csv and the template README before you use one.
   python -m src.memory.semantic_search icasa "<short description>" -n 5
@@ -16,10 +13,10 @@ To find which target variable a source column belongs to, you can search the ICA
     memory = ""
     search_rule = ""
     log_start = "Log"
-    if use_playbook:
+    if PLAYBOOK:
         search_rule = "Before logging, search memory for an earlier rule that already covers the case, and apply it if it does. In that case do not log a question. "
         log_start = "Otherwise log"
-        if use_embeddings:
+        if EMBEDDINGS:
             memory_access = "memory.py and semantic_search"
             memory_search = """- Before you start processing the data, search the playbook in two ways. Semantic search takes a short description in words (what the column holds, its unit, the crop, the problem) and returns the closest entries:
   python -m src.memory.semantic_search playbook "<short description>" -n 5
@@ -43,7 +40,7 @@ Lessons and corrections from earlier runs are stored in the playbook. Use {memor
 
 
 Before finishing, verify your output and fix any problems you find. Validate only with the official validator, and do not write your own validation script:
-    PYTHONPATH=/app/data/target python /app/data/target/harmonization_template/fill_api.py --validate-package /app/output/submission --complete --final
+    {VALIDATE_CMD}
 Run it after your last change to the output, and fix every error it reports before you finish.
 Never delete or skip source rows just to make the validator pass. Fix the cause in your build logic instead. The validator accepts empty tables, so it does not show whether your output is complete. Before finishing, compare the row count of each output table with what the source data contains, and investigate every table that is empty or far smaller than expected. Do not finish while any table with matching source data is empty.
 

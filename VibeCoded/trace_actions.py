@@ -7,10 +7,9 @@ An iteration is one llm_call generation plus the tool call that follows it.
 An action is a run of iterations that ends when
   - the harness validator is run (kind "validate"),
   - the build script is written or run (kind "build"),
-  - the agent asks the human a question (kind "question", its own action),
+  - the agent logs a question with log_question (kind "question", its own action),
   - the run ends (kind "final").
 Leftover iterations at the end of the run are kind "explore".
-A wait for a human is a gap of more than 15 s between two graph nodes.
 
 Example:
     python trace_actions.py run.json --label Embeddings -o actions.json
@@ -20,8 +19,6 @@ import json
 import re
 from datetime import datetime, timezone
 
-NODES = {"llm_call", "tool_node", "ask_node", "validate_node"}
-WAIT_GAP_S = 15
 # Longest text kept per field (characters). Raise them if the viewer still shows a trailing ' …'.
 MAX_TEXT = 4000
 MAX_QUESTION = 4000
@@ -50,8 +47,8 @@ def category(command):
         return "semantic search"
     if "memory.py search" in command:
         return "keyword search"
-    if "memory.py add" in command:
-        return "memory write"
+    if "memory.py propose" in command:
+        return "memory proposal"
     if "--validate-package" in command:
         return "validator"
     if re.search(r"build\.py|cat > /app/workspace", command):
@@ -69,27 +66,11 @@ def usage_of(e):
     return (u.get("input") or 0, u.get("output") or 0) if isinstance(u, dict) else (0, 0)
 
 
-def find_waits(events, t0):
-    """Gaps between graph nodes: the agent was paused on a question."""
-    nodes = sorted(
-        [e for e in events if e.get("name") in NODES and e["type"] == "CHAIN" and e.get("startTime") and e.get("endTime")],
-        key=lambda e: ts(e["startTime"]),
-    )
-    waits, finished = [], None
-    for e in nodes:
-        start, end = ts(e["startTime"]), ts(e["endTime"])
-        if finished is not None and start - finished > WAIT_GAP_S:
-            waits.append({"start_min": (finished - t0) / 60, "dur_s": round(start - finished, 1)})
-        finished = max(finished or end, end)
-    return waits
-
-
 def build_actions(events):
     t0 = min(ts(e["startTime"]) for e in events if e.get("startTime"))
     mins = lambda t: round((t - t0) / 60, 3)
     gens = sorted([e for e in events if e["type"] == "GENERATION"], key=lambda e: ts(e["startTime"]))
     tools = sorted([e for e in events if e["type"] == "TOOL"], key=lambda e: ts(e["startTime"]))
-    waits = find_waits(events, t0)
 
     iterations = []
     for i, g in enumerate(gens):
@@ -112,13 +93,11 @@ def build_actions(events):
         it = {"n": i + 1, "start_min": mins(g_start),
               "llm": {"dur_s": round(g_end - g_start, 1), "text": clip(text, MAX_TEXT), "reasoning": reasoning[:6],
                       "in_tokens": tin, "out_tokens": tout, "cost_usd": round(g.get("totalCost") or 0, 4)},
-              "tool": None, "question": "", "wait_s": 0}
-        if call and call["name"] == "ask_human":
+              "tool": None, "question": ""}
+        if call and call["name"] == "log_question":
             q = call["args"].get("question", "") if isinstance(call["args"], dict) else ""
             it["question"] = clip(q, MAX_QUESTION)
-            w = [w for w in waits if mins(g_end) - 0.05 <= w["start_min"] <= mins(nxt) + 0.01]
-            it["wait_s"] = round(sum(x["dur_s"] for x in w), 1)
-            it["end_min"] = mins(g_end) + it["wait_s"] / 60
+            it["end_min"] = mins(g_end)
         elif call:
             args = call["args"] if isinstance(call["args"], dict) else {}
             command = args.get("command", "")
@@ -149,7 +128,7 @@ def build_actions(events):
         start, end = cur[0]["start_min"], last["end_min"]
         actions.append({"id": len(actions) + 1, "title": title, "kind": kind, "start_min": start,
                         "end_min": end, "dur_s": round((end - start) * 60, 1),
-                        "wait_s": round(sum(x["wait_s"] for x in cur), 1), "iterations": cur})
+                        "iterations": cur})
         cur = []
 
     for it in iterations:
@@ -183,10 +162,8 @@ def main():
     acts = result["actions"]
     steps = sum(len(a["iterations"]) for a in acts)
     questions = sum(a["kind"] == "question" for a in acts)
-    waited = sum(a["wait_s"] for a in acts)
     print(f"{args.label}: {len(acts)} actions, {steps} steps, {questions} questions, "
-          f"{result['duration_min']:.1f} min, {waited / 60:.1f} min waiting")
-    print(f"saved {args.out}")
+          f"{result['duration_min']:.1f} min")
 
 
 if __name__ == "__main__":
