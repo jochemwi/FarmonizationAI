@@ -11,5 +11,3 @@ ENV HF_HUB_OFFLINE=1
 COPY . .
 
 ENV PYTHONPATH=/app
-
-CMD ["python", "src/main.py"]

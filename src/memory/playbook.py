@@ -9,10 +9,8 @@ from pathlib import Path
 DATA_DIR = Path(__file__).parent / "data"
 PLAYBOOK = DATA_DIR / "playbook.json"
 
-
-def proposals_path():
-    """Per-run review queue the agent writes to (untracked, outside the memory folder)."""
-    return Path(os.environ.get("PROPOSALS_FILE", "/app/output/playbook_proposals.json"))
+# Per-run review queue the agent writes to (untracked, outside the memory folder)
+PROPOSALS = Path("/app/output/playbook_proposals.json")
 
 
 def read_json(path):
@@ -47,13 +45,9 @@ def next_id(entries, prefix="p"):
 
 
 REQUIRED = {"type", "title", "keywords", "when_to_use", "guidance", "background"}
-OPTIONAL = {"limits", "kind", "priority", "trigger", "source_context",
-            "agent_proposal", "user_answer", "run_id", "outcome"}
+OPTIONAL = {"limits", "run_id", "outcome"}
 ENUMS = {
     "type": {"HITL", "reflection"},
-    "kind": {"column_mapping", "unit", "value_recode", "other"},
-    "priority": {"must", "should"},
-    "trigger": {"low_similarity", "small_margin", "out_of_range", "other"},
     "outcome": {"success", "failure"},
 }
 
@@ -96,7 +90,7 @@ def propose(**fields):
     """Agent-facing: append a proposed entry to the proposals file. The playbook is not touched."""
     fields = {"type": "reflection", **fields}
     validate(fields)
-    path = proposals_path()
+    path = PROPOSALS
     entries = read_json(path)
     entry = new_entry(entries, "pr", "proposed", fields)
     entries.append(entry)
@@ -193,7 +187,7 @@ def main():
         print(f"added {entry['id']}")
     elif args.command == "propose":
         entry = propose(**entry_fields(args))
-        print(f"proposed {entry['id']} (written to {proposals_path()}, not the playbook)")
+        print(f"proposed {entry['id']} (written to {PROPOSALS}, not the playbook)")
     elif args.command == "list":
         print(json.dumps(list_entries(args.type), indent=2))
     elif args.command == "search":

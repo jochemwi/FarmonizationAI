@@ -12,36 +12,31 @@ from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, START, END
-from langfuse.langchain import CallbackHandler
 
 from src.tools.tools import bash, log_question
+from src.constants import FILL_API, SUBMISSION_DIR, VALIDATE_ARGS, VALIDATE_CMD, MAX_VAL_ROUNDS, EMPTY_TABLE_REVIEW_ROUNDS, MODEL_NAME, REASONING
 
 # load API keys from .env
 load_dotenv()
 
 # Setup
-langfuse_handler = CallbackHandler() #initiate langfuse for logging
-configurable_model = init_chat_model("openai:gpt-6.1-sol", reasoning={"effort": "high", "summary": "detailed"}, use_responses_api=True, temperature=0)
-
+model = init_chat_model(MODEL_NAME, reasoning=REASONING, use_responses_api=True, temperature=0)
 # Tools
 tools = [bash, log_question] 
 tools_by_name = {t.name: t for t in tools}
-model_with_tools = configurable_model.bind_tools(tools)
-
-# Validator rounds: how many times the agent may be sent back to work after validation fails
-MAX_VAL_ROUNDS = 3
+model_with_tools = model.bind_tools(tools)
 
 # State
-class MessagesState(TypedDict):
+class HarnessState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
     validation: dict
     validation_rounds: int
 
 # Nodes
-def llm_call(state: MessagesState):
-    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source files: /app/src/, data: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
-    
+def llm_call(state: HarnessState):
+    system = SystemMessage(content="You are a helpful data assistant. Working directory is /app. Source data: /app/input/, target schema and validator: /app/data/, write intermediates to /app/workspace/, final output to /app/output/. Use absolute paths.")
+
     # inject tree discovery as first turn if not already done
     messages = state["messages"]
     if state.get("llm_calls", 0) == 0:
@@ -53,7 +48,7 @@ def llm_call(state: MessagesState):
     }
 
 
-def tool_node(state: MessagesState):
+def tool_node(state: HarnessState):
     result = []
     for tool_call in state["messages"][-1].tool_calls:
         try:
@@ -65,9 +60,7 @@ def tool_node(state: MessagesState):
     return {"messages": result}
 
 
-SUBMISSION_DIR = "/app/output/submission"
-FILL_API = "/app/data/target/harmonization_template/fill_api.py"
-
+TEMPLATE_DIR = Path(FILL_API).parent / "template"
 
 def empty_tables() -> list[str]:
     # tables (csv files) in the submission that have a header but no data rows
@@ -82,11 +75,11 @@ def empty_tables() -> list[str]:
     return empty
 
 
-def validate_node(state: MessagesState):
+def validate_node(state: HarnessState):
     directory = Path(SUBMISSION_DIR)
     present = len(list(directory.glob("*.csv"))) if directory.is_dir() else 0
     proc = subprocess.run(
-        [sys.executable, FILL_API, "--validate-package", SUBMISSION_DIR, "--complete", "--final"],
+        [sys.executable, FILL_API, *VALIDATE_ARGS],
         capture_output=True, text=True,
         env={**os.environ, "PYTHONPATH": str(Path(FILL_API).parents[1])},
     )
@@ -94,15 +87,15 @@ def validate_node(state: MessagesState):
     v = {
         "status": "valid" if proc.returncode == 0 else "invalid",
         "exit_code": proc.returncode,
-        "tables_present": f"{present}/35",
+        "tables_present": f"{present}/{len(list(TEMPLATE_DIR.glob('*.csv')))}",
         "stdout": proc.stdout.strip(),
         "error": stderr_lines[-1] if stderr_lines else "",
         "message": proc.stderr[-2000:],
         "empty_tables": empty_tables(),
     }
     rounds = state.get("validation_rounds", 0) + 1
-    # valid package; empty tables get one review nudge (rounds == 1), after that they count as reviewed
-    done = v["status"] == "valid" and (not v["empty_tables"] or rounds > 1)
+    # valid package; empty tables get up to EMPTY_TABLE_REVIEW_ROUNDS review nudges, after that they count as reviewed
+    done = v["status"] == "valid" and (not v["empty_tables"] or rounds > EMPTY_TABLE_REVIEW_ROUNDS)
     v["done"] = done
     if done and v["empty_tables"]:
         v["outcome"] = "done_empty_tables_reviewed"
@@ -113,7 +106,7 @@ def validate_node(state: MessagesState):
     else:
         v["outcome"] = "nudged"
     update = {"validation": v, "validation_rounds": rounds}
-    if not done and rounds <= MAX_VAL_ROUNDS:
+    if v["outcome"] == "nudged":
         update["messages"] = [HumanMessage(content=f"""You stopped, but the package is not confirmed complete yet. The official validator result is: {v['status']}.
 
 Validator output:
@@ -126,27 +119,24 @@ Tables with a header but no data rows: {v['empty_tables']}
 - If the validator rejects parent records that no plot-season context uses, fix it by building the missing plot-season context from the source data. Never fix it by deleting the parent records.
 - Never delete or skip source rows just to make the validator pass.
 - After your last change, run the official validator and fix every error before you finish:
-  PYTHONPATH=/app/data/target python /app/data/target/harmonization_template/fill_api.py --validate-package /app/output/submission --complete --final
+  {VALIDATE_CMD}
 - Never call bash with an empty command.""")]
     return update
 
-def should_continue(state: MessagesState) -> Literal["tool_node", "validate_node"]:
+def should_continue(state: HarnessState) -> Literal["tool_node", "validate_node"]:
     tool_calls = state["messages"][-1].tool_calls
     if tool_calls:
         return "tool_node"
     return "validate_node"
 
 
-def after_validate(state: MessagesState) -> Literal["llm_call", "__end__"]:
-    v = state["validation"]
-    if v["done"]:
-        return END
-    if state["validation_rounds"] > MAX_VAL_ROUNDS:
-        return END
-    return "llm_call"
+def after_validate(state: HarnessState) -> Literal["llm_call", "__end__"]:
+    if state["validation"]["outcome"] == "nudged":
+        return "llm_call"
+    return END
 
 # Build graph
-agent_builder = StateGraph(MessagesState)
+agent_builder = StateGraph(HarnessState)
 agent_builder.add_node("llm_call", llm_call)
 agent_builder.add_node("tool_node", tool_node)
 agent_builder.add_edge(START, "llm_call")

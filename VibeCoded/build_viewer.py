@@ -107,7 +107,7 @@ pre{margin:6px 0 0;padding:8px 10px;background:var(--code-bg);border-radius:6px;
 <div class="wrap">
   <header>
     <h1>Action trace viewer</h1>
-    <p class="lede">The steps of one harmonization run, grouped into actions. Each action closes when the agent runs the validator, runs the build script, asks a human, or gives its final answer. Open an action to see its steps, and a step to see the model call and the command behind it.</p>
+    <p class="lede">The steps of one harmonization run, grouped into actions. Each action closes when the agent runs the validator, runs the build script, logs a question, or gives its final answer. Open an action to see its steps, and a step to see the model call and the command behind it.</p>
   </header>
 
   <div class="bar">
@@ -157,8 +157,8 @@ pre{margin:6px 0 0;padding:8px 10px;background:var(--code-bg);border-radius:6px;
 
   function iteration(it){
     var wrap=el('div','it'), head=el('button','it-head'); head.type='button'; head.setAttribute('aria-expanded','false');
-    var title = it.question ? 'Asks the human' : (it.tool ? it.tool.description : 'Final answer');
-    var dur = it.question ? it.llm.dur_s + it.wait_s : it.llm.dur_s + (it.tool?it.tool.dur_s:0);
+               var title = it.question ? 'Logs a question' : (it.tool ? it.tool.description : 'Final answer');
+    var dur = it.llm.dur_s + (it.tool?it.tool.dur_s:0);
     head.appendChild(el('span','n','#'+it.n)); head.appendChild(el('span','t',title)); head.appendChild(el('span','d',fmt(dur))); head.appendChild(chevron());
     var body=el('div','it-body');
 
@@ -170,8 +170,8 @@ pre{margin:6px 0 0;padding:8px 10px;background:var(--code-bg);border-radius:6px;
       })));
     if(it.question){
       body.appendChild(pair(1,
-        box('Tool call', '', function(b){b.appendChild(el('p',null,'ask_human')); b.firstChild.style.color='var(--muted)';}),
-        box('Ask human', 'waited '+fmt(it.wait_s), function(b){b.appendChild(el('p','q',it.question));})));
+        box('Tool call', '', function(b){b.appendChild(el('p',null,'log_question')); b.firstChild.style.color='var(--muted)';}),
+        box('Logged question', '', function(b){b.appendChild(el('p','q',it.question));})));
     } else if(it.tool){
       var isBuild = it.tool.category==='build script';
       body.appendChild(pair(1,
@@ -197,7 +197,7 @@ pre{margin:6px 0 0;padding:8px 10px;background:var(--code-bg);border-radius:6px;
     var lbl=el('div','row-lbl'); lbl.appendChild(el('div','row-no','Action #'+a.id));
     var k=el('div','row-kind'); k.appendChild(dot(a.kind)); k.appendChild(document.createTextNode(KIND_LABEL[a.kind])); lbl.appendChild(k);
     var main=el('div','row-main'); main.appendChild(el('div','row-title',a.title));
-    var meta=a.iterations.length+(a.iterations.length===1?' step':' steps')+' · '+fmt(a.dur_s)+(a.wait_s?' · '+fmt(a.wait_s)+' waiting for a human':'')+' · starts at '+a.start_min.toFixed(1)+' min';
+    var meta=a.iterations.length+(a.iterations.length===1?' step':' steps')+' · '+fmt(a.dur_s)+' · starts at '+a.start_min.toFixed(1)+' min';
     main.appendChild(el('div','row-meta',meta));
     head.appendChild(lbl); head.appendChild(main); head.appendChild(chevron());
     var body=el('div','row-body');
@@ -209,9 +209,9 @@ pre{margin:6px 0 0;padding:8px 10px;background:var(--code-bg);border-radius:6px;
   function render(){
     var run=DATA[state.run], acts=run.actions;
     var shown=acts.filter(function(a){return state.kinds[a.kind];});
-    var tot={q:0,wait:0,steps:0}; acts.forEach(function(a){tot.steps+=a.iterations.length; tot.wait+=a.wait_s; if(a.kind==='question')tot.q++;});
+    var tot={q:0,steps:0}; acts.forEach(function(a){tot.steps+=a.iterations.length; if(a.kind==='question')tot.q++;});
     var sum=document.getElementById('sum'); sum.textContent='';
-    [['Duration',run.duration_min.toFixed(1)+' min'],['Actions',String(acts.length)],['Steps',String(tot.steps)],['Questions',String(tot.q)],['Waiting for a human',fmt(tot.wait)]].forEach(function(p){
+    [['Duration',run.duration_min.toFixed(1)+' min'],['Actions',String(acts.length)],['Steps',String(tot.steps)],['Questions',String(tot.q)]].forEach(function(p){
       var s=el('span'); s.appendChild(document.createTextNode(p[0]+' ')); s.appendChild(el('b',null,p[1])); sum.appendChild(s);});
     var strip=document.getElementById('strip'); strip.textContent='';
     acts.forEach(function(a){

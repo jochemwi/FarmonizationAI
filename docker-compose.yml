@@ -27,11 +27,6 @@ services:
       - ./input:/app/input:ro
       - ./workspace:/app/workspace
       - ./output:/app/output
-      - ./tests:/app/tests:ro
-    tmpfs:
-      - /app/runs # hide archived runs
-      - /app/observability # hide trace analysis
-      - /app/VibeCoded # hide vibe-coded scripts
 
   # Builds the memory snapshot for one config
   snapshot:
