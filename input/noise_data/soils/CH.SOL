@@ -1,0 +1,21 @@
+!This soil file is created by DSSAT translator tool on Thu Aug 28 13:35:54 EDT 2014.
+*SOILS: Tervuren, BE; 
+
+!The ACE ID is N/A.
+!This soil data is used for the experiment of CHBE9801_1.
+!
+*CHBE000001  IBSNAT      SIL     -99 -99
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ -99         -99               -99     -99 -99
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+   -99  0.12     6   0.3    79     1     1   -99   -99   -99
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+     5   -99 0.110 0.227 0.450     1   4.6  1.37  1.16    10    60     0   -99   -99   -99   -99   -99
+    15   -99 0.110 0.227 0.450     1   4.6  1.37  1.16    10    60     0   -99   -99   -99   -99   -99
+    30   -99 0.103 0.201 0.451 0.638    28  1.37   1.1    10    60     0   -99   -99   -99   -99   -99
+    45   -99 0.099 0.193 0.452 0.472    28  1.37  0.97    10    60     0   -99   -99   -99   -99   -99
+    60   -99 0.099 0.193 0.452  0.35    28  1.37  0.97    10    60     0   -99   -99   -99   -99   -99
+    90   -99 0.088 0.173 0.450 0.223    28  1.38  0.72    10    60     0   -99   -99   -99   -99   -99
+   120   -99 0.079 0.165 0.452 0.122    28  1.38  0.43    10    60     0   -99   -99   -99   -99   -99
+   150   -99 0.086 0.178  0.45 0.067    28  1.39   0.2    10    60     0   -99   -99   -99   -99   -99
+
