@@ -1,0 +1,77 @@
+*SOILS: General DSSAT Soil Input File
+
+*SF00000001  Suwanee19   S       100 Alpine 2010
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Thermic coated lamellic quartzipsamnents
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99  .017  .120  .388   .75    19  1.48    .9   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99  .017  .120  .388    .5    19  1.48    .9   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99  .019   .13  .388   .15    16  1.56   .01     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99  .019   .13  .388   .15    16  1.56   .01     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000002  Suwanee12   S       100 alpine 2011
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99  .017  .097  .388   .75    19  1.48    .9   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99  .017  .097  .388    .5    19  1.48   .02   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99  .019   .08  .388   .15    16  1.56   .01     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99  .019   .08  .388   .15    16  1.56   .01     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000003  Suwanee17   S       100 alpine 2011
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99   .03  .097  .388   .75    19  1.48    .9   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99   .03  .097  .388    .5    19  1.48   .02   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99   .04   .08  .388   .15    16  1.56   .01     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99   .04   .08  .388   .15    16  1.56   .01     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000004  Suwanee10   S       100 alpine 2012
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99   .03  .120  .388   .75    19  1.48    .9   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99   .03  .120  .388    .5    19  1.48   .02   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99   .04   .13  .388   .15    16  1.56   .01     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99   .04   .13  .388   .15    16  1.56   .01     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000005  Suwanee18   S       100 alpine 2012
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99  .04   .12  .388   .75    19  1.48    .9   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99  .04   .12  .388    .5    19  1.48   .02   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99  .04   .12  .388   .15    16  1.56   .01     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99  .04   .12  .388   .15    16  1.56   .01     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000006  Suwanee12   S       100 alpine 2013
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA               -82      24 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13   5.6    .5    64     1     1  IB00  IB00  IB00
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99   .04   .12  .388   .75    19  1.48   .78   1.7   2.5   1.4   .03   6.4   4.3     4   -99
+    30   -99   .04   .09  .388    .5    19  1.48   .23   1.2   3.7   1.1   .03   6.4   4.8     4   -99
+    60   -99   .04   .07  .388   .15    16  1.56   .10     1   3.9   1.4   .02   6.4   4.8     4   -99
+   100   -99   .04   .07  .388   .15    16  1.56   .05     1   3.9   1.4   .01   6.4   4.8     4   -99
+
+*SF00000007  Suwanee12   S       203 alpine fine sand
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ UF          USA                30       5 Suwanee Soil 1
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+     G   .13     6   .85    64     1     1 IB001 IB001 IB001
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    30  A &E  .043  .094  .463     1    21  1.35     1     1     4   -99   .02   6.5   -99   9.6   -99
+   165     E  .045  .097  .444  .142    21   1.4    .5     1     4   -99   -99   6.5   -99   5.4   -99
+   203 E &Bt  .045  .095  .426  .025    21  1.45    .5     1     3   -99   -99   6.5   -99   6.1   -99

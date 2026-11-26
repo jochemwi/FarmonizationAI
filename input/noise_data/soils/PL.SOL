@@ -1,0 +1,12 @@
+*SOILS: General DSSAT Soil Input File
+
+*PLLU000001  -99         SL        90  -99
+@SITE        COUNTRY          LAT     LONG SCS FAMILY
+ Punjab      IN               30.9    75.8 -99
+@ SCOM  SALB  SLU1  SLDR  SLRO  SLNF  SLPF  SMHB  SMPX  SMKE
+    BN   .15    10    .6    60     1     1 IB001 IB001 IB001
+@  SLB  SLMH  SLLL  SDUL  SSAT  SRGF  SSKS  SBDM  SLOC  SLCL  SLSI  SLCF  SLNI  SLHW  SLHB  SCEC  SADC
+    15   -99  .060  .200  .385     1  2.59  1.56    .3    11    14   -99   -99   -99   -99   -99   -99
+    30   -99  .080  .220  .385  .638  2.59  1.56    .3    11    14   -99   -99   -99   -99   -99   -99
+    60   -99  .100  .250  .385  .407  2.59  1.56    .3    11    14   -99   -99   -99   -99   -99   -99
+    90   -99  .100  .250  .385  .223  2.59  1.56    .3    11    14   -99   -99   -99   -99   -99   -99

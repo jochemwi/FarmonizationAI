@@ -1,1 +1,15 @@
-SLB is the layer base in cm; successive layer bases define the intervals. SLLL, SDUL and SSAT are volumetric lower-limit, drained-upper-limit and saturated water contents. SRGF is the root-growth factor; SLOC is organic carbon percent; SLNI is total nitrogen percent; SCEC is cation exchange capacity. Chemistry uses the current ICASA dictionary convention: SLCA, SLMG, SLNA, SLKE and SLBS are cmol/kg; SLAL is ppm. Format vocabulary: https://github.com/DSSAT/ICASA-Dictionary . -99 is missing. Original source notes use !.
+! Definitions	
+
+SLLB:	Soil layer base depth	
+SLLL:	Lower limit
+sLDUL:	Drained upper limit
+sLSAT:	Saturation
+SLRGF:	Root growth factor, soil only (0 to 1 scale)
+SLBDM:	Bulk density
+SLOC:	Organic C
+SLCL:	Soil texture, clay (<0.002 mm)
+SLSI:	Soil texture, silt (0.05 to 0.002 mm)
+SLCF:	Soil texture, coarse fraction (>2 mm)
+SLADC:	Soil adsorption coefficient (0 to 1 scale)
+SLCEC:	Cation exchange capacity
+
